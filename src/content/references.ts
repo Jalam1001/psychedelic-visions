@@ -1,0 +1,75 @@
+/** Every URL below was checked (HTTP 200 or PubMed E-utilities record) on 2026-11-21 before publishing. */
+export interface Ref { label: string; url: string; kind: 'science' | 'tradition' | 'math' | 'tech' | 'culture' }
+
+export const REFS: Record<string, Ref[]> = {
+  alexander: [
+    { label: 'Christopher Alexander Center for Environmental Structure — archive', url: 'https://christopher-alexander-ces-archive.org/', kind: 'culture' },
+    { label: 'Alexander, A Foreshadowing of 21st Century Art: The Color and Geometry of Very Early Turkish Carpets (1993) — archive page', url: 'https://christopher-alexander-ces-archive.org/book/a-foreshadowing-of-21st-century-art-the-color-and-geometry-of-very-early-turkish-carpets/', kind: 'culture' },
+    { label: 'The Nature of Order (overview)', url: 'https://en.wikipedia.org/wiki/The_Nature_of_Order', kind: 'culture' },
+    { label: 'Christopher Alexander (biography)', url: 'https://en.wikipedia.org/wiki/Christopher_Alexander', kind: 'culture' },
+    { label: 'Anatolian rugs', url: 'https://en.wikipedia.org/wiki/Anatolian_rug', kind: 'tradition' },
+    { label: 'Persian carpets', url: 'https://en.wikipedia.org/wiki/Persian_carpet', kind: 'tradition' },
+    { label: 'Charbagh (Persian four-part garden)', url: 'https://en.wikipedia.org/wiki/Charbagh', kind: 'tradition' },
+  ],
+  islamic: [
+    { label: 'Islamic geometric patterns', url: 'https://en.wikipedia.org/wiki/Islamic_geometric_patterns', kind: 'tradition' },
+    { label: 'Girih tiles', url: 'https://en.wikipedia.org/wiki/Girih_tiles', kind: 'math' },
+  ],
+  mandala: [
+    { label: 'Mandala', url: 'https://en.wikipedia.org/wiki/Mandala', kind: 'tradition' },
+    { label: 'Yantra', url: 'https://en.wikipedia.org/wiki/Yantra', kind: 'tradition' },
+    { label: 'Sri Yantra', url: 'https://en.wikipedia.org/wiki/Sri_Yantra', kind: 'tradition' },
+    { label: 'Kaivalyāśrama, Saubhāgyavardhanī — translated construction of the Śrī Cakra (U. Penn)', url: 'https://ccat.sas.upenn.edu/george/yantra.html', kind: 'tradition' },
+    { label: 'Kalachakra', url: 'https://en.wikipedia.org/wiki/Kalachakra', kind: 'tradition' },
+  ],
+  amazon: [
+    { label: 'Peru Ministry of Culture — Base de Datos de Pueblos Indígenas: Shipibo-Konibo', url: 'https://bdpi.cultura.gob.pe/pueblos/shipibo-konibo', kind: 'culture' },
+    { label: 'Shipibo-Conibo people', url: 'https://en.wikipedia.org/wiki/Shipibo-Conibo_people', kind: 'culture' },
+  ],
+  math: [
+    { label: 'Mandelbrot set', url: 'https://en.wikipedia.org/wiki/Mandelbrot_set', kind: 'math' },
+    { label: 'Julia set', url: 'https://en.wikipedia.org/wiki/Julia_set', kind: 'math' },
+    { label: 'Iterated function system', url: 'https://en.wikipedia.org/wiki/Iterated_function_system', kind: 'math' },
+    { label: 'L-system', url: 'https://en.wikipedia.org/wiki/L-system', kind: 'math' },
+    { label: 'Perlin noise', url: 'https://en.wikipedia.org/wiki/Perlin_noise', kind: 'math' },
+    { label: 'Kaleidoscope', url: 'https://en.wikipedia.org/wiki/Kaleidoscope', kind: 'math' },
+    { label: 'Golden ratio', url: 'https://en.wikipedia.org/wiki/Golden_ratio', kind: 'math' },
+    { label: 'Fibonacci sequence', url: 'https://en.wikipedia.org/wiki/Fibonacci_sequence', kind: 'math' },
+    { label: 'Overlapping circles grid (Flower of Life)', url: 'https://en.wikipedia.org/wiki/Overlapping_circles_grid', kind: 'math' },
+    { label: "Metatron's Cube", url: 'https://en.wikipedia.org/wiki/Metatron%27s_Cube', kind: 'math' },
+    { label: 'Inigo Quilez — cosine colour palettes', url: 'https://iquilezles.org/articles/palettes/', kind: 'tech' },
+    { label: 'The Book of Shaders', url: 'https://thebookofshaders.com/', kind: 'tech' },
+  ],
+  audio: [
+    { label: 'Fast Fourier transform', url: 'https://en.wikipedia.org/wiki/Fast_Fourier_transform', kind: 'math' },
+    { label: 'MDN — Web Audio API', url: 'https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API', kind: 'tech' },
+    { label: 'MDN — AnalyserNode', url: 'https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode', kind: 'tech' },
+    { label: 'Tone.js', url: 'https://tonejs.github.io/', kind: 'tech' },
+    { label: 'Generative music', url: 'https://en.wikipedia.org/wiki/Generative_music', kind: 'culture' },
+    { label: 'Singing bowl', url: 'https://en.wikipedia.org/wiki/Singing_bowl', kind: 'tradition' },
+    { label: 'Beat (acoustics) — binaural beats', url: 'https://en.wikipedia.org/wiki/Beat_(acoustics)#Binaural_beats', kind: 'science' },
+    { label: 'Concert pitch (A = 440 Hz standard and alternatives)', url: 'https://en.wikipedia.org/wiki/Concert_pitch', kind: 'culture' },
+  ],
+  science: [
+    { label: 'de Witte M. et al. (2020) Effects of music interventions on stress-related outcomes: a systematic review and two meta-analyses. Health Psychol Rev. PMID 31167611', url: 'https://pubmed.ncbi.nlm.nih.gov/31167611/', kind: 'science' },
+    { label: 'Bradt J. et al. (2013) Music for stress and anxiety reduction in coronary heart disease patients. Cochrane Database Syst Rev. PMID 24374731', url: 'https://pubmed.ncbi.nlm.nih.gov/24374731/', kind: 'science' },
+    { label: 'Thoma M.V. et al. (2013) The effect of music on the human stress response. PLoS One. PMID 23940541', url: 'https://pubmed.ncbi.nlm.nih.gov/23940541/', kind: 'science' },
+    { label: 'Garcia-Argibay M. et al. (2019) Efficacy of binaural auditory beats in cognition, anxiety, and pain perception: a meta-analysis. Psychol Res. PMID 30073406', url: 'https://pubmed.ncbi.nlm.nih.gov/30073406/', kind: 'science' },
+    { label: 'Ingendoh R.M. et al. (2023) Binaural beats to entrain the brain? A systematic review of the effects of binaural beat stimulation on brain oscillatory activity. PLoS One. PMID 37205669', url: 'https://pubmed.ncbi.nlm.nih.gov/37205669/', kind: 'science' },
+    { label: 'Chaieb L. et al. (2015) Auditory beat stimulation and its effects on cognition and mood states. Front Psychiatry. PMID 26029120', url: 'https://pubmed.ncbi.nlm.nih.gov/26029120/', kind: 'science' },
+    { label: 'Chaieb L. et al. (2017) The impact of monaural beat stimulation on anxiety and cognition. Front Hum Neurosci. PMID 28555100', url: 'https://pubmed.ncbi.nlm.nih.gov/28555100/', kind: 'science' },
+    { label: 'Goldsby T.L. et al. (2017) Effects of singing bowl sound meditation on mood, tension, and well-being: an observational study. J Evid Based Complementary Altern Med. PMID 27694559', url: 'https://pubmed.ncbi.nlm.nih.gov/27694559/', kind: 'science' },
+    { label: 'Calamassi D. & Pomponi G.P. (2019) Music tuned to 440 Hz versus 432 Hz and the health effects: a double-blind cross-over pilot study. Explore (NY). PMID 31031095', url: 'https://pubmed.ncbi.nlm.nih.gov/31031095/', kind: 'science' },
+    { label: 'Music therapy (overview)', url: 'https://en.wikipedia.org/wiki/Music_therapy', kind: 'science' },
+    { label: 'PubMed', url: 'https://pubmed.ncbi.nlm.nih.gov/', kind: 'science' },
+  ],
+  safety: [
+    { label: 'W3C WCAG 2.1 — Three flashes or below threshold', url: 'https://www.w3.org/WAI/WCAG21/Understanding/three-flashes-or-below-threshold.html', kind: 'tech' },
+  ],
+  tech: [
+    { label: 'Vite', url: 'https://vite.dev/', kind: 'tech' },
+    { label: 'Three.js', url: 'https://threejs.org/', kind: 'tech' },
+    { label: 'React Three Fiber', url: 'https://r3f.docs.pmnd.rs/', kind: 'tech' },
+    { label: 'GitHub Pages', url: 'https://pages.github.com/', kind: 'tech' },
+  ],
+};
