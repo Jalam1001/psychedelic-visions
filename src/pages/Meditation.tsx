@@ -3,6 +3,7 @@ import { Experience } from '../ui/Experience';
 import { ShaderView } from '../views/ShaderView';
 import { MEDITATION_FRAG } from '../shaders/meditation';
 import { audio, audioStore } from '../audio/engine';
+import { music, musicStore } from '../audio/music';
 import { useStore } from '../state/store';
 import { visualStore } from '../state/params';
 import { Select, Slider } from '../ui/Slider';
@@ -67,7 +68,7 @@ export default function Meditation() {
           <div className="timer">{String(mm).padStart(2, '0')}:{String(ss).padStart(2, '0')}</div>
           <div className="row center">
             {!session ? (
-              <button className="btn primary" onClick={() => { if (!a.running) void audio.start(); start0.current = performance.now(); setSession({ start: performance.now(), end: performance.now() + minutes * 60000 }); audio.strikeBowl(196); }}>Begin session</button>
+              <button className="btn primary" onClick={() => { if (!musicStore.get().on) music.start(); start0.current = performance.now(); setSession({ start: performance.now(), end: performance.now() + minutes * 60000 }); audio.strikeBowl(196); }}>Begin session</button>
             ) : (
               <button className="btn" onClick={() => setSession(null)}>End session</button>
             )}

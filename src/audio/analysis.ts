@@ -1,4 +1,5 @@
 import { audio, audioStore, MusicEvent } from './engine';
+import { clips } from './clips';
 import { uiStore } from '../state/params';
 
 export interface AVState {
@@ -24,6 +25,7 @@ class AVSync {
   private targetHue = 0;
   private lastT = 0;
   private lastFrame = -1;
+  private beatCount = 0;
 
   constructor() {
     audio.on((e: MusicEvent) => this.onEvent(e));
@@ -45,6 +47,23 @@ class AVSync {
     const dt = Math.min(0.1, this.lastT ? (now - this.lastT) / 1000 : 0.016);
     this.lastT = now;
     const s = this.state;
+    // Recorded soundtrack: use its pre-computed band envelope at the current playback time
+    const cs = clips.sample();
+    if (cs) {
+      const sm = (cur: number, tgt: number) => cur + (tgt - cur) * Math.min(1, dt * (tgt > cur ? 14 : 4));
+      s.bass = sm(s.bass, cs.bass); s.mid = sm(s.mid, cs.mid); s.high = sm(s.high, cs.high);
+      s.energy = (s.bass + s.mid + s.high) / 3;
+      if (cs.beat) { this.kick(0.7); if (++this.beatCount % 8 === 0) this.targetHue += 0.08; }
+      for (let i = 1; i < s.spectrum.length; i++) {
+        const x = i / s.spectrum.length;
+        const v = x < 0.03 ? s.bass : x < 0.25 ? s.mid * (1 - (x - 0.03) * 1.5) + s.bass * 0.2 : s.high * (1 - x) * 1.2;
+        const jitter = 0.85 + 0.15 * Math.sin(i * 1.7 + now * 0.004);
+        s.spectrum[i] = s.spectrum[i] * 0.6 + Math.max(0, Math.min(1, v * jitter)) * 0.4;
+      }
+      s.pulse *= Math.exp(-dt / 0.45);
+      s.hue += (this.targetHue - s.hue) * Math.min(1, dt * 0.25);
+      return s;
+    }
     const running = audioStore.get().running && audio.isBuilt;
     let b = 0, m = 0, h = 0;
     if (running) {

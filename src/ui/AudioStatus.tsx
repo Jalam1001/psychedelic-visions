@@ -1,57 +1,66 @@
 import { useEffect, useState } from 'react';
-import { audio, audioStore, testBeep, unlockAudio } from '../audio/engine';
+import { audio, audioStore, testBeep } from '../audio/engine';
+import { clips, clipStore, trackById } from '../audio/clips';
+import { music, musicStore } from '../audio/music';
 import { useStore } from '../state/store';
 
-/** Live output level, polled a few times per second (only while music is on). */
-function useLevel(active: boolean) {
+/** Live output level (0..1), polled a few times per second while music is on. */
+function useLevel(active: boolean, source: string) {
   const [lvl, setLvl] = useState(0);
   useEffect(() => {
     if (!active) { setLvl(0); return; }
-    const id = window.setInterval(() => setLvl(audio.rms()), 250);
+    const id = window.setInterval(() => {
+      if (source === 'clips') { const s = clips.sample(); setLvl(s ? (s.bass + s.mid + s.high) / 3 : 0); }
+      else setLvl(Math.min(1, audio.rms() * 6));
+    }, 250);
     return () => window.clearInterval(id);
-  }, [active]);
+  }, [active, source]);
   return lvl;
 }
 
 export function useAudioStatus() {
+  const m = useStore(musicStore);
+  const c = useStore(clipStore);
   const a = useStore(audioStore);
-  const lvl = useLevel(a.running);
-  const blocked = a.running && a.ctxState !== 'running';
-  const label = !a.running ? 'Sound off' : blocked ? 'Tap to enable sound' : a.muted ? 'Muted' : lvl > 0.003 ? 'Sound on' : 'Starting…';
-  const tone = !a.running ? 'off' : blocked ? 'warn' : a.muted ? 'off' : lvl > 0.003 ? 'ok' : 'warn';
-  return { a, lvl, blocked, label, tone };
+  const lvl = useLevel(m.on, m.source);
+  const blocked = m.on && (m.source === 'clips' ? c.state === 'blocked' : a.ctxState !== 'running' && a.ctxState !== 'not-created');
+  const error = m.on && m.source === 'clips' && c.state === 'error' ? c.error : a.error;
+  const playing = m.on && (m.source === 'clips' ? c.state === 'playing' : a.ctxState === 'running');
+  const label = !m.on ? 'Sound off' : blocked ? 'Tap to enable sound' : playing ? (m.source === 'clips' ? trackById(c.trackId).title : 'Live synth') : 'Loading…';
+  const tone = !m.on ? 'off' : blocked || error ? 'warn' : playing ? 'ok' : 'warn';
+  return { m, c, a, lvl, blocked, label, tone, error, playing };
 }
 
-/** Small pill for the top bar: shows real context state + live level meter. */
+/** Small pill for the top bar: real playback state + live level meter. */
 export function AudioPill() {
-  const { a, lvl, blocked, label, tone } = useAudioStatus();
+  const { m, lvl, blocked, label, tone } = useAudioStatus();
   return (
-    <button className={`audio-pill ${tone}`} onClick={() => { if (blocked) { unlockAudio(); } else void audio.toggle(); }}
-      aria-label={`${label}. ${a.running ? 'Click to stop music' : 'Click to start music'}`} title={`Audio context: ${a.ctxState}`}>
+    <button className={`audio-pill ${tone}`} onClick={() => { if (blocked) music.retry(); else music.toggle(); }}
+      aria-label={`${label}. ${m.on ? 'Click to stop music' : 'Click to start music'}`} title={label}>
       <span className="dot" />
       <span className="lbl">{label}</span>
-      <span className="bars" aria-hidden>{[0, 1, 2, 3].map((i) => <i key={i} style={{ transform: `scaleY(${Math.min(1, 0.15 + lvl * (6 + i * 3))})` }} />)}</span>
+      <span className="bars" aria-hidden>{[0, 1, 2, 3].map((i) => <i key={i} style={{ transform: `scaleY(${Math.min(1, 0.15 + lvl * (0.6 + i * 0.25))})` }} />)}</span>
     </button>
   );
 }
 
 /** Big, obvious call-to-action shown on every experience while music is off, plus a device test beep. */
 export function StartAudioCTA({ label = 'Start music', top = false }: { label?: string; top?: boolean }) {
-  const { a, blocked } = useAudioStatus();
+  const { m, blocked, error } = useAudioStatus();
   const [beepMsg, setBeepMsg] = useState('');
-  if (a.running && !blocked) return null;
+  if (m.on && !blocked && !error) return null;
   return (
     <div className={`start-audio-wrap no-pan ${top ? 'top' : ''}`} role="region" aria-label="Sound">
       {blocked ? (
-        <button className="start-audio blocked" onClick={() => unlockAudio()}>🔈 Tap to enable sound</button>
+        <button className="start-audio blocked" onClick={() => music.retry()}>🔈 Tap to enable sound</button>
       ) : (
-        <button className="start-audio" onClick={() => { void audio.start(); }}>
+        <button className="start-audio" onClick={() => music.start()}>
           <span className="pulse-ring" aria-hidden />▶ {label}
         </button>
       )}
       <button className="test-sound" onClick={() => { setBeepMsg('Playing test beep…'); void testBeep().then(setBeepMsg); }}>🔔 Test sound</button>
       {beepMsg && <p className="beep-msg" role="status">{beepMsg}</p>}
-      {a.error && <p className="beep-msg err">Audio error: {a.error}</p>}
+      {error && <p className="beep-msg err">Audio error: {error}</p>}
     </div>
   );
 }

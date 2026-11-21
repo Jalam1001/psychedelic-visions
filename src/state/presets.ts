@@ -1,5 +1,6 @@
 import { AUDIO_PRESETS, AudioParams } from '../audio/presets';
 import { audio, audioStore } from '../audio/engine';
+import { music } from '../audio/music';
 import { DEFAULT_VISUAL, SYMMETRIES, VisualParams, visualStore } from './params';
 import { PALETTES } from './palettes';
 
@@ -67,6 +68,7 @@ export function applyPreset(p: Preset, withAudio = true) {
       audioStore.set({ presetId: p.audio, params: { ...base, ...(p.audioOverrides ?? {}) } });
       audio.apply(audioStore.get().params);
     }
+    music.onAudioPreset(p.audio);
   }
 }
 

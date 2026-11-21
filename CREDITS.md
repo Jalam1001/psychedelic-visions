@@ -27,3 +27,10 @@ Copyrighted art (e.g. Pablo Amaringo’s paintings, 1960s psychedelic posters) i
 | Shipibo-Konibo ceramic vessel (photograph) | photo 2024 | Shipibo-Konibo, Peruvian Amazon | Painted ceramic | Photo: Simone Liliane (CC0) — via Wikimedia Commons | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | [Commons](https://commons.wikimedia.org/wiki/File:C%C3%A9ramique_Shipibo-Konibo.jpg) |
 
 Colour palettes “Iznik Tile”, “Anatolian Carpet”, “Tibetan Thangka”, “Kashan Lustre” and “Shipibo-Konibo (palette only)” were sampled from these images (k-means on saturated pixels) and then saturation-lifted for emissive screens.
+
+# Soundtrack
+
+All ten soundtrack clips in `public/audio/` are **original compositions synthesised for this project** (Python/NumPy
+additive, modal and formant synthesis; scripts in `tools/audio/`). No samples,
+field recordings or existing melodies are used; “icaro-like”, “maqam-flavoured”, “raga-flavoured” and “Shur-flavoured”
+describe the general style only. Released with the site under the MIT licence.

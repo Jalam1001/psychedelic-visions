@@ -4,7 +4,7 @@ import { useStore } from '../state/store';
 import { clamp, SYMMETRIES, uiStore, visualStore, VisualParams } from '../state/params';
 import { PALETTES } from '../state/palettes';
 import { applyPreset, applyShared, applyUserPreset, deleteUserPreset, loadUserPresets, presetById, PRESETS, randomVisual, saveUserPreset, shareUrl, applyVisual } from '../state/presets';
-import { audio, audioStore } from '../audio/engine';
+import { music, musicStore } from '../audio/music';
 import { takeScreenshot } from '../engine/loop';
 import { AudioControls } from './AudioControls';
 import { Meters } from './Meters';
@@ -34,7 +34,7 @@ export function Experience(props: ExperienceProps) {
   const { route, title, subtitle, modes, defaultPreset, controls = ALL, children, about, extraPanel, minimal, maxZoom = 16 } = props;
   const v = useStore(visualStore);
   const ui = useStore(uiStore);
-  const a = useStore(audioStore);
+  const a = useStore(musicStore);
   const [params] = useSearchParams();
   const loc = useLocation();
   const rootRef = useRef<HTMLDivElement>(null);
@@ -79,7 +79,7 @@ export function Experience(props: ExperienceProps) {
         case 'f': case 'F': fullscreen(); break;
         case 'h': case 'H': uiStore.set({ controlsHidden: !uiStore.get().controlsHidden }); break;
         case 'r': case 'R': randomize(); break;
-        case 'm': case 'M': audio.toggle(); break;
+        case 'm': case 'M': music.toggle(); break;
         case 'p': case 'P': setPanel((x) => !x); break;
         case '+': case '=': set({ zoom: clamp(s.zoom * 1.15, 0.2, maxZoom) }); break;
         case '-': case '_': set({ zoom: clamp(s.zoom / 1.15, 0.2, maxZoom) }); break;
@@ -127,7 +127,7 @@ export function Experience(props: ExperienceProps) {
             <div className="actions">
               <AudioPill />
               <button className="btn icon" onClick={() => uiStore.set({ paused: !ui.paused })} aria-label={ui.paused ? 'Play' : 'Pause'} title="Space">{ui.paused ? '▶' : '❚❚'}</button>
-              <button className={`btn icon ${a.running ? 'on' : ''}`} onClick={() => audio.toggle()} aria-label={a.running ? 'Stop music' : 'Start music'} title="M">{a.running ? '♫' : '♪'}</button>
+              <button className={`btn icon ${a.on ? 'on' : ''}`} onClick={() => music.toggle()} aria-label={a.on ? 'Stop music' : 'Start music'} title="M">{a.on ? '♫' : '♪'}</button>
               <button className="btn icon" onClick={fullscreen} aria-label="Fullscreen" title="F">⛶</button>
               <button className="btn icon" onClick={() => takeScreenshot(props.id)} aria-label="Screenshot">📷</button>
               <button className="btn icon" onClick={() => setShowAbout((x) => !x)} aria-label="About this experience">ⓘ</button>
@@ -173,7 +173,7 @@ export function Experience(props: ExperienceProps) {
                 <p className="note">Bass → expansion · mids → rotation · highs → fine detail · beats → gentle pulse · chord changes → palette drift.</p>
               </details>
               <details>
-                <summary>Music {a.running ? '♫' : ''}</summary>
+                <summary>Music {a.on ? '♫' : ''}</summary>
                 <AudioControls />
               </details>
               <details>

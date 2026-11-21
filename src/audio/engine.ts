@@ -46,18 +46,30 @@ export const audioStore = createStore<AudioState>({
  * (fewer crackles on Android). It starts "suspended" until a user gesture resumes it.
  */
 let ctxReady = false;
-function ensureContext() {
-  if (ctxReady) return;
-  ctxReady = true;
-  try {
-    Tone.setContext(new Tone.Context({ latencyHint: 'playback', lookAhead: 0.1 }));
-  } catch (e) {
-    console.warn('[audio] could not create custom context, using default', e);
-  }
+function trackState() {
   const raw = Tone.getContext().rawContext as unknown as AudioContext;
   const sync = () => audioStore.set({ ctxState: (raw.state as CtxState) ?? 'suspended' });
   sync();
   try { raw.addEventListener('statechange', sync); } catch { /* old browsers */ }
+}
+/**
+ * Creates the synth's AudioContext. Must run inside a user gesture: a brand-new native AudioContext is created
+ * and resumed right in the tap — exactly like the Test-sound beep, which is proven to work on Android — and
+ * handed to Tone. (v2 created Tone's context at page load and resumed it later; on some Android devices that
+ * pre-created context stayed silent.)
+ */
+function ensureContext() {
+  if (ctxReady) return;
+  ctxReady = true;
+  try {
+    const AC = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const raw = new AC({ latencyHint: 'interactive' });
+    void raw.resume();
+    Tone.setContext(new Tone.Context(raw as unknown as AudioContext));
+  } catch (e) {
+    console.warn('[audio] fresh context failed, using Tone default', e);
+  }
+  trackState();
 }
 
 let silentEl: HTMLAudioElement | null = null;
@@ -81,9 +93,8 @@ export function unlockAudio() {
     src.buffer = b; src.connect(raw.destination); src.start(0);
   } catch (e) { console.warn('[audio] unlock', e); }
   void Tone.start().catch(() => undefined);
-  if (/iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent) && !silentEl) {
-    // A looping silent <audio> element started in the gesture: keeps iOS in the "playback" session and
-    // unlocks media output in some Android WebView/stock browsers that gate Web Audio behind media playback.
+  if (/iPhone|iPad|iPod/i.test(navigator.userAgent) && !silentEl) {
+    // iOS only: a looping silent <audio> element keeps the "playback" audio session (ignores the mute switch)
     silentEl = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=');
     silentEl.loop = true;
     silentEl.setAttribute('playsinline', '');
@@ -466,16 +477,16 @@ export const audio = new AudioEngine();
 if (typeof window !== 'undefined') {
   const onGesture = () => {
     const st = audioStore.get();
-    if (st.ctxState !== 'running') unlockAudio();
+    if (ctxReady && st.running && st.ctxState !== 'running') unlockAudio();
   };
   ['pointerdown', 'touchend', 'keydown', 'click'].forEach((ev) => window.addEventListener(ev, onGesture, { capture: true, passive: true }));
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && audioStore.get().running && audioStore.get().ctxState !== 'running') {
+    if (ctxReady && document.visibilityState === 'visible' && audioStore.get().running && audioStore.get().ctxState !== 'running') {
       try { void (Tone.getContext().rawContext as unknown as AudioContext).resume(); } catch { /* ignore */ }
     }
   });
   (window as unknown as { __pv: unknown }).__pv = {
-    audio, audioStore, rms: () => audio.rms(), ctxState: () => (Tone.getContext().rawContext as unknown as AudioContext).state,
+    audio, audioStore, rms: () => audio.rms(), ctxState: () => (ctxReady ? (Tone.getContext().rawContext as unknown as AudioContext).state : 'not-created'),
     presets: () => Object.keys(AUDIO_PRESETS), loadPreset: (id: string) => audio.loadPreset(id),
   };
 }

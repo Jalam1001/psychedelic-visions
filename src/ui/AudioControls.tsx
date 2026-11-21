@@ -1,4 +1,6 @@
 import { audio, audioStore, testBeep } from '../audio/engine';
+import { clips, clipStore, TRACKS } from '../audio/clips';
+import { music, musicStore } from '../audio/music';
 import { useState } from 'react';
 import { AUDIO_PRESETS, NatureType, PadTimbre } from '../audio/presets';
 import { SCALES } from '../audio/scales';
@@ -7,20 +9,31 @@ import { Select, Slider, Toggle } from './Slider';
 
 export function AudioControls({ compact = false }: { compact?: boolean }) {
   const a = useStore(audioStore);
+  const m = useStore(musicStore);
+  const c = useStore(clipStore);
   const p = a.params;
   const set = audio.setParams.bind(audio);
   const [beep, setBeep] = useState('');
   return (
     <div className="audio-controls">
       <div className="row">
-        <button className={`btn ${a.running ? 'on' : 'primary'}`} onClick={() => audio.toggle()} aria-pressed={a.running}>
-          {a.running ? '■ Stop music' : '▶ Start music'}
+        <button className={`btn ${m.on ? 'on' : 'primary'}`} onClick={() => music.toggle()} aria-pressed={m.on}>
+          {m.on ? '■ Stop music' : '▶ Start music'}
         </button>
-        <button className="btn" onClick={() => audio.setMuted(!a.muted)} aria-pressed={a.muted}>{a.muted ? 'Unmute' : 'Mute'}</button>
         <button className="btn" onClick={() => { setBeep('…'); void testBeep().then(setBeep); }}>🔔 Test</button>
       </div>
       {beep && <p className="note">{beep}</p>}
-      <p className="note">Audio engine: {a.ctxState}{a.running ? ' · music on' : ''}</p>
+      <div className="chips source-switch" role="radiogroup" aria-label="Sound source">
+        <button className={`chip ${m.source === 'clips' ? 'active' : ''}`} onClick={() => music.setSource('clips')} role="radio" aria-checked={m.source === 'clips'}>🎵 Soundtrack</button>
+        <button className={`chip ${m.source === 'synth' ? 'active' : ''}`} onClick={() => music.setSource('synth')} role="radio" aria-checked={m.source === 'synth'}>🎛 Live synth</button>
+      </div>
+      {m.source === 'clips' ? <>
+        <Select label="Track" value={c.trackId} options={TRACKS.map((t) => ({ value: t.id, label: `${t.title} (${Math.round(t.loop)} s loop)` }))} onChange={(v) => music.setTrack(v)} />
+        <p className="note">{TRACKS.find((t) => t.id === c.trackId)?.desc}. Original music rendered for this site; seamless loop.</p>
+        <Slider label="Volume" value={c.volume} min={0} max={1} onChange={(v) => clips.setVolume(v)} format={(v) => Math.round(v * 100) + '%'} />
+      </> : <>
+        <div className="row"><button className="btn" onClick={() => audio.setMuted(!a.muted)} aria-pressed={a.muted}>{a.muted ? 'Unmute' : 'Mute'}</button></div>
+        <p className="note">Live synth engine: {a.ctxState}</p>
       <Select label="Music preset" value={a.presetId in AUDIO_PRESETS ? a.presetId : 'custom'}
         options={[...Object.entries(AUDIO_PRESETS).map(([k, v]) => ({ value: k, label: v.name })), { value: 'custom', label: 'Custom' }]}
         onChange={(v) => v !== 'custom' && audio.loadPreset(v)} />
@@ -51,7 +64,8 @@ export function AudioControls({ compact = false }: { compact?: boolean }) {
           <p className="note">🎧 Binaural beats only exist when each ear hears a different tone — use headphones. Evidence for effects on mood or cognition is mixed; see Learn.</p>
         </fieldset>
       </>}
-      {!a.running && <p className="note">Browsers only allow sound after a tap/click on Start. On phones, turn up media volume (volume-up key while music plays) and (iPhone) the silent switch; “Test sound” plays a plain beep to check your device.</p>}
+      </>}
+      {!m.on && <p className="note">Browsers only allow sound after a tap/click on Start. On phones, turn up media volume (volume-up key while music plays) and (iPhone) the silent switch; “Test sound” plays a plain beep to check your device.</p>}
     </div>
   );
 }

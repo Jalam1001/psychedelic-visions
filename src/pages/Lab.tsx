@@ -3,6 +3,7 @@ import { Experience } from '../ui/Experience';
 import { ShaderView } from '../views/ShaderView';
 import { LAB_FRAG } from '../shaders/lab';
 import { audio, audioStore, BeatMode, LabState } from '../audio/engine';
+import { music, musicStore } from '../audio/music';
 import { avSync } from '../audio/analysis';
 import { SCALES } from '../audio/scales';
 import { useStore } from '../state/store';
@@ -55,7 +56,8 @@ function LabPanel() {
   const l = a.lab;
   const set = (p: Partial<LabState>) => audio.setLab(p);
   const [scale, setScale] = useState('majorPent');
-  const ensure = () => { if (!a.running) void audio.start(); };
+  // The Sound Lab needs the live synth (Web Audio) — switch to it inside the tap.
+  const ensure = () => { if (musicStore.get().source !== 'synth') music.setSource('synth'); if (!musicStore.get().on) music.start(); };
   return (
     <details open>
       <summary>Sound laboratory</summary>

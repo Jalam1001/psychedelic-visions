@@ -1,0 +1,62 @@
+[
+ {
+  "id": "amazon-night",
+  "title": "Amazonian Night",
+  "desc": "rainforest, leaf-rattle & whistled melody",
+  "loop": 64.0
+ },
+ {
+  "id": "kaleido-bloom",
+  "title": "Kaleidoscope Bloom",
+  "desc": "shimmering arpeggios & pads",
+  "loop": 64.0
+ },
+ {
+  "id": "fractal-depths",
+  "title": "Fractal Depths",
+  "desc": "deep drone & self-similar bells",
+  "loop": 64.0
+ },
+ {
+  "id": "sufi-ney-daf",
+  "title": "Sufi Ney & Daf",
+  "desc": "Hijaz-flavoured flute & frame drum",
+  "loop": 64.0
+ },
+ {
+  "id": "persian-garden",
+  "title": "Persian Garden",
+  "desc": "santur-like plucks & flowing water",
+  "loop": 64.0
+ },
+ {
+  "id": "himalayan-bowls",
+  "title": "Himalayan Bowls",
+  "desc": "singing bowls & low chant drone",
+  "loop": 64.0
+ },
+ {
+  "id": "tanpura-bansuri",
+  "title": "Tanpura & Bansuri",
+  "desc": "Yaman-flavoured drone & flute",
+  "loop": 64.0
+ },
+ {
+  "id": "harmonic-choir",
+  "title": "Harmonic Choir",
+  "desc": "overtone voices on the harmonic series",
+  "loop": 64.0
+ },
+ {
+  "id": "deep-relaxation",
+  "title": "Deep Relaxation",
+  "desc": "60 bpm warm pads, felt piano & rain",
+  "loop": 64.0
+ },
+ {
+  "id": "cosmic-journey",
+  "title": "Cosmic Journey",
+  "desc": "evolving pads, bells & deep space",
+  "loop": 80.0
+ }
+]
