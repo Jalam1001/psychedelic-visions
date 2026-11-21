@@ -7,117 +7,193 @@ import { TAU, caption, polyPath, reveal, rosettePath, starInner, starK, starLine
  *    unfold level by level (Alexander: levels of scale, alternating
  *    repetition, strong centres, boundaries, roughness/abrash).
  * ------------------------------------------------------------------ */
+/** Cached "wool" grain: thousands of tiny offset knots, so the carpet reads as textile, not flat vector. */
+let woolTile: HTMLCanvasElement | null = null;
+function woolPattern(ctx: CanvasRenderingContext2D) {
+  if (!woolTile) {
+    woolTile = document.createElement('canvas');
+    woolTile.width = woolTile.height = 120;
+    const g = woolTile.getContext('2d')!;
+    let seed = 7;
+    const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    for (let y = 0; y < 120; y += 3) for (let x = 0; x < 120; x += 2.5) {
+      const v = rnd();
+      g.fillStyle = v > 0.5 ? `rgba(255,240,220,${(v - 0.5) * 0.35})` : `rgba(0,0,0,${(0.5 - v) * 0.5})`;
+      g.beginPath(); g.ellipse(x + rnd(), y + rnd(), 1.1, 1.6, 0.3, 0, TAU); g.fill();
+    }
+  }
+  return ctx.createPattern(woolTile, 'repeat');
+}
+
+/** Lotto-style arabesque: a cruciform palmette lattice drawn as gold ribbons with dark outlines. */
+function lottoCell(ctx: CanvasRenderingContext2D, cx: number, cy: number, s: number, gold: string, dark: string, lw: number, grow: number, wob: number) {
+  const ribbon = (draw: () => void) => {
+    ctx.strokeStyle = dark; ctx.lineWidth = lw * 1.9; draw(); ctx.stroke();
+    ctx.strokeStyle = gold; ctx.lineWidth = lw; draw(); ctx.stroke();
+  };
+  ctx.save();
+  ctx.setLineDash([s * 4 * grow, s * 8]);
+  for (let q = 0; q < 4; q++) {
+    const a = q * TAU / 4;
+    const c = Math.cos(a), sn = Math.sin(a);
+    const P = (x: number, y: number): [number, number] => [cx + x * c - y * sn, cy + x * sn + y * c];
+    ribbon(() => {
+      ctx.beginPath();
+      const [x1, y1] = P(0, 0); const [x2, y2] = P(s * 0.5, -s * (0.32 + wob)); const [x3, y3] = P(s, 0);
+      const [x4, y4] = P(s * 0.5, s * (0.32 + wob));
+      ctx.moveTo(x1, y1); ctx.quadraticCurveTo(x2, y2, x3, y3); ctx.quadraticCurveTo(x4, y4, x1, y1);
+    });
+    // palmette tip
+    ribbon(() => {
+      ctx.beginPath();
+      const [a1, b1] = P(s * 0.55, 0); const [a2, b2] = P(s * 0.78, -s * 0.12); const [a3, b3] = P(s * 0.78, s * 0.12);
+      ctx.moveTo(a1, b1); ctx.lineTo(a2, b2); ctx.lineTo(a3, b3); ctx.closePath();
+    });
+  }
+  ctx.restore();
+}
+
+/** Interlaced 8-point "Holbein" star knot: two squares woven over/under, outlined. */
+function holbeinKnot(ctx: CanvasRenderingContext2D, cx: number, cy: number, r: number, rot: number, fill: string, line: string, inner: string) {
+  ctx.lineJoin = 'round';
+  for (let k = 0; k < 2; k++) {
+    polyPath(ctx, cx, cy, r, 4, rot + k * Math.PI / 4);
+    ctx.fillStyle = fill; ctx.fill();
+    ctx.strokeStyle = line; ctx.lineWidth = r * 0.09; ctx.stroke();
+  }
+  polyPath(ctx, cx, cy, r * 0.62, 8, rot + Math.PI / 8);
+  ctx.strokeStyle = line; ctx.lineWidth = r * 0.07; ctx.stroke();
+  rosettePath(ctx, cx, cy, r * 0.5, r * 0.26, 8, -rot);
+  ctx.fillStyle = inner; ctx.fill();
+  ctx.beginPath(); ctx.arc(cx, cy, r * 0.12, 0, TAU); ctx.fillStyle = line; ctx.fill();
+}
+
 export function drawCarpet(d: DrawCtx) {
   const { ctx, W, H, f, p, pal, av } = d;
   const S = pal.swatch;
   const t = f.t;
   const levels = Math.round(p.depth) + 1;
-  const u = (t * 0.3 + 1.6) % (levels + 4); // unfold, then hold, then restart
+  const u = (t * 0.55 + 1.2) % (levels + 6); // unfold in a few seconds, hold, then re-weave
   const landscape = W > H;
   let cw: number, ch: number;
-  if (landscape) { ch = H * 0.88; cw = Math.min(W * 0.92, ch * 1.5); } else { cw = W * 0.9; ch = Math.min(H * 0.9, cw * 1.5); }
+  if (landscape) { ch = H * 0.9; cw = Math.min(W * 0.94, ch * 1.55); } else { cw = W * 0.92; ch = Math.min(H * 0.9, cw * 1.6); }
   const x0 = -cw / 2, y0 = -ch / 2;
-  const bw = Math.min(cw, ch) * 0.085;
+  const bw = Math.min(cw, ch) * 0.1;
+  const ground = S[1], gold = S[2], ivory = S[3], green = S[4], indigo = S[5], plum = S[6] ?? S[1];
+  const dark = S[0];
 
-  // ground with abrash (natural dye-lot colour variation)
-  ctx.fillStyle = S[1];
-  ctx.fillRect(x0, y0, cw, ch);
-  const bands = 18;
-  for (let i = 0; i < bands; i++) {
+  // ground with abrash (natural dye-lot colour bands) and a radial glow
+  ctx.fillStyle = ground; ctx.fillRect(x0, y0, cw, ch);
+  for (let i = 0; i < 22; i++) {
     const v = Math.sin(i * 12.9898) * 43758.5453; const r = v - Math.floor(v);
-    ctx.fillStyle = withAlpha(r > 0.5 ? '#000000' : '#ffffff', 0.025 + r * 0.03);
-    ctx.fillRect(x0, y0 + (i / bands) * ch, cw, ch / bands + 1);
+    ctx.fillStyle = withAlpha(r > 0.5 ? '#000000' : '#ffd0a0', 0.03 + r * 0.05);
+    ctx.fillRect(x0, y0 + (i / 22) * ch, cw, ch / 22 + 1);
   }
+  const rg = ctx.createRadialGradient(0, 0, 0, 0, 0, Math.max(cw, ch) * 0.6);
+  rg.addColorStop(0, withAlpha('#ffb070', 0.18 + 0.12 * av.bass)); rg.addColorStop(1, 'rgba(0,0,0,0.25)');
+  ctx.fillStyle = rg; ctx.fillRect(x0, y0, cw, ch);
 
-  // borders (level 0)
-  const a0 = reveal(u, 0);
-  ctx.globalAlpha = a0;
-  ctx.fillStyle = S[3]; ctx.fillRect(x0, y0, cw, ch);
-  ctx.fillStyle = S[2]; ctx.fillRect(x0 + bw * 0.18, y0 + bw * 0.18, cw - bw * 0.36, ch - bw * 0.36);
-  ctx.fillStyle = S[3]; ctx.fillRect(x0 + bw * 1.05, y0 + bw * 1.05, cw - bw * 2.1, ch - bw * 2.1);
-  ctx.fillStyle = S[1]; ctx.fillRect(x0 + bw * 1.2, y0 + bw * 1.2, cw - bw * 2.4, ch - bw * 2.4);
-  ctx.globalAlpha = 1;
-
-  // border motifs (level 1): alternating 8-stars and stepped diamonds around the perimeter
-  const a1 = reveal(u, 1);
-  if (a1 > 0) {
-    const inset = bw * 0.62;
-    const perim: [number, number][] = [];
-    const nx = Math.max(4, Math.round((cw - 2 * inset) / bw)), ny = Math.max(4, Math.round((ch - 2 * inset) / bw));
-    for (let i = 0; i < nx; i++) { const x = x0 + inset + (i + 0.5) * ((cw - 2 * inset) / nx); perim.push([x, y0 + inset], [x, y0 + ch - inset]); }
-    for (let j = 0; j < ny; j++) { const y = y0 + inset + (j + 0.5) * ((ch - 2 * inset) / ny); perim.push([x0 + inset, y], [x0 + cw - inset, y]); }
-    perim.forEach(([x, y], i) => {
-      ctx.globalAlpha = a1;
-      if (i % 4 < 2) {
-        ctx.fillStyle = S[4]; starPath(ctx, x, y, bw * 0.34, 8, 3, Math.PI / 8); ctx.fill();
-        ctx.fillStyle = S[1]; polyPath(ctx, x, y, bw * 0.1, 4, Math.PI / 4); ctx.fill();
-      } else {
-        ctx.fillStyle = S[5]; steppedDiamond(ctx, x, y, bw * 0.3, bw * 0.3, 3); ctx.fill();
-        ctx.fillStyle = S[3]; steppedDiamond(ctx, x, y, bw * 0.12, bw * 0.12, 2); ctx.fill();
-      }
-    });
-    ctx.globalAlpha = 1;
-  }
-
-  // field medallions
-  const fx0 = x0 + bw * 1.3, fy0 = y0 + bw * 1.3, fw = cw - bw * 2.6, fh = ch - bw * 2.6;
+  // field: Lotto arabesque lattice in gold, growing in
+  const fx0 = x0 + bw * 1.25, fy0 = y0 + bw * 1.25, fw = cw - bw * 2.5, fh = ch - bw * 2.5;
   const shortN = 2 + Math.round(p.complexity * 2);
   const cols = landscape ? Math.round(shortN * (fw / fh)) : shortN;
   const rows = landscape ? shortN : Math.round(shortN * (fh / fw));
   const cwid = fw / cols, chei = fh / rows;
-  const m = Math.min(cwid, chei) * 0.5 * (1 + 0.05 * av.bass + 0.02 * av.pulse);
-  const rotI = t * 0.05 * p.rotation + av.mid * 0.2;
-  for (let i = 0; i < cols; i++) for (let j = 0; j < rows; j++) {
-    const cx = fx0 + (i + 0.5) * cwid, cy = fy0 + (j + 0.5) * chei;
-    const typeA = (i + j) % 2 === 0; // alternating repetition
-    const jitter = Math.sin((i * 7 + j * 13) * 1.7) * 0.06; // roughness: hand-knotted irregularity
-    const a2 = reveal(u, 2 + jitter);
-    if (a2 <= 0) continue;
-    ctx.globalAlpha = a2;
-    if (typeA) {
-      ctx.fillStyle = S[3]; polyPath(ctx, cx, cy, m * 0.92, 8, Math.PI / 8); ctx.fill();
-      ctx.strokeStyle = S[2]; ctx.lineWidth = m * 0.06; ctx.stroke();
-      ctx.globalAlpha = reveal(u, 3 + jitter);
-      ctx.fillStyle = S[2]; starPath(ctx, cx, cy, m * 0.78, 8, 3, rotI); ctx.fill();
-      ctx.globalAlpha = reveal(u, 4 + jitter);
-      ctx.fillStyle = S[4]; rosettePath(ctx, cx, cy, m * 0.42, m * 0.25, 8, -rotI + Math.PI / 8); ctx.fill();
-      ctx.globalAlpha = reveal(u, 5 + jitter);
-      ctx.fillStyle = S[1]; polyPath(ctx, cx, cy, m * 0.14, 8, rotI); ctx.fill();
-    } else {
-      ctx.fillStyle = S[5]; steppedDiamond(ctx, cx, cy, m * 0.9, m * 0.9, 6); ctx.fill();
-      ctx.globalAlpha = reveal(u, 3 + jitter);
-      ctx.fillStyle = S[3]; steppedDiamond(ctx, cx, cy, m * 0.62, m * 0.62, 4); ctx.fill();
-      ctx.globalAlpha = reveal(u, 4 + jitter);
-      ctx.fillStyle = S[1]; steppedDiamond(ctx, cx, cy, m * 0.38, m * 0.38, 3); ctx.fill();
-      // latch hooks
-      ctx.strokeStyle = S[3]; ctx.lineWidth = m * 0.06;
-      for (let q = 0; q < 4; q++) {
-        const a = q * (TAU / 4) + TAU / 8;
-        const hx = cx + Math.cos(a) * m * 0.64, hy = cy + Math.sin(a) * m * 0.64;
-        ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(hx + Math.cos(a) * m * 0.22, hy + Math.sin(a) * m * 0.22);
-        ctx.lineTo(hx + Math.cos(a) * m * 0.22 + Math.cos(a + 1.57) * m * 0.12, hy + Math.sin(a) * m * 0.22 + Math.sin(a + 1.57) * m * 0.12);
-        ctx.stroke();
-      }
-      ctx.globalAlpha = reveal(u, 5 + jitter);
-      ctx.fillStyle = S[4]; starPath(ctx, cx, cy, m * 0.2, 8, 3, rotI); ctx.fill();
-    }
-    // supporting centres at cell corners
-    const a3 = reveal(u, 4 + jitter);
-    if (a3 > 0 && i < cols - 1 && j < rows - 1) {
-      ctx.globalAlpha = a3;
-      const sx = cx + cwid / 2, sy = cy + chei / 2;
-      ctx.fillStyle = S[4]; starPath(ctx, sx, sy, m * 0.24, 8, 3, Math.PI / 8); ctx.fill();
-      ctx.fillStyle = S[2]; polyPath(ctx, sx, sy, m * 0.08, 4, 0); ctx.fill();
-    }
-    // fine echoes (small dots along cell edges)
-    const a4 = reveal(u, 6 + jitter);
-    if (a4 > 0 && levels >= 6) {
-      ctx.globalAlpha = a4 * 0.9;
-      ctx.fillStyle = S[3];
-      for (let q = 0; q < 4; q++) { const a = q * TAU / 4; ctx.beginPath(); ctx.arc(cx + Math.cos(a) * m * 1.0, cy + Math.sin(a) * m * 1.0, m * 0.035, 0, TAU); ctx.fill(); }
+  const m = Math.min(cwid, chei) * 0.5;
+  ctx.save();
+  ctx.beginPath(); ctx.rect(fx0, fy0, fw, fh); ctx.clip();
+  const latA = reveal(u, 1);
+  if (latA > 0) {
+    ctx.globalAlpha = Math.min(1, latA * 1.2);
+    const grow = Math.min(1, Math.max(0.02, (u - 1) / 2.5));
+    for (let i = 0; i <= cols; i++) for (let j = 0; j <= rows; j++) {
+      const wob = 0.06 * Math.sin(t * 0.8 + i * 1.3 + j * 0.7) + 0.05 * av.mid;
+      lottoCell(ctx, fx0 + i * cwid, fy0 + j * chei, m * 0.95, gold, dark, m * 0.075, grow, wob);
     }
   }
+  // medallions: Holbein star knots alternating with stepped octagon gul
+  const rotI = t * 0.12 * (0.4 + p.rotation) + av.mid * 0.3;
+  for (let i = 0; i < cols; i++) for (let j = 0; j < rows; j++) {
+    const cx = fx0 + (i + 0.5) * cwid, cy = fy0 + (j + 0.5) * chei;
+    const jitter = Math.sin((i * 7 + j * 13) * 1.7) * 0.15;
+    const a2 = reveal(u, 2.2 + jitter + (Math.abs(i - (cols - 1) / 2) + Math.abs(j - (rows - 1) / 2)) * 0.35);
+    if (a2 <= 0) continue;
+    ctx.globalAlpha = a2;
+    const sc = (0.55 + 0.45 * a2) * (1 + 0.06 * av.bass + 0.02 * av.pulse);
+    const mr = m * 0.62 * sc;
+    const dir = (i + j) % 2 === 0 ? 1 : -1;
+    // glow halo
+    const hg = ctx.createRadialGradient(cx, cy, mr * 0.2, cx, cy, mr * 1.5);
+    hg.addColorStop(0, withAlpha(gold, 0.35 + 0.2 * av.bass)); hg.addColorStop(1, withAlpha(gold, 0));
+    ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(cx, cy, mr * 1.5, 0, TAU); ctx.fill();
+    if ((i + j) % 2 === 0) {
+      polyPath(ctx, cx, cy, mr * 1.08, 8, Math.PI / 8); ctx.fillStyle = indigo; ctx.fill();
+      ctx.strokeStyle = ivory; ctx.lineWidth = mr * 0.06; ctx.stroke();
+      holbeinKnot(ctx, cx, cy, mr * 0.9, rotI * dir, plum, ivory, gold);
+    } else {
+      steppedDiamond(ctx, cx, cy, mr * 1.05, mr * 1.05, 5); ctx.fillStyle = green; ctx.fill();
+      ctx.strokeStyle = gold; ctx.lineWidth = mr * 0.05; ctx.stroke();
+      starPath(ctx, cx, cy, mr * 0.78, 8, 3, rotI * dir); ctx.fillStyle = ivory; ctx.fill();
+      starPath(ctx, cx, cy, mr * 0.55, 8, 3, -rotI * dir + Math.PI / 8); ctx.fillStyle = ground; ctx.fill();
+      rosettePath(ctx, cx, cy, mr * 0.32, mr * 0.18, 8, rotI); ctx.fillStyle = gold; ctx.fill();
+    }
+  }
+  ctx.restore();
   ctx.globalAlpha = 1;
+
+  // borders: guard stripes + pseudo-kufic interlace band with a colour wave running around it
+  const a0 = reveal(u, 0);
+  if (a0 > 0) {
+    ctx.globalAlpha = a0;
+    ctx.fillStyle = dark;
+    ctx.beginPath(); ctx.rect(x0, y0, cw, ch); ctx.rect(x0 + bw * 1.25, y0 + bw * 1.25, cw - bw * 2.5, ch - bw * 2.5); ctx.fill('evenodd');
+    ctx.fillStyle = indigo;
+    ctx.beginPath(); ctx.rect(x0 + bw * 0.22, y0 + bw * 0.22, cw - bw * 0.44, ch - bw * 0.44); ctx.rect(x0 + bw * 1.05, y0 + bw * 1.05, cw - bw * 2.1, ch - bw * 2.1); ctx.fill('evenodd');
+    // kufic stems
+    const inset = bw * 0.63;
+    const step = bw * 0.42;
+    const sides: [number, number, number, number][] = [[x0 + inset, y0 + inset, 1, 0], [x0 + cw - inset, y0 + inset, 0, 1], [x0 + cw - inset, y0 + ch - inset, -1, 0], [x0 + inset, y0 + ch - inset, 0, -1]];
+    let k = 0;
+    sides.forEach(([sx, sy, dx, dy], si) => {
+      const len = si % 2 === 0 ? cw - 2 * inset : ch - 2 * inset;
+      const n = Math.floor(len / step);
+      for (let q = 0; q < n; q++, k++) {
+        const x = sx + dx * (q + 0.5) * step, y = sy + dy * (q + 0.5) * step;
+        const wave = 0.5 + 0.5 * Math.sin(k * 0.35 - t * 2.2);
+        const nx = -dy, ny = dx; // inward normal
+        const tall = q % 3 === 1 ? 0.36 : 0.2;
+        ctx.strokeStyle = wave > 0.75 ? ivory : gold;
+        ctx.lineWidth = step * 0.32; ctx.lineCap = 'square';
+        ctx.beginPath(); ctx.moveTo(x - nx * bw * 0.28, y - ny * bw * 0.28); ctx.lineTo(x + nx * bw * tall, y + ny * bw * tall); ctx.stroke();
+        if (q % 3 === 1) { ctx.beginPath(); ctx.moveTo(x + nx * bw * tall - dx * step * 0.5, y + ny * bw * tall - dy * step * 0.5); ctx.lineTo(x + nx * bw * tall + dx * step * 0.5, y + ny * bw * tall + dy * step * 0.5); ctx.stroke(); }
+        if (q % 6 === 4) { ctx.fillStyle = withAlpha(S[1], 1); starPath(ctx, x, y, step * 0.45, 8, 3, t * 0.5); ctx.fill(); }
+      }
+    });
+    // inner guard: running-dog wave
+    ctx.strokeStyle = ivory; ctx.lineWidth = bw * 0.05;
+    ctx.beginPath();
+    const gy = bw * 1.15;
+    for (let x = x0 + gy; x <= x0 + cw - gy; x += bw * 0.1) {
+      const yy = Math.sin((x - x0) / (bw * 0.3) - t * 1.5) * bw * 0.05;
+      if (x === x0 + gy) ctx.moveTo(x, y0 + gy + yy); else ctx.lineTo(x, y0 + gy + yy);
+    }
+    ctx.stroke();
+    ctx.beginPath();
+    for (let x = x0 + gy; x <= x0 + cw - gy; x += bw * 0.1) {
+      const yy = Math.sin((x - x0) / (bw * 0.3) + t * 1.5) * bw * 0.05;
+      if (x === x0 + gy) ctx.moveTo(x, y0 + ch - gy + yy); else ctx.lineTo(x, y0 + ch - gy + yy);
+    }
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+
+  // wool grain + travelling silk sheen
+  const pat = woolPattern(ctx);
+  if (pat) { ctx.save(); ctx.globalAlpha = 0.55; ctx.fillStyle = pat; ctx.fillRect(x0, y0, cw, ch); ctx.restore(); }
+  const sx = ((t * 0.12) % 1.6 - 0.3) * (cw + ch);
+  const lg = ctx.createLinearGradient(x0 + sx - ch, y0, x0 + sx, y0 + ch);
+  lg.addColorStop(0, 'rgba(255,255,255,0)'); lg.addColorStop(0.5, `rgba(255,235,200,${0.1 + 0.08 * av.high})`); lg.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = lg; ctx.fillRect(x0, y0, cw, ch); ctx.restore();
 }
 
 /* ------------------------------------------------------------------ *

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { REFS, Ref } from '../content/references';
+import { ArtCredits } from '../ui/SourceArt';
 
 const RefList = ({ refs }: { refs: Ref[] }) => (
   <ul className="refs">{refs.map((r) => <li key={r.url}><a href={r.url} target="_blank" rel="noreferrer">{r.label}</a> <span className={`tag ${r.kind}`}>{r.kind}</span></li>)}</ul>
@@ -12,7 +13,7 @@ export default function Learn() {
       <h1>Research & Learning</h1>
       <p className="lede">This page separates four kinds of statement: <span className="tag science">scientific findings</span>, <span className="tag tradition">historical & religious traditions</span>, <span className="tag math">mathematics</span>, and <strong>modern generative artwork</strong> (everything this site renders). Nothing here is medical advice, and the site does not treat or cure any condition.</p>
       <nav className="toc" aria-label="Contents">
-        {['fractals', 'recursion', 'kaleidoscopes', 'islamic', 'alexander', 'mandalas', 'amazon', 'music', 'fourier', 'research', 'safety'].map((id) => <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }}>{id}</a>)}
+        {['fractals', 'recursion', 'kaleidoscopes', 'islamic', 'alexander', 'mandalas', 'amazon', 'music', 'fourier', 'research', 'safety', 'art'].map((id) => <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }}>{id}</a>)}
       </nav>
 
       <section id="fractals"><h2>Fractal mathematics</h2>
@@ -49,6 +50,7 @@ export default function Learn() {
 
       <section id="amazon"><h2>Peruvian Amazonian art — respectful framing</h2>
         <p>Shipibo-Konibo kené designs are an Indigenous art form from the Peruvian Amazon, painted and embroidered mostly by women on textiles, ceramics and the body, and recognised by Peru's Ministry of Culture as Cultural Heritage of the Nation. Visionary paintings associated with ayahuasca ceremonies (e.g. the Pucallpa school) are a separate, contemporary art movement. This site does <strong>not</strong> reproduce kené designs or claim to know their meanings; its Amazonian Visions page contains original procedural patterns <em>inspired by</em> general visual features (diagonal lattices, thick and thin lines, stepped diamonds, botanical forms).</p>
+        <p>The photographs of Shipibo-Konibo textiles and ceramics in the Source art section below (CC0 photos on Wikimedia Commons) are shown as respectful reference only; the “Shipibo-Konibo (palette only)” colour scheme borrows their colours, not their designs, and they are never distorted into shader textures.</p>
         <RefList refs={REFS.amazon} />
       </section>
 
@@ -81,6 +83,11 @@ export default function Learn() {
         <RefList refs={REFS.safety} />
         <h3>Technology</h3>
         <RefList refs={REFS.tech} />
+      </section>
+
+      <section id="art"><h2>Source art & image credits</h2>
+        <p>Colours and textures in several experiences come from real historical works. Only images that are <strong>public domain or CC0</strong> are embedded — mostly The Metropolitan Museum of Art's Open Access images and Rijksmuseum CC0 images, retrieved from Wikimedia Commons, where each licence was verified. Copyrighted visionary art (for example Pablo Amaringo's paintings) is not reproduced. Full table: <a href="https://github.com/Jalam1001/psychedelic-visions/blob/main/CREDITS.md" target="_blank" rel="noreferrer">CREDITS.md</a>.</p>
+        <ArtCredits />
       </section>
     </main>
   );

@@ -6,7 +6,7 @@ import { COMMON } from './common';
  * 0 kaleidoscope · 1 Amazonian vines/kené-inspired lattice · 2 fractal tunnel · 3 Islamic star lattice · 4 lotus mandala
  */
 export const JOURNEY_FRAG = COMMON + /* glsl */ `
-uniform vec4 uW; uniform float uW4; uniform float uSeed;
+uniform vec4 uW; uniform float uW4; uniform float uW5; uniform float uSeed;
 
 float sdStar(vec2 p, float r, float n, float m){
   float an = PI/n; float en = PI/m;
@@ -25,8 +25,8 @@ vec4 worldKaleido(vec2 uv, float t){
     vec2 p = kfold(rot(dir*t*0.07 + uMid*0.3)*uv, uSym)*(2.0 + fl*1.2);
     vec2 q = p*0.5; float acc = 0.0;
     for(int i = 0; i < 7; i++){ q = abs(q)/max(dot(q, q), 0.03) - vec2(0.8 + 0.1*sin(t*0.1 + uSeed), 0.6); acc += exp(-abs(q.x*q.y)*6.0); }
-    float v = acc/7.0*0.8;
-    col += pal(v*0.5 + fl*0.3 + t*0.02)*v; m += v;
+    float v = acc/7.0*1.3;
+    col += pal(v*0.5 + fl*0.3 + t*0.05 + length(uv)*0.3)*v; m += v;
   }
   return vec4(col, m);
 }
@@ -87,17 +87,36 @@ vec4 worldLotus(vec2 uv, float t){
   return vec4(col, petal + outl);
 }
 
+// Sacred-art tunnel: a public-domain artwork (Met / Rijksmuseum CC0) mapped through a log-polar zoom tunnel
+vec4 worldArt(vec2 uv, float t){
+  float r = length(uv); float a = atan(uv.y, uv.x);
+  float sym = max(uSym, 6.0);
+  float wa = abs(mod(a + t*0.08, TAU/sym) - PI/sym)*sym/PI;     // mirrored wedge 0..1
+  float z = log(r + 1e-3)*0.9 - t*0.35;                          // endless inward zoom
+  vec2 tp = vec2(wa*0.5 + 0.25, fract(z));
+  vec2 kp = kfold(rot(-t*0.05)*uv, sym)*1.4;
+  vec3 c1 = art(tp*vec2(1.0, 1.0));
+  vec3 c2 = art(kp + vec2(0.1*sin(t*0.3), t*0.04));
+  vec3 col = mix(c2, c1, smoothstep(0.15, 0.6, r));
+  col *= 0.75 + 0.5*pow(0.5 + 0.5*sin(z*TAU*2.0), 3.0);         // light bands flowing toward you
+  col += pal(t*0.06 + r)*exp(-r*5.0)*0.8;
+  if(uTexOn < 0.5) return worldKaleido(uv, t);
+  return vec4(col, 1.0);
+}
+
 void main(){
   vec2 uv0 = screenUV();
   vec2 uv = viewUV();
   float t = uTime;
-  uv /= 1.0 + 0.3*uBass + 0.05*uPulse;
+  uv /= 1.0 + 0.55*uBass + 0.08*uPulse;
+  uv *= rot(0.1*sin(t*0.2));
   vec4 acc = vec4(0.0);
   if(uW.x > 0.001) acc += worldKaleido(uv, t)*uW.x;
   if(uW.y > 0.001) acc += worldAmazon(uv, t)*uW.y;
   if(uW.z > 0.001) acc += worldTunnel(uv, t)*uW.z;
   if(uW.w > 0.001) acc += worldGirih(uv, t)*uW.w;
   if(uW4 > 0.001) acc += worldLotus(uv, t)*uW4;
+  if(uW5 > 0.001) acc += worldArt(uv, t)*uW5;
   gl_FragColor = vec4(finish(acc.rgb, acc.a + 0.05, uv0), 1.0);
 }
 `;

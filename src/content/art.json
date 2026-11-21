@@ -2,15 +2,15 @@
  {
   "key": "iznik-panel",
   "file": "art/iznik-panel.jpg",
-  "title": "Tile Panel",
-  "date": "early 17th centurydate QS:P571,+1650-00-00T00:00:00Z/7,P4241",
-  "culture": "",
-  "medium": "",
+  "title": "Tile panel (Iznik ware)",
+  "date": "early 17th century",
+  "culture": "Ottoman Turkey, Iznik",
+  "medium": "Stonepaste, polychrome underglaze painted",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:Tile_Panel_MET_LC-17_190_2087.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "",
+  "credit": "The Metropolitan Museum of Art, New York (Open Access, CC0) — via Wikimedia Commons",
   "description": "",
   "tags": [
    "islamic",
@@ -20,20 +20,22 @@
   "size": [
    1024,
    819
-  ]
+  ],
+  "texture": true,
+  "paletteOnly": false
  },
  {
   "key": "bursa-vine-tile",
   "file": "art/bursa-vine-tile.jpg",
-  "title": "Tile with Undulating Vine Scrolls - Bursa (Turkey) - 15th century - MET - Inventory number 1998.246",
-  "date": "A.H. 824/ A.D. 1421",
-  "culture": "",
-  "medium": "",
+  "title": "Tile with undulating vine scrolls",
+  "date": "A.H. 824 / A.D. 1421",
+  "culture": "Ottoman Turkey, Bursa",
+  "medium": "Stonepaste, cuerda seca",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:Tile_with_Undulating_Vine_Scrolls_-_Bursa_(Turkey)_-_15th_century_-_MET_-_Inventory_number_1998.246.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "",
+  "credit": "The Metropolitan Museum of Art, New York (Open Access, CC0) — via Wikimedia Commons",
   "description": "ceramics ; Tile",
   "tags": [
    "islamic"
@@ -41,20 +43,22 @@
   "size": [
    1024,
    766
-  ]
+  ],
+  "texture": true,
+  "paletteOnly": false
  },
  {
   "key": "holbein-carpet",
   "file": "art/holbein-carpet.jpg",
-  "title": "'Holbein' Carpet",
+  "title": "'Holbein' carpet",
   "date": "15th–16th century",
-  "culture": "",
-  "medium": "",
+  "culture": "Anatolia (Turkey)",
+  "medium": "Wool pile",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:%27Holbein%27_Carpet_MET_DP329369.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "",
+  "credit": "The Metropolitan Museum of Art, New York (Open Access, CC0) — via Wikimedia Commons",
   "description": "Carpet; Textiles-Rugs",
   "tags": [
    "islamic",
@@ -63,20 +67,22 @@
   "size": [
    1024,
    768
-  ]
+  ],
+  "texture": true,
+  "paletteOnly": false
  },
  {
   "key": "lotto-carpet",
   "file": "art/lotto-carpet.jpg",
-  "title": "'Lotto' Carpet",
+  "title": "'Lotto' carpet",
   "date": "late 16th century",
-  "culture": "",
-  "medium": "",
+  "culture": "Anatolia (Turkey), Ushak region",
+  "medium": "Wool pile",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:%27Lotto%27_Carpet_MET_DP329228.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "",
+  "credit": "The Metropolitan Museum of Art, New York (Open Access, CC0) — via Wikimedia Commons",
   "description": "Carpet; Textiles-Rugs",
   "tags": [
    "islamic",
@@ -85,20 +91,22 @@
   "size": [
    1024,
    768
-  ]
+  ],
+  "texture": true,
+  "paletteOnly": false
  },
  {
   "key": "ushak-medallion-carpet",
   "file": "art/ushak-medallion-carpet.jpg",
-  "title": "\"Medallion Ushak\" Carpet",
-  "date": "17th centurydate QS:P571,+1650-00-00T00:00:00Z/7",
-  "culture": "",
-  "medium": "",
+  "title": "'Medallion Ushak' carpet",
+  "date": "17th century",
+  "culture": "Anatolia (Turkey), Ushak",
+  "medium": "Wool pile",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:%22Medallion_Ushak%22_Carpet_MET_DP330620.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "",
+  "credit": "The Metropolitan Museum of Art, New York (Open Access, CC0) — via Wikimedia Commons",
   "description": "Carpet; Textiles-Rugs",
   "tags": [
    "islamic",
@@ -108,20 +116,22 @@
   "size": [
    584,
    1024
-  ]
+  ],
+  "texture": true,
+  "paletteOnly": false
  },
  {
   "key": "seley-carpet",
   "file": "art/seley-carpet.jpg",
   "title": "The Seley Carpet",
   "date": "late 16th century",
-  "culture": "",
-  "medium": "",
+  "culture": "Iran",
+  "medium": "Silk, cotton and wool; knotted pile",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:The_Seley_Carpet_MET_DP216190.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "",
+  "credit": "The Metropolitan Museum of Art, New York (Open Access, CC0) — via Wikimedia Commons",
   "description": "Carpet; Textiles-Rugs",
   "tags": [
    "islamic",
@@ -130,20 +140,22 @@
   "size": [
    449,
    1024
-  ]
+  ],
+  "texture": false,
+  "paletteOnly": false
  },
  {
   "key": "chakrasamvara-mandala",
   "file": "art/chakrasamvara-mandala.jpg",
-  "title": "Chakrasamvara Mandala",
-  "date": "circa 1100date QS:P571,+1100-00-00T00:00:00Z/9,P1480,Q572790",
-  "culture": "",
-  "medium": "",
+  "title": "Chakrasamvara mandala",
+  "date": "c. 1100",
+  "culture": "Nepal",
+  "medium": "Distemper on cloth",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:Chakrasamvara_Mandala_MET_DP-15583-014.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "anonymous",
+  "credit": "The Metropolitan Museum of Art, New York (Open Access, CC0) — via Wikimedia Commons",
   "description": "Nepal; Paintings; Tangka",
   "tags": [
    "mandala",
@@ -153,20 +165,22 @@
   "size": [
    766,
    1024
-  ]
+  ],
+  "texture": true,
+  "paletteOnly": false
  },
  {
   "key": "hevajra-mandala",
   "file": "art/hevajra-mandala.jpg",
-  "title": "MET DP369218",
-  "date": "15th centurydate QS:P571,+1450-00-00T00:00:00Z/7",
-  "culture": "",
-  "medium": "",
+  "title": "Hevajra mandala",
+  "date": "15th century",
+  "culture": "Tibet",
+  "medium": "Distemper on cloth",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:MET_DP369218.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "",
+  "credit": "The Metropolitan Museum of Art, New York (Open Access, CC0) — via Wikimedia Commons",
   "description": "Tibet; Tangka; Paintings",
   "tags": [
    "mandala",
@@ -175,20 +189,22 @@
   "size": [
    842,
    1024
-  ]
+  ],
+  "texture": true,
+  "paletteOnly": false
  },
  {
   "key": "jnanadakini-mandala",
   "file": "art/jnanadakini-mandala.jpg",
-  "title": "MET DT5254",
+  "title": "Mandala of Jnanadakini",
   "date": "late 14th century",
-  "culture": "",
-  "medium": "",
+  "culture": "Tibet",
+  "medium": "Distemper on cloth",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:MET_DT5254.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "",
+  "credit": "The Metropolitan Museum of Art, New York (Open Access, CC0) — via Wikimedia Commons",
   "description": "Tibet; Tangka; Paintings",
   "tags": [
    "mandala",
@@ -197,20 +213,22 @@
   "size": [
    889,
    1024
-  ]
+  ],
+  "texture": true,
+  "paletteOnly": false
  },
  {
   "key": "vasudhara-mandala",
   "file": "art/vasudhara-mandala.jpg",
-  "title": "Vasudhara Mandala",
-  "date": "dated to 1777 (Samvat 897)",
-  "culture": "",
-  "medium": "",
+  "title": "Vasudhara mandala",
+  "date": "1777 (Samvat 897)",
+  "culture": "Nepal",
+  "medium": "Distemper on cloth",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:Vasudhara_Mandala_MET_DP-17356-001.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "anonymous",
+  "credit": "The Metropolitan Museum of Art, New York (Open Access, CC0) — via Wikimedia Commons",
   "description": "",
   "tags": [
    "mandala",
@@ -219,20 +237,22 @@
   "size": [
    869,
    1024
-  ]
+  ],
+  "texture": true,
+  "paletteOnly": false
  },
  {
   "key": "kashan-star-tile",
   "file": "art/kashan-star-tile.jpg",
-  "title": "Stervormige tegel met bloemranken, BK-1992-39",
-  "date": "ca. 1250 - ca. 1324",
-  "culture": "",
-  "medium": "",
+  "title": "Star-shaped tile with floral scrolls (BK-1992-39)",
+  "date": "c. 1250–1324",
+  "culture": "Iran, Kashan",
+  "medium": "Lustre-painted fritware",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:Stervormige_tegel_met_bloemranken,_BK-1992-39.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "Rijksmuseum",
+  "credit": "Rijksmuseum, Amsterdam (CC0) — via Wikimedia Commons",
   "description": "IdentificatieTitel(s): Stervormige tegel met bloemrankenObjecttype: tegel stertegel Objectnummer: BK-1992-39Omschrijving: Stervormige tegel van kwarts-fritgoed, beschilderd in onderglazuur blauw, blauw-groen en luster met een rand van palmetten en twee lijnen waarbinnen een ster met uitgespaarde blo",
   "tags": [
    "islamic",
@@ -241,20 +261,22 @@
   "size": [
    1024,
    1004
-  ]
+  ],
+  "texture": false,
+  "paletteOnly": false
  },
  {
   "key": "kashan-star-tile-2",
   "file": "art/kashan-star-tile-2.jpg",
-  "title": "Stervormige tegel met vogels, vissen en bladranken, BK-1992-41",
-  "date": "ca. 1250 - ca. 1324",
-  "culture": "",
-  "medium": "",
+  "title": "Star-shaped tile with birds, fish and scrolls (BK-1992-41)",
+  "date": "c. 1250–1324",
+  "culture": "Iran, Kashan",
+  "medium": "Lustre-painted fritware",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:Stervormige_tegel_met_vogels,_vissen_en_bladranken,_BK-1992-41.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "Rijksmuseum",
+  "credit": "Rijksmuseum, Amsterdam (CC0) — via Wikimedia Commons",
   "description": "IdentificatieTitel(s): Stervormige tegel met vogels, vissen en bladrankenObjecttype: tegel stertegel Objectnummer: BK-1992-41Omschrijving: Stervormige tegel van kwarts-fritgoed, beschilderd in blauw en luster met een effen rand en vlak waarin twee vogels, bladmotieven en twee vissen zijn uitgespaard",
   "tags": [
    "islamic",
@@ -263,20 +285,22 @@
   "size": [
    1024,
    1024
-  ]
+  ],
+  "texture": true,
+  "paletteOnly": false
  },
  {
   "key": "tripura-sundari-yantra",
   "file": "art/tripura-sundari-yantra.jpg",
-  "title": "Tripura-sundari yantra color",
-  "date": "9/08/09",
-  "culture": "",
-  "medium": "",
+  "title": "Tripura Sundari (Sri) Yantra, colour diagram",
+  "date": "2009 (digital diagram)",
+  "culture": "Hindu Shakta tradition",
+  "medium": "Digital illustration",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:Tripura-sundari_yantra_color.jpg",
   "license": "Public domain",
   "licenseUrl": "",
-  "credit": "HST108",
+  "credit": "Wikimedia Commons user HST108 (released into the public domain)",
   "description": "Tipura Sundari yantra or the Shri yantra",
   "tags": [
    "mandala",
@@ -285,20 +309,22 @@
   "size": [
    1024,
    1020
-  ]
+  ],
+  "texture": true,
+  "paletteOnly": false
  },
  {
   "key": "alhambra-dos-hermanas",
   "file": "art/alhambra-dos-hermanas.jpg",
-  "title": "Alhambra : un angle de la salle de las dos Hermanas",
-  "date": "between 28 June 1914 and 1 July 1914date QS:P571,+1914-00-00",
-  "culture": "",
-  "medium": "",
+  "title": "Alhambra: corner of the Sala de las Dos Hermanas",
+  "date": "June–July 1914",
+  "culture": "Spain, Granada (Nasrid architecture, 14th c.)",
+  "medium": "Autochrome photograph by Auguste Léon",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:Alhambra_-_un_angle_de_la_salle_de_las_dos_Hermanas_-_A4692.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "Léon Auguste",
+  "credit": "Musée Albert-Kahn, Archives de la Planète (CC0) — via Wikimedia Commons",
   "description": "Lieu : Alhambra\nLieu : Grenade, Espagne\nMission : 1914 - Espagne - Auguste Léon  - (15 juin-4 juillet)\nThème : Habitat / Architecture\nThème : Art\nThème : Inscription / information\nSous-thème : Vue intérieure\nSous-thème : Zellige\nSous-thème : Arts décoratifs\nSous-thème : Inscription architecturale\nSo",
   "tags": [
    "islamic"
@@ -306,42 +332,22 @@
   "size": [
    759,
    1024
-  ]
- },
- {
-  "key": "alhambra-chaffers-tiles",
-  "file": "art/alhambra-chaffers-tiles.jpg",
-  "title": "Three tiles from The Alhambra, by William Chaffers (Getty 108VZD)",
-  "date": "",
-  "culture": "",
-  "medium": "",
-  "institution": "Wikimedia Commons",
-  "source": "https://commons.wikimedia.org/wiki/File:Three_tiles_from_The_Alhambra,_by_William_Chaffers_(Getty_108VZD).jpg",
-  "license": "CC0",
-  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "William Chaffers",
-  "description": "",
-  "tags": [
-   "islamic",
-   "sacred"
   ],
-  "size": [
-   613,
-   1024
-  ]
+  "texture": false,
+  "paletteOnly": false
  },
  {
   "key": "shipibo-art-1",
   "file": "art/shipibo-art-1.jpg",
-  "title": "Shipibo-art-1",
-  "date": "2019-07-17",
-  "culture": "",
-  "medium": "",
+  "title": "Shipibo-Konibo embroidered textile (photograph)",
+  "date": "photo 2019",
+  "culture": "Shipibo-Konibo, Peruvian Amazon (Iquitos market)",
+  "medium": "Embroidery on cotton",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:Shipibo-art-1.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "Luke Hancock",
+  "credit": "Photo: Luke Hancock (CC0) — via Wikimedia Commons",
   "description": "Shipibo tribe textile art from Iquitos, Peru",
   "tags": [
    "amazonian"
@@ -349,20 +355,22 @@
   "size": [
    1024,
    806
-  ]
+  ],
+  "texture": false,
+  "paletteOnly": true
  },
  {
   "key": "shipibo-art-2",
   "file": "art/shipibo-art-2.jpg",
-  "title": "Shipibo-art-2",
-  "date": "2019-07-17",
-  "culture": "",
-  "medium": "",
+  "title": "Shipibo-Konibo embroidered textile (photograph)",
+  "date": "photo 2019",
+  "culture": "Shipibo-Konibo, Peruvian Amazon (Iquitos market)",
+  "medium": "Embroidery on cotton",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:Shipibo-art-2.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "Luke Hancock",
+  "credit": "Photo: Luke Hancock (CC0) — via Wikimedia Commons",
   "description": "Shipibo tribe textile art from Iquitos, Peru",
   "tags": [
    "amazonian"
@@ -370,20 +378,22 @@
   "size": [
    1024,
    1018
-  ]
+  ],
+  "texture": false,
+  "paletteOnly": true
  },
  {
   "key": "shipibo-art-3",
   "file": "art/shipibo-art-3.jpg",
-  "title": "Shipibo-art-3",
-  "date": "2019-07-17",
-  "culture": "",
-  "medium": "",
+  "title": "Shipibo-Konibo embroidered textile (photograph)",
+  "date": "photo 2019",
+  "culture": "Shipibo-Konibo, Peruvian Amazon (Iquitos market)",
+  "medium": "Embroidery on cotton",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:Shipibo-art-3.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "Luke Hancock",
+  "credit": "Photo: Luke Hancock (CC0) — via Wikimedia Commons",
   "description": "Shipibo tribe textile art from Iquitos, Peru",
   "tags": [
    "amazonian"
@@ -391,20 +401,22 @@
   "size": [
    1024,
    417
-  ]
+  ],
+  "texture": false,
+  "paletteOnly": true
  },
  {
   "key": "shipibo-ceramic",
   "file": "art/shipibo-ceramic.jpg",
-  "title": "Céramique Shipibo-Konibo",
-  "date": "2024-03-04 11:09:38",
-  "culture": "",
-  "medium": "",
+  "title": "Shipibo-Konibo ceramic vessel (photograph)",
+  "date": "photo 2024",
+  "culture": "Shipibo-Konibo, Peruvian Amazon",
+  "medium": "Painted ceramic",
   "institution": "Wikimedia Commons",
   "source": "https://commons.wikimedia.org/wiki/File:C%C3%A9ramique_Shipibo-Konibo.jpg",
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "Simone Liliane",
+  "credit": "Photo: Simone Liliane (CC0) — via Wikimedia Commons",
   "description": "céramique contemporaine",
   "tags": [
    "amazonian"
@@ -412,6 +424,8 @@
   "size": [
    784,
    1024
-  ]
+  ],
+  "texture": false,
+  "paletteOnly": true
  }
 ]

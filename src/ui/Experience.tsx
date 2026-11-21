@@ -54,6 +54,8 @@ export function Experience(props: ExperienceProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loc.pathname, loc.search]);
 
+  useEffect(() => { uiStore.set({ calm: !!minimal }); return () => uiStore.set({ calm: false }); }, [minimal]);
+
   const set = (patch: Partial<VisualParams>) => visualStore.set(patch);
   const flash = (msg: string) => { setToast(msg); window.setTimeout(() => setToast(''), 2200); };
 

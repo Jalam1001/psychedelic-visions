@@ -17,6 +17,7 @@ export interface VisualParams {
   reactivity: number;   // 0..1 audio reactivity
   petals: number;       // 4..32
   layers: number;       // 1..12
+  art: string;          // source-art texture key ('' = none)
 }
 
 export const DEFAULT_VISUAL: VisualParams = {
@@ -32,10 +33,11 @@ export const DEFAULT_VISUAL: VisualParams = {
   palette: 'cosmic',
   bg: '#05030a',
   brightness: 1,
-  intensity: 0.8,
-  reactivity: 0.6,
+  intensity: 0.9,
+  reactivity: 0.75,
   petals: 12,
   layers: 7,
+  art: 'hevajra-mandala',
 };
 
 export const SYMMETRIES = [4, 6, 8, 12, 16, 24];
@@ -50,6 +52,7 @@ export interface UIState {
   safetyAccepted: boolean;
   fps: number;
   renderScale: number;
+  calm: boolean;        // set by calm pages (Meditation): no motion boost
 }
 
 const prefersReduced = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
@@ -65,6 +68,7 @@ export const uiStore = createStore<UIState>({
   safetyAccepted: saved.safetyAccepted ?? false,
   fps: 60,
   renderScale: 1,
+  calm: false,
 });
 
 uiStore.subscribe(() => {

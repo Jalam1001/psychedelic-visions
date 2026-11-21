@@ -99,12 +99,23 @@ shader fails to compile, a CSS fallback and explanation are shown; Canvas experi
 
 ## 6. Audio synthesis & synchronization
 
-**Engine (Tone.js):** drones (root/fifth/octave/sub, fat oscillators through an LFO-swept low-pass),
-chorus-widened pad playing a 4-chord progression from the selected scale (10 scales incl. raga/maqam-like
-approximations), sparse random-walk melody, singing-bowl voice (inharmonic partials ×1, 2.76, 5.40, 8.93
-with detuned twins), probabilistic soft percussion, synthesised nature beds (wind, rain, stream,
-rainforest night), binaural beat (hard-panned, dry), stereo widener, reverb, compressor and a −2 dB
-limiter. Audio starts only after a click; all level changes are ramped; master volume fades in.
+**Engine (Tone.js, v2):** one shared AudioContext (`latencyHint: 'playback'`). Drones on root, fifth,
+octave and twelfth (pitched so phone speakers reproduce them) through an LFO-swept low-pass; chorus-widened
+pad with a bass note playing a chord every bar; eighth-note random-walk melody with a dotted-eighth echo;
+singing-bowl voice (partials ×1, 2.76, 5.40 plus a slowly beating twin); frame-drum / tabla-like / shaker
+percussion; synthesised nature beds; binaural beat (hard-panned, dry). Chain: bus → widener → reverb →
+master → compressor → make-up gain → −1 dB limiter → speakers; FFT + waveform analysers tap the limiter.
+
+**Starting sound reliably (Android Chrome, iOS Safari, desktop):** `unlockAudio()` runs synchronously in
+the tap/click handler before any `await` — it resumes the context, plays a one-sample silent buffer, sets
+`navigator.audioSession.type = 'playback'` (iOS) and starts a looping silent `<audio>` element on mobile.
+The graph is built synchronously (the reverb impulse renders in the background), so the first notes play
+in the same gesture. A capture-phase pointerdown/touchend/click/keydown listener re-unlocks if the browser
+suspends audio, and `visibilitychange` resumes after tab switches. The top-bar pill shows the real
+AudioContext state and a live level meter; a **Test sound** button plays a plain beep on a brand-new
+AudioContext to tell device mute apart from an app problem. *Tip: on Android, media volume is separate from
+ringer volume — press volume-up while music plays.* `window.__pv.rms()` exposes output RMS for automated tests
+(`pv-audiotest.py` / `pv-androidtest.py` in the build notes).
 
 **Sync:** a 1024-point FFT is split into bass (<250 Hz), mid (250–2000 Hz) and high (2–10 kHz) bands,
 auto-gained by slow peak followers and smoothed (fast attack, slow release). Bass flux plus scheduled
@@ -123,6 +134,16 @@ Meditation, Harmonic Resonance, Deep Relaxation, Infinite Psychedelic Journey, I
 Cosmic Mandala, Sri Yantra, Psychedelic Mandala, Alexander's Living Mandala, Himalayan Meditation.
 In the app: **Presets → Save** stores the full visual + audio state in `localStorage`; **Copy shareable
 link** encodes it in the URL (`#/route?s=…`); `#/route?preset=<id>` opens a built-in preset.
+
+## 7b. Source art & image credits
+
+Several experiences use real historical artworks: the Kaleidoscope's **Sacred art** mode folds a chosen
+artwork between the mirrors, and the Journey's **Sacred-art tunnel** world flies through one. Palettes
+“Iznik Tile”, “Anatolian Carpet”, “Tibetan Thangka”, “Kashan Lustre” and “Shipibo-Konibo (palette only)”
+were sampled from these images. Only **public-domain / CC0** images are embedded (The Met Open Access,
+Rijksmuseum, Musée Albert-Kahn, CC0 photographs) — each licence verified through the Wikimedia Commons API.
+Shipibo-Konibo textile photos appear only as reference images, never as distorted textures. Full list:
+[CREDITS.md](CREDITS.md) and the Learn page → *Source art & image credits*.
 
 ## 8. Cultural and scientific references
 

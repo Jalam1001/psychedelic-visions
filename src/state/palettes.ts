@@ -34,6 +34,17 @@ export const PALETTES: Palette[] = [
     swatch: ['#05060d', '#2b2d42', '#5c6b9c', '#a3b1e0', '#e2e7f5', '#3d405b', '#c9ada7'] },
   { id: 'psyche', name: 'Psychedelic Spectrum', a: [0.5, 0.5, 0.5], b: [0.5, 0.5, 0.5], c: [2.0, 1.0, 0.0], d: [0.5, 0.2, 0.25],
     swatch: ['#09000f', '#ff00a0', '#00f0ff', '#fffb00', '#7c00ff', '#00ff6a', '#ff6a00'] },
+  // Palettes sampled from licensed source artworks in public/art (see CREDITS.md); saturation lifted for emissive screens.
+  { id: 'iznik', name: 'Iznik Tile (Ottoman, 16th c.)', a: [0.527, 0.593, 0.574], b: [0.5, 0.25, 0.293], c: [1, 1, 1], d: [0.35, 0.661, 0.835],
+    swatch: ['#06122a', '#1d4fd8', '#24c6d6', '#2fb36e', '#f6e7c8', '#e8352a', '#d9a860'] },
+  { id: 'anatolian', name: 'Anatolian Carpet (Lotto / Holbein)', a: [0.563, 0.439, 0.365], b: [0.5, 0.482, 0.283], c: [1, 1, 1], d: [0.838, 0.672, 0.526],
+    swatch: ['#1a0605', '#b3201a', '#f0b52e', '#f2e2c0', '#2f8a5a', '#1f3f8f', '#7a1f3d'] },
+  { id: 'thangka', name: 'Tibetan Thangka (Hevajra / Vasudhara)', a: [0.633, 0.507, 0.446], b: [0.5, 0.415, 0.306], c: [1, 1, 1], d: [0.859, 0.648, 0.406],
+    swatch: ['#120806', '#e03a22', '#ffb347', '#ffe08a', '#2d9c6a', '#2f74e0', '#8e2a6e'] },
+  { id: 'kashan', name: 'Kashan Lustre & Turquoise', a: [0.596, 0.629, 0.548], b: [0.5, 0.402, 0.499], c: [1, 1, 1], d: [0.846, 0.709, 0.541],
+    swatch: ['#0a0c1c', '#c9962e', '#ffd77a', '#f5ecd6', '#2ec4d6', '#2a5bd7', '#7b4a1c'] },
+  { id: 'shipibo', name: 'Shipibo-Konibo (palette only)', a: [0.61, 0.542, 0.607], b: [0.5, 0.47, 0.378], c: [1, 1, 1], d: [0.857, 0.599, 0.454],
+    swatch: ['#0d0a12', '#e0204f', '#f2a33a', '#f4f0e6', '#2bc2c2', '#3a8fd6', '#7a3a9a'] },
 ];
 
 export const paletteById = (id: string) => PALETTES.find((p) => p.id === id) ?? PALETTES[0];

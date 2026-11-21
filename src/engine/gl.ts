@@ -67,11 +67,18 @@ export class ShaderRenderer {
       if (loc === undefined) { loc = gl.getUniformLocation(this.prog, k); this.locs.set(k, loc); }
       if (!loc) continue;
       const v = uniforms[k];
+      if (k === 'uSw') { gl.uniform3fv(loc, v as Float32List); continue; }
       if (typeof v === 'number') gl.uniform1f(loc, v);
       else if (v.length === 2) gl.uniform2fv(loc, v as Float32List);
       else if (v.length === 3) gl.uniform3fv(loc, v as Float32List);
       else if (v.length === 4) gl.uniform4fv(loc, v as Float32List);
       else gl.uniform1fv(loc, v as Float32List);
+    }
+    if (this.tex) {
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, this.tex);
+      let tl = this.locs.get('uTex');
+      if (tl === undefined) { tl = gl.getUniformLocation(this.prog, 'uTex'); this.locs.set('uTex', tl); }
+      if (tl) gl.uniform1i(tl, 0);
     }
     gl.bindBuffer(gl.ARRAY_BUFFER, this.buf);
     gl.enableVertexAttribArray(0);
@@ -79,8 +86,25 @@ export class ShaderRenderer {
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
 
+  private tex: WebGLTexture | null = null;
+  /** Upload a power-of-two image (e.g. 512×512) as a mip-mapped repeating texture on unit 0. */
+  setTexture(img: TexImageSource | null) {
+    const gl = this.gl;
+    if (!img) { if (this.tex) gl.deleteTexture(this.tex); this.tex = null; return; }
+    if (!this.tex) this.tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, this.tex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img);
+    gl.generateMipmap(gl.TEXTURE_2D);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.MIRRORED_REPEAT);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.MIRRORED_REPEAT);
+  }
+  get hasTexture() { return !!this.tex; }
+
   dispose() {
     const gl = this.gl;
+    if (this.tex) gl.deleteTexture(this.tex);
     if (this.prog) gl.deleteProgram(this.prog);
     if (this.buf) gl.deleteBuffer(this.buf);
   }

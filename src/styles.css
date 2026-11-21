@@ -213,3 +213,16 @@ input[type='color'] { width: 100%; height: 34px; border: 1px solid var(--line); 
   .actions .btn.icon { width: 36px; min-height: 36px; }
   .title h1 { font-size: 15px; }
 }
+
+/* ---------- source art ---------- */
+.art-strip { display: flex; gap: 6px; overflow-x: auto; padding: 6px 0; }
+.art-thumb { flex: 0 0 auto; width: 64px; height: 64px; padding: 0; border-radius: 10px; overflow: hidden; border: 2px solid transparent; background: #000; cursor: pointer; }
+.art-thumb.active { border-color: var(--accent2); }
+.art-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.art-caption { font-size: 12px; line-height: 1.45; color: var(--muted); }
+.art-caption strong { color: var(--fg); }
+.art-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.art-grid figure { margin: 0; background: rgba(255,255,255,0.04); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.art-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+.art-grid figcaption { padding: 8px 10px; }
+.actions { flex-wrap: nowrap; overflow-x: auto; max-width: 100%; scrollbar-width: none; }

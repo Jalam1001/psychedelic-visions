@@ -42,7 +42,8 @@ export function useRenderLoop(cb: (f: FrameInfo) => void) {
       quality.frame(dtMs, now);
       avSync.update(now);
       const ui = uiStore.get();
-      const speed = visualStore.get().speed * (ui.reducedMotion ? 0.35 : 1);
+      // Energetic default: motion runs ~1.8× faster than the raw slider value, except on calm pages / reduced motion.
+      const speed = visualStore.get().speed * (ui.reducedMotion ? 0.35 : ui.calm ? 1 : 1.8);
       const dt = ui.paused ? 0 : (dtMs / 1000) * speed;
       t += dt;
       cbRef.current({ t, dt, now });
