@@ -8,6 +8,7 @@ import { audio, audioStore } from '../audio/engine';
 import { takeScreenshot } from '../engine/loop';
 import { AudioControls } from './AudioControls';
 import { Meters } from './Meters';
+import { AudioPill, StartAudioCTA } from './AudioStatus';
 import { Select, Slider, Toggle } from './Slider';
 
 export type ControlKey = 'speed' | 'complexity' | 'symmetry' | 'depth' | 'rotation' | 'zoom' | 'petals' | 'layers' | 'brightness' | 'intensity';
@@ -122,6 +123,7 @@ export function Experience(props: ExperienceProps) {
               </nav>
             )}
             <div className="actions">
+              <AudioPill />
               <button className="btn icon" onClick={() => uiStore.set({ paused: !ui.paused })} aria-label={ui.paused ? 'Play' : 'Pause'} title="Space">{ui.paused ? '▶' : '❚❚'}</button>
               <button className={`btn icon ${a.running ? 'on' : ''}`} onClick={() => audio.toggle()} aria-label={a.running ? 'Stop music' : 'Start music'} title="M">{a.running ? '♫' : '♪'}</button>
               <button className="btn icon" onClick={fullscreen} aria-label="Fullscreen" title="F">⛶</button>
@@ -132,9 +134,7 @@ export function Experience(props: ExperienceProps) {
             </div>
           </header>
 
-          {!a.running && !minimal && (
-            <button className="start-audio no-pan" onClick={() => audio.start()}>▶ Start generative music</button>
-          )}
+          <StartAudioCTA label={minimal ? 'Start calming music' : 'Start generative music'} top={minimal} />
 
           {panel && (
             <aside className="panel no-pan" aria-label="Controls">
@@ -171,7 +171,7 @@ export function Experience(props: ExperienceProps) {
                 <p className="note">Bass → expansion · mids → rotation · highs → fine detail · beats → gentle pulse · chord changes → palette drift.</p>
               </details>
               <details>
-                <summary>Music</summary>
+                <summary>Music {a.running ? '♫' : ''}</summary>
                 <AudioControls />
               </details>
               <details>

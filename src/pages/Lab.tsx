@@ -55,7 +55,7 @@ function LabPanel() {
   const l = a.lab;
   const set = (p: Partial<LabState>) => audio.setLab(p);
   const [scale, setScale] = useState('majorPent');
-  const ensure = async () => { if (!a.running) await audio.start(); };
+  const ensure = () => { if (!a.running) void audio.start(); };
   return (
     <details open>
       <summary>Sound laboratory</summary>

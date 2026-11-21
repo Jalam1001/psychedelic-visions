@@ -67,7 +67,7 @@ export default function Meditation() {
           <div className="timer">{String(mm).padStart(2, '0')}:{String(ss).padStart(2, '0')}</div>
           <div className="row center">
             {!session ? (
-              <button className="btn primary" onClick={async () => { if (!a.running) await audio.start(); start0.current = performance.now(); setSession({ start: performance.now(), end: performance.now() + minutes * 60000 }); audio.strikeBowl(196); }}>Begin session</button>
+              <button className="btn primary" onClick={() => { if (!a.running) void audio.start(); start0.current = performance.now(); setSession({ start: performance.now(), end: performance.now() + minutes * 60000 }); audio.strikeBowl(196); }}>Begin session</button>
             ) : (
               <button className="btn" onClick={() => setSession(null)}>End session</button>
             )}

@@ -1,4 +1,5 @@
-import { audio, audioStore } from '../audio/engine';
+import { audio, audioStore, testBeep } from '../audio/engine';
+import { useState } from 'react';
 import { AUDIO_PRESETS, NatureType, PadTimbre } from '../audio/presets';
 import { SCALES } from '../audio/scales';
 import { useStore } from '../state/store';
@@ -8,6 +9,7 @@ export function AudioControls({ compact = false }: { compact?: boolean }) {
   const a = useStore(audioStore);
   const p = a.params;
   const set = audio.setParams.bind(audio);
+  const [beep, setBeep] = useState('');
   return (
     <div className="audio-controls">
       <div className="row">
@@ -15,7 +17,10 @@ export function AudioControls({ compact = false }: { compact?: boolean }) {
           {a.running ? '■ Stop music' : '▶ Start music'}
         </button>
         <button className="btn" onClick={() => audio.setMuted(!a.muted)} aria-pressed={a.muted}>{a.muted ? 'Unmute' : 'Mute'}</button>
+        <button className="btn" onClick={() => { setBeep('…'); void testBeep().then(setBeep); }}>🔔 Test</button>
       </div>
+      {beep && <p className="note">{beep}</p>}
+      <p className="note">Audio engine: {a.ctxState}{a.running ? ' · music on' : ''}</p>
       <Select label="Music preset" value={a.presetId in AUDIO_PRESETS ? a.presetId : 'custom'}
         options={[...Object.entries(AUDIO_PRESETS).map(([k, v]) => ({ value: k, label: v.name })), { value: 'custom', label: 'Custom' }]}
         onChange={(v) => v !== 'custom' && audio.loadPreset(v)} />
@@ -46,7 +51,7 @@ export function AudioControls({ compact = false }: { compact?: boolean }) {
           <p className="note">🎧 Binaural beats only exist when each ear hears a different tone — use headphones. Evidence for effects on mood or cognition is mixed; see Learn.</p>
         </fieldset>
       </>}
-      {!a.running && <p className="note">Audio starts only after you press Start (browser autoplay rules). Volume fades in gently; a limiter prevents clipping.</p>}
+      {!a.running && <p className="note">Browsers only allow sound after a tap/click on Start. On phones, turn up media volume (volume-up key while music plays) and (iPhone) the silent switch; “Test sound” plays a plain beep to check your device.</p>}
     </div>
   );
 }
