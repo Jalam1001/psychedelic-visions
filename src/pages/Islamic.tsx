@@ -1,3 +1,4 @@
+import { artWithTag } from '../ui/SourceArt';
 import { Experience } from '../ui/Experience';
 import { CanvasView, DrawFn } from '../views/CanvasView';
 import { drawCarpet, drawPersianGarden, drawRecursiveCentres, drawSufi, drawTessellation } from '../geometry/islamic';
@@ -9,11 +10,13 @@ const MODES = [
   { id: 'garden', label: 'Persian garden' },
   { id: 'sufi', label: 'Sufi meditation' },
 ];
+const ISLAMIC_BACKDROPS = ['nasir-al-mulk', 'lotfollah-ceiling', 'alhambra-abencerrajes', 'rustem-pasha-tiles', 'shah-mosque-dome'];
+
 const DRAW: Record<string, DrawFn> = { carpet: drawCarpet, tessellation: drawTessellation, centres: drawRecursiveCentres, garden: drawPersianGarden, sufi: drawSufi };
 
 export default function Islamic() {
   return (
-    <Experience id="islamic" route="/islamic" title="Islamic Recursive Geometry & Living Carpets" subtitle="Star polygons · girih-style lattices · nested centres"
+    <Experience artKeys={[...ISLAMIC_BACKDROPS, ...artWithTag('islamic', 'carpet').filter((k) => !ISLAMIC_BACKDROPS.includes(k))]} id="islamic" route="/islamic" title="Islamic Recursive Geometry & Living Carpets" subtitle="Star polygons · girih-style lattices · nested centres"
       modes={MODES} defaultPreset="living-seljuk-carpet" controls={['speed', 'complexity', 'symmetry', 'depth', 'layers', 'rotation', 'zoom', 'brightness']}
       about={<>
         <h2>Centres at many scales</h2>
@@ -21,7 +24,7 @@ export default function Islamic() {
         <p><strong>Centres are not fractals.</strong> Mathematical self-similarity repeats the <em>same</em> shape at every scale. Alexander's centres differ in shape, colour and role at each level; what recurs is the <em>relationship</em> of mutual support. The renderers here therefore change motif type per level (star → polygon → rosette), add boundaries and voids, and let levels appear one at a time so you can watch coherence build.</p>
         <p>Star patterns use regular star polygons {'{'}n/k{'}'} with inner radius ratio cos(πk/n)/cos(π(k−1)/n), placed on square (star-and-cross) or hexagonal lattices with interlaced straps — modern generative interpretations of historical girih-style construction, not copies of specific monuments. The carpet's slight colour banding imitates <em>abrash</em>, the natural variation of hand-dyed wool.</p>
       </>}>
-      {(mode) => <CanvasView draw={DRAW[mode] ?? drawCarpet} />}
+      {(mode) => <CanvasView draw={DRAW[mode] ?? drawCarpet} backdrop={ISLAMIC_BACKDROPS} />}
     </Experience>
   );
 }

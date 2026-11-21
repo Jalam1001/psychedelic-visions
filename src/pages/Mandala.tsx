@@ -1,3 +1,4 @@
+import { artWithTag } from '../ui/SourceArt';
 import { Experience } from '../ui/Experience';
 import { CanvasView, DrawFn } from '../views/CanvasView';
 import { ShaderView } from '../views/ShaderView';
@@ -19,7 +20,7 @@ const DRAW: Record<string, DrawFn> = {
 
 export default function Mandala() {
   return (
-    <Experience id="mandala" route="/mandala" title="Living Mandalas" subtitle="Lotus · Tibetan-inspired · Sri Yantra · psychedelic · Alexander"
+    <Experience artKeys={[...artWithTag('mandala')]} id="mandala" route="/mandala" title="Living Mandalas" subtitle="Lotus · Tibetan-inspired · Sri Yantra · psychedelic · Alexander"
       modes={MODES} defaultPreset="infinite-lotus" controls={['speed', 'complexity', 'symmetry', 'depth', 'petals', 'layers', 'rotation', 'zoom', 'brightness', 'intensity']}
       about={<>
         <h2>Mandalas: tradition and interpretation</h2>
@@ -28,7 +29,7 @@ export default function Mandala() {
         <p><strong>Tibetan-inspired mode</strong> builds a palace with four T-shaped gateways and quadrant colours, a lotus ring, a vajra ring and a ring of fire, then gently dissolves — an allusion to the impermanence of sand mandalas.</p>
         <p><strong>Alexander mode</strong> applies the theory of centres: rings of centres support the central one, motif types alternate, boundaries join rings, and nested smaller centres appear at higher recursion depth.</p>
       </>}>
-      {(mode) => mode === 'psychedelic' ? <ShaderView frag={MANDALA_FRAG} /> : <CanvasView draw={DRAW[mode] ?? drawLotus} />}
+      {(mode) => mode === 'psychedelic' ? <ShaderView frag={MANDALA_FRAG} texture="helix-nebula" backdrop={0.55} /> : <CanvasView draw={DRAW[mode] ?? drawLotus} backdrop={['helix-nebula', 'sand-mandala', 'bhutan-mandala', 'hubble-pillars']} backdropAlpha={0.36} />}
     </Experience>
   );
 }

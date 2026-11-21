@@ -48,7 +48,7 @@ export default function Meditation() {
   const mm = Math.floor(left / 60), ss = Math.floor(left % 60);
 
   return (
-    <Experience id="meditation" route="/meditation" title="Meditation & Relaxation" subtitle="Slow geometry · breathing guide · session timer" modes={[{ id: 'rosette', label: 'Rosette' }]}
+    <Experience artKeys={['helix-nebula', 'afklint-no2', 'sand-mandala']} id="meditation" route="/meditation" title="Meditation & Relaxation" subtitle="Slow geometry · breathing guide · session timer" modes={[{ id: 'rosette', label: 'Rosette' }]}
       defaultPreset="deep-relaxation" minimal controls={['speed', 'petals', 'layers', 'brightness', 'intensity']}
       extraPanel={<details open><summary>Session</summary>
         <Select label="Breathing pattern" value={pattern} options={Object.entries(PATTERNS).map(([k, p]) => ({ value: k, label: p.name }))} onChange={(x) => { setPattern(x); start0.current = performance.now(); }} />
@@ -62,7 +62,7 @@ export default function Meditation() {
         <p>The breathing guide gently expands the rosette while you breathe in and contracts it as you breathe out. If any pattern makes you light-headed, return to normal breathing.</p>
       </>}>
       {() => <>
-        <ShaderView frag={MEDITATION_FRAG} panZoom={false} extraUniforms={(f) => ({ uBreath: breathAt(patRef.current, (f.now - start0.current) / 1000).value })} />
+        <ShaderView frag={MEDITATION_FRAG} texture="helix-nebula" backdrop={0.4} panZoom={false} extraUniforms={(f) => ({ uBreath: breathAt(patRef.current, (f.now - start0.current) / 1000).value })} />
         <div className="meditation-overlay no-pan">
           {b.label && <div className="breath-label" aria-live="polite">{b.label}</div>}
           <div className="timer">{String(mm).padStart(2, '0')}:{String(ss).padStart(2, '0')}</div>

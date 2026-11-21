@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ShaderRenderer, UniformValue } from '../engine/gl';
 import { canvasRegistry, FrameInfo, quality, useRenderLoop } from '../engine/loop';
 import { avSync } from '../audio/analysis';
-import { visualStore, VisualParams } from '../state/params';
+import { uiStore, visualStore, VisualParams } from '../state/params';
 import { hexToRgb, paletteById } from '../state/palettes';
 import { usePanZoom } from './usePanZoom';
 
@@ -16,10 +16,12 @@ export interface ShaderViewProps {
   className?: string;
   /** Source-art texture key (public/art/tex/<key>.jpg) or null. */
   texture?: string | null;
+  /** 0..1: show the texture as an atmospheric backdrop behind the shader's geometry. */
+  backdrop?: number;
 }
 
 /** Full-screen GLSL view wired to the shared visual parameters and audio analysis. */
-export function ShaderView({ frag, modeIndex = 0, extraUniforms, pixelCap = 2, panZoom = true, maxZoom, className, texture = null }: ShaderViewProps) {
+export function ShaderView({ frag, modeIndex = 0, extraUniforms, pixelCap = 2, panZoom = true, maxZoom, className, texture = null, backdrop = 0 }: ShaderViewProps) {
   const wrap = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const renderer = useRef<ShaderRenderer | null>(null);
@@ -29,6 +31,7 @@ export function ShaderView({ frag, modeIndex = 0, extraUniforms, pixelCap = 2, p
   usePanZoom(wrap, { enabled: panZoom, maxZoom });
   const [texReady, setTexReady] = useState(0);
   const texOn = useRef(0);
+  const backdropRef = useRef(backdrop); backdropRef.current = backdrop;
 
   // Load the source-art texture (base-path safe URL) and upload it once the renderer exists.
   useEffect(() => {
@@ -44,7 +47,7 @@ export function ShaderView({ frag, modeIndex = 0, extraUniforms, pixelCap = 2, p
       r.setTexture(img); texOn.current = 1;
     };
     img.onerror = () => console.warn('[art] texture failed', texture);
-    img.src = `${import.meta.env.BASE_URL}art/tex/${texture}.jpg`;
+    img.src = `${import.meta.env.BASE_URL}art/tex/${texture}.webp`;
     return () => { alive = false; };
   }, [texture, frag, texReady]);
 
@@ -75,7 +78,7 @@ export function ShaderView({ frag, modeIndex = 0, extraUniforms, pixelCap = 2, p
       uZoom: p.zoom, uPan: [p.panX, p.panY], uBright: p.brightness, uIntensity: p.intensity, uMode: modeRef.current,
       uHue: av.hue, uBg: hexToRgb(p.bg), uPA: pal.a, uPB: pal.b, uPC: pal.c, uPD: pal.d,
       uBass: av.bass, uMid: av.mid, uHigh: av.high, uPulse: av.pulse, uPetals: p.petals, uLayers: p.layers,
-      uSw: swatchCache(pal.id, pal.swatch), uSwMix: 0.72, uTexOn: texOn.current,
+      uSw: swatchCache(pal.id, pal.swatch), uSwMix: 0.72, uTexOn: texOn.current, uBackdrop: backdropRef.current * (uiStore.get().calm ? 0.8 : 1),
     };
     u.uHue = (u.uHue as number) + f.t*0.01;               // continuous slow colour cycling
     if (extraRef.current) Object.assign(u, extraRef.current(f, p));

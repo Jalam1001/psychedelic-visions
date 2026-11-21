@@ -18,7 +18,25 @@ export interface DrawCtx {
 export type DrawFn = (d: DrawCtx) => void;
 
 /** 2D canvas view: clears to the background colour, centres the origin and applies pan/zoom. */
-export function CanvasView({ draw, pixelCap = 2 }: { draw: DrawFn; pixelCap?: number }) {
+/** Preloaded backdrop images (real artworks / photos), cycled with a slow cross-fade and Ken-Burns drift. */
+function useBackdrops(keys: string[] | undefined) {
+  const imgs = useRef<HTMLImageElement[]>([]);
+  useEffect(() => {
+    imgs.current = (keys ?? []).map((k) => { const i = new Image(); i.decoding = 'async'; i.src = `${import.meta.env.BASE_URL}art/${k}.webp`; return i; });
+  }, [keys?.join('|')]);
+  return imgs;
+}
+function drawCover(ctx: CanvasRenderingContext2D, img: HTMLImageElement, pw: number, ph: number, scale: number, dx: number, alpha: number) {
+  if (!img.complete || !img.naturalWidth || alpha <= 0) return;
+  const s = Math.max(pw / img.naturalWidth, ph / img.naturalHeight) * scale;
+  const w = img.naturalWidth * s, h = img.naturalHeight * s;
+  ctx.globalAlpha = alpha;
+  ctx.drawImage(img, (pw - w) / 2 + dx * pw, (ph - h) / 2, w, h);
+  ctx.globalAlpha = 1;
+}
+
+export function CanvasView({ draw, pixelCap = 2, backdrop, backdropAlpha = 0.42 }: { draw: DrawFn; pixelCap?: number; backdrop?: string[]; backdropAlpha?: number }) {
+  const bd = useBackdrops(backdrop);
   const wrap = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const drawRef = useRef(draw); drawRef.current = draw;
@@ -42,6 +60,17 @@ export function CanvasView({ draw, pixelCap = 2 }: { draw: DrawFn; pixelCap?: nu
     ctx.globalCompositeOperation = 'source-over';
     ctx.fillStyle = p.bg;
     ctx.fillRect(0, 0, pw, ph);
+    const list = bd.current;
+    if (list.length) {
+      const SEG = 28, FADE = 4;
+      const tt = f.now / 1000; const idx = Math.floor(tt / SEG); const ph0 = tt - idx * SEG;
+      const cur = list[idx % list.length], nxt = list[(idx + 1) % list.length];
+      const k = Math.max(0, (ph0 - (SEG - FADE)) / FADE);
+      const kb = 1.08 + 0.06 * Math.sin(tt * 0.05);
+      drawCover(ctx, cur, pw, ph, kb + ph0 * 0.002, 0.01 * Math.sin(tt * 0.04), backdropAlpha * (1 - k));
+      if (k > 0) drawCover(ctx, nxt, pw, ph, kb, 0, backdropAlpha * k);
+      ctx.fillStyle = 'rgba(0,0,0,0.25)'; ctx.fillRect(0, 0, pw, ph);
+    }
     const R = Math.min(W, H) / 2;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.translate(W / 2, H / 2);

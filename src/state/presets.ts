@@ -19,7 +19,7 @@ export const PRESETS: Preset[] = [
   { id: 'amazonian-dream', name: 'Amazonian Dream', route: '/amazonian', description: 'Kené-inspired lattice with weaving vines emerging in waves.',
     visual: { mode: 'kene', palette: 'amazon', speed: 0.8, complexity: 0.45, symmetry: 6, depth: 5, rotation: 0.2, bg: '#020a05', intensity: 0.85 }, audio: 'amazon' },
   { id: 'cosmic-kaleidoscope', name: 'Cosmic Kaleidoscope', route: '/kaleidoscope', description: '12-fold counter-rotating fractal kaleidoscope.',
-    visual: { mode: 'art', art: 'jnanadakini-mandala', palette: 'thangka', symmetry: 12, complexity: 0.6, depth: 6, rotation: 0.45, speed: 1.1 }, audio: 'cosmic' },
+    visual: { mode: 'art', art: 'nasir-al-mulk', palette: 'thangka', symmetry: 12, complexity: 0.6, depth: 6, rotation: 0.45, speed: 1.1 }, audio: 'cosmic' },
   { id: 'fractal-meditation', name: 'Fractal Meditation', route: '/fractal', description: 'A slowly breathing Julia set.',
     visual: { mode: 'julia', palette: 'ocean', speed: 0.5, complexity: 0.4, depth: 4, rotation: 0.1 }, audio: 'fractal' },
   { id: 'golden-geometry', name: 'Golden Geometry', route: '/sacred', description: 'Phyllotaxis and the golden spiral.',

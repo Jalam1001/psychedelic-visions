@@ -37,7 +37,7 @@ export const DEFAULT_VISUAL: VisualParams = {
   reactivity: 0.75,
   petals: 12,
   layers: 7,
-  art: 'hevajra-mandala',
+  art: 'nasir-al-mulk',
 };
 
 export const SYMMETRIES = [4, 6, 8, 12, 16, 24];

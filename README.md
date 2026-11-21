@@ -5,7 +5,7 @@
 
 An interactive audiovisual instrument: kaleidoscopes, fractals, Islamic star lattices, a living
 Seljuk-style carpet, Christopher-Alexander-inspired recursive centres and living mandalas that
-continuously unfold while real-time generative music shapes their motion.
+continuously unfold while original soundtracks (or an optional live synth) shape their motion.
 
 > Generative art and music for enjoyment and relaxation — **not** a medical treatment.
 > Cultural motifs are original procedural interpretations *inspired by* the traditions named,
@@ -97,32 +97,44 @@ shader fails to compile, a CSS fallback and explanation are shown; Canvas experi
 - **Sacred geometry:** golden angle 137.508°, Vogel phyllotaxis r ∝ √n, golden-rectangle subdivision,
   Flower of Life hexagonal lattice, 78 segments of Metatron's Cube, Pythagoras tree.
 
-## 6. Audio synthesis & synchronization
+## 6. Audio: soundtracks, live synth & synchronization
 
-**Engine (Tone.js, v2):** one shared AudioContext (`latencyHint: 'playback'`). Drones on root, fifth,
-octave and twelfth (pitched so phone speakers reproduce them) through an LFO-swept low-pass; chorus-widened
-pad with a bass note playing a chord every bar; eighth-note random-walk melody with a dotted-eighth echo;
-singing-bowl voice (partials ×1, 2.76, 5.40 plus a slowly beating twin); frame-drum / tabla-like / shaker
-percussion; synthesised nature beds; binaural beat (hard-panned, dry). Chain: bus → widener → reverb →
-master → compressor → make-up gain → −1 dB limiter → speakers; FFT + waveform analysers tap the limiter.
+**Soundtracks (default, v3):** ten original, seamlessly looping clips in `public/audio/` (AAC `.m4a`, MP3 fallback,
+mastered to −14 LUFS with ≥1.2 dB true-peak headroom, ~15 MB total), synthesised offline with NumPy by the scripts in
+`tools/audio/` (circular synthesis, so the loop point has no click). Each experience/preset maps to a track; a track
+picker and volume slider sit in the Sound panel.
 
-**Starting sound reliably (Android Chrome, iOS Safari, desktop):** `unlockAudio()` runs synchronously in
-the tap/click handler before any `await` — it resumes the context, plays a one-sample silent buffer, sets
-`navigator.audioSession.type = 'playback'` (iOS) and starts a looping silent `<audio>` element on mobile.
-The graph is built synchronously (the reverb impulse renders in the background), so the first notes play
-in the same gesture. A capture-phase pointerdown/touchend/click/keydown listener re-unlocks if the browser
-suspends audio, and `visibilitychange` resumes after tab switches. The top-bar pill shows the real
-AudioContext state and a live level meter; a **Test sound** button plays a plain beep on a brand-new
-AudioContext to tell device mute apart from an app problem. *Tip: on Android, media volume is separate from
-ringer volume — press volume-up while music plays.* `window.__pv.rms()` exposes output RMS for automated tests
-(`pv-audiotest.py` / `pv-androidtest.py` in the build notes).
+| id | Title | Loop | Character |
+|---|---|---|---|
+| `amazon-night` | Amazonian Night | 64.0 s | rainforest, leaf-rattle & whistled melody |
+| `kaleido-bloom` | Kaleidoscope Bloom | 64.0 s | shimmering arpeggios & pads |
+| `fractal-depths` | Fractal Depths | 64.0 s | deep drone & self-similar bells |
+| `sufi-ney-daf` | Sufi Ney & Daf | 64.0 s | Hijaz-flavoured flute & frame drum |
+| `persian-garden` | Persian Garden | 64.0 s | santur-like plucks & flowing water |
+| `himalayan-bowls` | Himalayan Bowls | 64.0 s | singing bowls & low chant drone |
+| `tanpura-bansuri` | Tanpura & Bansuri | 64.0 s | Yaman-flavoured drone & flute |
+| `harmonic-choir` | Harmonic Choir | 64.0 s | overtone voices on the harmonic series |
+| `deep-relaxation` | Deep Relaxation | 64.0 s | 60 bpm warm pads, felt piano & rain |
+| `cosmic-journey` | Cosmic Journey | 80.0 s | evolving pads, bells & deep space |
 
-**Sync:** a 1024-point FFT is split into bass (<250 Hz), mid (250–2000 Hz) and high (2–10 kHz) bands,
-auto-gained by slow peak followers and smoothed (fast attack, slow release). Bass flux plus scheduled
-musical events (percussion hits, bowl strikes) trigger a pulse that decays over ~0.45 s; chord changes
-drift the palette hue. Mapping: bass → expansion, mid → rotation/deformation, high → fine detail,
-beat → ≤6 % brightness swell, chords → colour. A reactivity slider scales everything; reduced-motion
-mode removes pulses. No intentional strobing.
+**Playback:** a plain HTML `<audio>` element (`playsinline`, `loop`) whose `play()` is called *directly inside the tap
+handler* — no Web Audio graph in the default path, so it behaves like any media player on Android Chrome and iOS Safari.
+Two elements alternate for gapless loops (the second is primed in the same gesture and takes over with a short
+cross-fade at the loop point; `loop` stays on as a fallback).
+
+**Why v2 was silent on some Android phones:** the Tone.js engine created its shared AudioContext at page load (before any
+user gesture, `latencyHint: 'playback'`) and only resumed it later, and also ran a looping silent `<audio>` "unlock"
+element. The Test-sound beep — which worked — used a *brand-new* AudioContext created inside the tap. v3 therefore plays
+clips through `<audio>` by default, and the optional **Live synth** (Tone.js, also used by the Sound Lab) now creates a
+fresh native AudioContext inside the tap, resumes it and hands it to Tone (`Tone.setContext`). The silent element is iOS-only.
+
+**Sync:** for every clip a precomputed envelope (`<id>.env.json`: bass/mid/high energy every 30 ms plus beat times)
+is read at the element's `currentTime`, so the visuals pulse with the music without tapping the audio stream.
+In Live-synth mode a 1024-point FFT supplies the same bands. Mapping: bass → expansion, mid → rotation/deformation,
+high → fine detail, beat → ≤6 % brightness swell, every 8 beats → gentle hue drift. A reactivity slider scales
+everything; reduced-motion removes pulses. No intentional strobing.
+
+*Tip: on Android, media volume is separate from ringer volume — press volume-up while music plays.*
 
 ## 7. Preset customization
 
@@ -137,13 +149,15 @@ link** encodes it in the URL (`#/route?s=…`); `#/route?preset=<id>` opens a bu
 
 ## 7b. Source art & image credits
 
-Several experiences use real historical artworks: the Kaleidoscope's **Sacred art** mode folds a chosen
-artwork between the mirrors, and the Journey's **Sacred-art tunnel** world flies through one. Palettes
-“Iznik Tile”, “Anatolian Carpet”, “Tibetan Thangka”, “Kashan Lustre” and “Shipibo-Konibo (palette only)”
-were sampled from these images. Only **public-domain / CC0** images are embedded (The Met Open Access,
-Rijksmuseum, Musée Albert-Kahn, CC0 photographs) — each licence verified through the Wikimedia Commons API.
-Shipibo-Konibo textile photos appear only as reference images, never as distorted textures. Full list:
-[CREDITS.md](CREDITS.md) and the Learn page → *Source art & image credits*.
+Real artworks and photographs are used throughout: as WebGL textures folded between the Kaleidoscope's mirrors
+(default: the stained glass of the Nasir al-Mulk Mosque, Shiraz) and woven into the Journey tunnel; as slowly drifting,
+cross-fading atmospheric backdrops behind every experience (JWST *Cosmic Cliffs* behind the fractals, the Helix Nebula
+behind the mandalas and meditation, Persian/Ottoman/Andalusian architecture behind the Islamic canvases, heliconia and
+blue morpho in the Amazonian scenes); and in a thumbnail **Source art** strip with licences on each page. Sources include
+Ernst Haeckel's *Kunstformen der Natur*, Hilma af Klint, Kandinsky, Mucha, Tibetan/Nepalese/Bhutanese thangka mandalas,
+The Met and Rijksmuseum (CC0), NASA/ESA/STScI (public domain) and Wikimedia Commons photographers (CC BY / CC BY-SA,
+credited by name). Licences were verified through the Wikimedia Commons API. Shipibo-Konibo textile photos appear only as
+reference images, never as distorted textures. Full list: [CREDITS.md](CREDITS.md) and the Learn page → *Source art & image credits*.
 
 ## 8. Cultural and scientific references
 

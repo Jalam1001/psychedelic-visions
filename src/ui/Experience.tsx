@@ -9,6 +9,7 @@ import { takeScreenshot } from '../engine/loop';
 import { AudioControls } from './AudioControls';
 import { Meters } from './Meters';
 import { AudioPill, StartAudioCTA } from './AudioStatus';
+import { SourceArtStrip } from './SourceArt';
 import { Select, Slider, Toggle } from './Slider';
 
 export type ControlKey = 'speed' | 'complexity' | 'symmetry' | 'depth' | 'rotation' | 'zoom' | 'petals' | 'layers' | 'brightness' | 'intensity';
@@ -26,12 +27,14 @@ export interface ExperienceProps {
   about: ReactNode;
   extraPanel?: ReactNode;
   minimal?: boolean;
+  /** Source-art records shown in a thumbnail strip with licences. */
+  artKeys?: string[];
 }
 
 const ALL: ControlKey[] = ['speed', 'complexity', 'symmetry', 'depth', 'rotation', 'zoom', 'brightness', 'intensity'];
 
 export function Experience(props: ExperienceProps) {
-  const { route, title, subtitle, modes, defaultPreset, controls = ALL, children, about, extraPanel, minimal, maxZoom = 16 } = props;
+  const { route, title, subtitle, modes, defaultPreset, controls = ALL, children, about, extraPanel, minimal, maxZoom = 16, artKeys } = props;
   const v = useStore(visualStore);
   const ui = useStore(uiStore);
   const a = useStore(musicStore);
@@ -136,7 +139,7 @@ export function Experience(props: ExperienceProps) {
             </div>
           </header>
 
-          <StartAudioCTA label={minimal ? 'Start calming music' : 'Start generative music'} top={minimal} />
+          <StartAudioCTA label={minimal ? 'Start calming music' : 'Start soundtrack'} top={minimal} />
 
           {panel && (
             <aside className="panel no-pan" aria-label="Controls">
@@ -166,6 +169,7 @@ export function Experience(props: ExperienceProps) {
                 </div>
               </details>
               {extraPanel}
+              {artKeys && artKeys.length > 0 && <SourceArtStrip keys={artKeys} />}
               <details open={!minimal}>
                 <summary>Audio-visual sync</summary>
                 <Slider label="Audio reactivity" value={v.reactivity} min={0} max={1} onChange={(x) => set({ reactivity: x })} />

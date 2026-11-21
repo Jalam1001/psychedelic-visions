@@ -1,7 +1,650 @@
 [
  {
+  "key": "haeckel-actiniae",
+  "file": "art/haeckel-actiniae.webp",
+  "title": "Actiniae (sea anemones), plate 49 of Kunstformen der Natur",
+  "date": "1904",
+  "culture": "Ernst Haeckel, Germany",
+  "medium": "Lithograph",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Haeckel_Actiniae.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "Ernst Haeckel (public domain)",
+  "tags": [
+   "nature",
+   "kaleidoscope",
+   "amazon"
+  ],
+  "size": [
+   1140,
+   1600
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Ernst Haeckel",
+  "thumb": "art/thumb/haeckel-actiniae.webp"
+ },
+ {
+  "key": "haeckel-discomedusae",
+  "file": "art/haeckel-discomedusae.webp",
+  "title": "Discomedusae (jellyfish), plate 8 of Kunstformen der Natur",
+  "date": "1904",
+  "culture": "Ernst Haeckel, Germany",
+  "medium": "Lithograph",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Haeckel_Discomedusae_8.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "Ernst Haeckel (scan: Ragesoss; cleanup: Ilmari Karonen) (public domain)",
+  "tags": [
+   "nature",
+   "kaleidoscope",
+   "mandala"
+  ],
+  "size": [
+   1115,
+   1600
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Ernst Haeckel (scan: Ragesoss; cleanup: Ilmari Karonen)",
+  "thumb": "art/thumb/haeckel-discomedusae.webp"
+ },
+ {
+  "key": "haeckel-trochilidae",
+  "file": "art/haeckel-trochilidae.webp",
+  "title": "Trochilidae (hummingbirds), plate 99 of Kunstformen der Natur",
+  "date": "1904",
+  "culture": "Ernst Haeckel, Germany",
+  "medium": "Lithograph",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Haeckel_Trochilidae.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "Ernst Haeckel (public domain)",
+  "tags": [
+   "nature",
+   "amazon"
+  ],
+  "size": [
+   1141,
+   1600
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Ernst Haeckel",
+  "thumb": "art/thumb/haeckel-trochilidae.webp"
+ },
+ {
+  "key": "haeckel-stephoidea",
+  "file": "art/haeckel-stephoidea.webp",
+  "title": "Stephoidea (radiolarians), plate 22 of Kunstformen der Natur",
+  "date": "1904",
+  "culture": "Ernst Haeckel, Germany",
+  "medium": "Lithograph",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Haeckel_Stephoidea.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "Ernst Haeckel (public domain)",
+  "tags": [
+   "nature",
+   "fractal",
+   "sacred"
+  ],
+  "size": [
+   1128,
+   1600
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Ernst Haeckel",
+  "thumb": "art/thumb/haeckel-stephoidea.webp"
+ },
+ {
+  "key": "afklint-no2",
+  "file": "art/afklint-no2.webp",
+  "title": "The Ten Largest, No. 2, Childhood",
+  "date": "1907",
+  "culture": "Hilma af Klint, Sweden",
+  "medium": "Tempera on paper",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Hilma_af_Klint_-_The_Ten_Largest_No._2_-_Childhood_-_1907.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "Hilma af Klint (public domain)",
+  "tags": [
+   "abstract",
+   "kaleidoscope",
+   "journey"
+  ],
+  "size": [
+   1188,
+   1600
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Hilma af Klint",
+  "thumb": "art/thumb/afklint-no2.webp"
+ },
+ {
+  "key": "afklint-no3",
+  "file": "art/afklint-no3.webp",
+  "title": "The Ten Largest, No. 3, Youth",
+  "date": "1907",
+  "culture": "Hilma af Klint, Sweden",
+  "medium": "Tempera on paper",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Hilma_af_Klint_-_The_Ten_Largest_No._3_-_Youth_-_1907.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "Hilma af Klint (public domain)",
+  "tags": [
+   "abstract",
+   "journey",
+   "mandala"
+  ],
+  "size": [
+   1200,
+   1600
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Hilma af Klint",
+  "thumb": "art/thumb/afklint-no3.webp"
+ },
+ {
+  "key": "afklint-no7",
+  "file": "art/afklint-no7.webp",
+  "title": "The Ten Largest, No. 7, Adulthood",
+  "date": "1907",
+  "culture": "Hilma af Klint, Sweden",
+  "medium": "Tempera on paper",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Hilma_af_Klint_-_The_Ten_Largest_No._7_-_Adulthood_-_1907.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "Hilma af Klint (public domain)",
+  "tags": [
+   "abstract",
+   "kaleidoscope"
+  ],
+  "size": [
+   1206,
+   1600
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Hilma af Klint",
+  "thumb": "art/thumb/afklint-no7.webp"
+ },
+ {
+  "key": "kandinsky-composition-vii",
+  "file": "art/kandinsky-composition-vii.webp",
+  "title": "Composition VII",
+  "date": "1913",
+  "culture": "Wassily Kandinsky (State Tretyakov Gallery)",
+  "medium": "Oil on canvas",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Composition_VII_-_Wassily_Kandinsky%2C_GAC.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "Wassily Kandinsky (public domain)",
+  "tags": [
+   "abstract",
+   "kaleidoscope",
+   "journey"
+  ],
+  "size": [
+   1600,
+   1063
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Wassily Kandinsky",
+  "thumb": "art/thumb/kandinsky-composition-vii.webp"
+ },
+ {
+  "key": "kandinsky-several-circles",
+  "file": "art/kandinsky-several-circles.webp",
+  "title": "Several Circles",
+  "date": "1926",
+  "culture": "Wassily Kandinsky (Solomon R. Guggenheim Museum)",
+  "medium": "Oil on canvas",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Vassily_Kandinsky%2C_1926_-_Several_Circles%2C_Gugg_0910_25.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "Wassily Kandinsky (public domain)",
+  "tags": [
+   "abstract",
+   "sacred",
+   "journey"
+  ],
+  "size": [
+   1571,
+   1600
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Wassily Kandinsky",
+  "thumb": "art/thumb/kandinsky-several-circles.webp"
+ },
+ {
+  "key": "mucha-zodiac",
+  "file": "art/mucha-zodiac.webp",
+  "title": "Zodiac",
+  "date": "1896",
+  "culture": "Alphonse Mucha, Art Nouveau",
+  "medium": "Colour lithograph",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Alphonse_Mucha_-_Zodiac%2C_1869.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "Alphonse Mucha (public domain)",
+  "tags": [
+   "abstract",
+   "mandala"
+  ],
+  "size": [
+   1205,
+   1600
+  ],
+  "texture": false,
+  "paletteOnly": false,
+  "author": "Alphonse Mucha",
+  "thumb": "art/thumb/mucha-zodiac.webp"
+ },
+ {
+  "key": "nasir-al-mulk",
+  "file": "art/nasir-al-mulk.webp",
+  "title": "Nasir al-Mulk Mosque, winter prayer hall, Shiraz",
+  "date": "1888 (photo 2018)",
+  "culture": "Iran, Qajar architecture",
+  "medium": "Photograph",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:2018-09-22_Iran%2C_Shiraz%2C_Nasir_al-Mulk_Mosque_%28winter_prayer_hall%29_%283%29.jpg",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "credit": "Laurens R. Krol — Own work",
+  "tags": [
+   "islamic",
+   "kaleidoscope",
+   "journey"
+  ],
+  "size": [
+   1600,
+   1063
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Laurens R. Krol",
+  "thumb": "art/thumb/nasir-al-mulk.webp"
+ },
+ {
+  "key": "lotfollah-ceiling",
+  "file": "art/lotfollah-ceiling.webp",
+  "title": "Sheikh Lotfollah Mosque, dome interior, Isfahan",
+  "date": "1603–1619 (photo)",
+  "culture": "Iran, Safavid architecture",
+  "medium": "Photograph",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Isfahan_Lotfollah_mosque_ceiling_symmetric.jpg",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "credit": "Phillip Maiwald (Nikopol) — Own work",
+  "tags": [
+   "islamic",
+   "kaleidoscope",
+   "mandala",
+   "journey"
+  ],
+  "size": [
+   1600,
+   1071
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Phillip Maiwald (Nikopol)",
+  "thumb": "art/thumb/lotfollah-ceiling.webp"
+ },
+ {
+  "key": "shah-mosque-dome",
+  "file": "art/shah-mosque-dome.webp",
+  "title": "Shah (Imam) Mosque, dome interior, Isfahan",
+  "date": "1611–1629 (photo 2014)",
+  "culture": "Iran, Safavid architecture",
+  "medium": "Photograph",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Dome_interior_of_Shah_Mosque_%28Isfahan%29_2014_%281%29.jpg",
+  "license": "CC BY 3.0 pl",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0/pl/deed.en",
+  "credit": "Radosław Botev — own archive",
+  "tags": [
+   "islamic",
+   "kaleidoscope",
+   "mandala"
+  ],
+  "size": [
+   1600,
+   1200
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Radosław Botev",
+  "thumb": "art/thumb/shah-mosque-dome.webp"
+ },
+ {
+  "key": "alhambra-abencerrajes",
+  "file": "art/alhambra-abencerrajes.webp",
+  "title": "Muqarnas vault, Hall of the Abencerrajes, Alhambra",
+  "date": "14th century (photo)",
+  "culture": "Spain, Granada, Nasrid architecture",
+  "medium": "Photograph",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Sala_de_los_Abencerrajes%2C_la_Alhambra._B%C3%B3veda.jpg",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "credit": "José Luis Filpo Cabana — Own work",
+  "tags": [
+   "islamic",
+   "kaleidoscope",
+   "mandala"
+  ],
+  "size": [
+   1600,
+   1067
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "José Luis Filpo Cabana",
+  "thumb": "art/thumb/alhambra-abencerrajes.webp"
+ },
+ {
+  "key": "rustem-pasha-tiles",
+  "file": "art/rustem-pasha-tiles.webp",
+  "title": "Iznik tiles, Rüstem Pasha Mosque, Istanbul",
+  "date": "c. 1561–1563 (photo)",
+  "culture": "Ottoman Turkey",
+  "medium": "Photograph",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:R%C3%BCstem_Pasha_mosque_tiles.jpg",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "credit": "Till Niermann — Own work",
+  "tags": [
+   "islamic",
+   "kaleidoscope"
+  ],
+  "size": [
+   1600,
+   1067
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Till Niermann",
+  "thumb": "art/thumb/rustem-pasha-tiles.webp"
+ },
+ {
+  "key": "bhutan-mandala",
+  "file": "art/bhutan-mandala.webp",
+  "title": "Painted mandala, Seula Gonpa, Punakha",
+  "date": "19th century",
+  "culture": "Bhutan",
+  "medium": "Painted thangka",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Bhutanese_painted_complete_mandala%2C_19th_century%2C_Seula_Gonpa%2C_Punakha%2C_Bhutan.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "Unknown artist (public domain)",
+  "tags": [
+   "mandala",
+   "kaleidoscope"
+  ],
+  "size": [
+   1148,
+   1600
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Unknown artist",
+  "thumb": "art/thumb/bhutan-mandala.webp"
+ },
+ {
+  "key": "medicine-buddha-mandala",
+  "file": "art/medicine-buddha-mandala.webp",
+  "title": "Medicine Buddha mandala with Prajnaparamita (Rubin Museum)",
+  "date": "19th century",
+  "culture": "Tibet",
+  "medium": "Painted thangka",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Medicine_Buddha_painted_mandala_with_goddess_Prajnaparamita_in_center%2C_19th_century%2C_Rubin.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "Unknown artist (public domain)",
+  "tags": [
+   "mandala",
+   "kaleidoscope"
+  ],
+  "size": [
+   1159,
+   1600
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Unknown artist",
+  "thumb": "art/thumb/medicine-buddha-mandala.webp"
+ },
+ {
+  "key": "webb-cosmic-cliffs",
+  "file": "art/webb-cosmic-cliffs.webp",
+  "title": "“Cosmic Cliffs” in the Carina Nebula (JWST NIRCam)",
+  "date": "2022",
+  "culture": "NASA, ESA, CSA, STScI",
+  "medium": "Space telescope image",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:NASA%E2%80%99s_Webb_Reveals_Cosmic_Cliffs%2C_Glittering_Landscape_of_Star_Birth.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "NASA, ESA, CSA, STScI (public domain)",
+  "tags": [
+   "space",
+   "journey",
+   "fractal",
+   "backdrop"
+  ],
+  "size": [
+   1600,
+   927
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "NASA, ESA, CSA, STScI",
+  "thumb": "art/thumb/webb-cosmic-cliffs.webp"
+ },
+ {
+  "key": "hubble-pillars",
+  "file": "art/hubble-pillars.webp",
+  "title": "Pillars of Creation (Hubble WFC3, 2014)",
+  "date": "2014",
+  "culture": "NASA, ESA, Hubble Heritage Team",
+  "medium": "Space telescope image",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "NASA, ESA, and the Hubble Heritage Team (STScI/AURA) (public domain)",
+  "tags": [
+   "space",
+   "journey",
+   "backdrop"
+  ],
+  "size": [
+   1534,
+   1600
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "NASA, ESA, and the Hubble Heritage Team (STScI/AURA)",
+  "thumb": "art/thumb/hubble-pillars.webp"
+ },
+ {
+  "key": "helix-nebula",
+  "file": "art/helix-nebula.webp",
+  "title": "Helix Nebula NGC 7293 (Hubble + CTIO)",
+  "date": "2004",
+  "culture": "NASA, ESA, C.R. O’Dell et al.",
+  "medium": "Space telescope image",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:NGC7293_%282004%29.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "NASA, ESA, C.R. O'Dell (Vanderbilt University), M. Meixner & P. McCullough (STScI) (public domain)",
+  "tags": [
+   "space",
+   "mandala",
+   "meditation",
+   "backdrop"
+  ],
+  "size": [
+   1484,
+   1600
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "NASA, ESA, C.R. O'Dell (Vanderbilt University), M. Meixner and P. McCullough (STScI)",
+  "thumb": "art/thumb/helix-nebula.webp"
+ },
+ {
+  "key": "mandel-satellite-spiral",
+  "file": "art/mandel-satellite-spiral.webp",
+  "title": "Mandelbrot set zoom: satellite double spiral",
+  "date": "2006",
+  "culture": "Wolfgang Beyer (Ultra Fractal)",
+  "medium": "Computer render",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Mandel_zoom_11_satellite_double_spiral.jpg",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "credit": "Created by Wolfgang Beyer with Ultra Fractal 3",
+  "tags": [
+   "fractal",
+   "kaleidoscope"
+  ],
+  "size": [
+   1600,
+   1200
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Wolfgang Beyer",
+  "thumb": "art/thumb/mandel-satellite-spiral.webp"
+ },
+ {
+  "key": "romanesco",
+  "file": "art/romanesco.webp",
+  "title": "Romanesco broccoli — a natural fractal",
+  "date": "photo",
+  "culture": "Jon Sullivan",
+  "medium": "Photograph",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Romanesco_broccoli_fractals.jpg",
+  "license": "Public domain",
+  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "credit": "Jon Sullivan (public domain)",
+  "tags": [
+   "fractal",
+   "sacred",
+   "nature"
+  ],
+  "size": [
+   1280,
+   960
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Jon Sullivan",
+  "thumb": "art/thumb/romanesco.webp"
+ },
+ {
+  "key": "heliconia",
+  "file": "art/heliconia.webp",
+  "title": "Heliconia rostrata (lobster-claw) flowers",
+  "date": "photo",
+  "culture": "Neotropical plant",
+  "medium": "Photograph",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Heliconia_rostrata_in_Ishigaki%2C_Okinawa.jpg",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "credit": "M108t — Own work",
+  "tags": [
+   "amazon",
+   "nature"
+  ],
+  "size": [
+   1600,
+   1200
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "M108t",
+  "thumb": "art/thumb/heliconia.webp"
+ },
+ {
+  "key": "sand-mandala",
+  "file": "art/sand-mandala.webp",
+  "title": "Tibetan Buddhist sand mandala being made",
+  "date": "photo",
+  "culture": "Tibetan Buddhist tradition",
+  "medium": "Photograph of coloured-sand mandala",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Mandala_zel-tary.jpg",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "credit": "GgvlaD (CC0)",
+  "tags": [
+   "mandala",
+   "kaleidoscope"
+  ],
+  "size": [
+   1600,
+   1065
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "GgvlaD (Wikimedia Commons user)",
+  "thumb": "art/thumb/sand-mandala.webp"
+ },
+ {
+  "key": "blue-morpho",
+  "file": "art/blue-morpho.webp",
+  "title": "Common blue morpho butterfly (Morpho helenor)",
+  "date": "photo",
+  "culture": "Neotropics",
+  "medium": "Photograph",
+  "institution": "Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Blue_Morpho_butterfly.jpg",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "credit": "Gogerr — Own work",
+  "tags": [
+   "amazon",
+   "nature"
+  ],
+  "size": [
+   1600,
+   1181
+  ],
+  "texture": true,
+  "paletteOnly": false,
+  "author": "Gogerr",
+  "thumb": "art/thumb/blue-morpho.webp"
+ },
+ {
   "key": "iznik-panel",
-  "file": "art/iznik-panel.jpg",
+  "file": "art/iznik-panel.webp",
   "title": "Tile panel (Iznik ware)",
   "date": "early 17th century",
   "culture": "Ottoman Turkey, Iznik",
@@ -22,11 +665,12 @@
    819
   ],
   "texture": true,
-  "paletteOnly": false
+  "paletteOnly": false,
+  "thumb": "art/thumb/iznik-panel.webp"
  },
  {
   "key": "bursa-vine-tile",
-  "file": "art/bursa-vine-tile.jpg",
+  "file": "art/bursa-vine-tile.webp",
   "title": "Tile with undulating vine scrolls",
   "date": "A.H. 824 / A.D. 1421",
   "culture": "Ottoman Turkey, Bursa",
@@ -45,11 +689,12 @@
    766
   ],
   "texture": true,
-  "paletteOnly": false
+  "paletteOnly": false,
+  "thumb": "art/thumb/bursa-vine-tile.webp"
  },
  {
   "key": "holbein-carpet",
-  "file": "art/holbein-carpet.jpg",
+  "file": "art/holbein-carpet.webp",
   "title": "'Holbein' carpet",
   "date": "15th–16th century",
   "culture": "Anatolia (Turkey)",
@@ -69,11 +714,12 @@
    768
   ],
   "texture": true,
-  "paletteOnly": false
+  "paletteOnly": false,
+  "thumb": "art/thumb/holbein-carpet.webp"
  },
  {
   "key": "lotto-carpet",
-  "file": "art/lotto-carpet.jpg",
+  "file": "art/lotto-carpet.webp",
   "title": "'Lotto' carpet",
   "date": "late 16th century",
   "culture": "Anatolia (Turkey), Ushak region",
@@ -93,60 +739,12 @@
    768
   ],
   "texture": true,
-  "paletteOnly": false
- },
- {
-  "key": "ushak-medallion-carpet",
-  "file": "art/ushak-medallion-carpet.jpg",
-  "title": "'Medallion Ushak' carpet",
-  "date": "17th century",
-  "culture": "Anatolia (Turkey), Ushak",
-  "medium": "Wool pile",
-  "institution": "Wikimedia Commons",
-  "source": "https://commons.wikimedia.org/wiki/File:%22Medallion_Ushak%22_Carpet_MET_DP330620.jpg",
-  "license": "CC0",
-  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "The Metropolitan Museum of Art, New York (Open Access, CC0) — via Wikimedia Commons",
-  "description": "Carpet; Textiles-Rugs",
-  "tags": [
-   "islamic",
-   "carpet",
-   "journey"
-  ],
-  "size": [
-   584,
-   1024
-  ],
-  "texture": true,
-  "paletteOnly": false
- },
- {
-  "key": "seley-carpet",
-  "file": "art/seley-carpet.jpg",
-  "title": "The Seley Carpet",
-  "date": "late 16th century",
-  "culture": "Iran",
-  "medium": "Silk, cotton and wool; knotted pile",
-  "institution": "Wikimedia Commons",
-  "source": "https://commons.wikimedia.org/wiki/File:The_Seley_Carpet_MET_DP216190.jpg",
-  "license": "CC0",
-  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "The Metropolitan Museum of Art, New York (Open Access, CC0) — via Wikimedia Commons",
-  "description": "Carpet; Textiles-Rugs",
-  "tags": [
-   "islamic",
-   "garden"
-  ],
-  "size": [
-   449,
-   1024
-  ],
-  "texture": false,
-  "paletteOnly": false
+  "paletteOnly": false,
+  "thumb": "art/thumb/lotto-carpet.webp"
  },
  {
   "key": "chakrasamvara-mandala",
-  "file": "art/chakrasamvara-mandala.jpg",
+  "file": "art/chakrasamvara-mandala.webp",
   "title": "Chakrasamvara mandala",
   "date": "c. 1100",
   "culture": "Nepal",
@@ -167,11 +765,12 @@
    1024
   ],
   "texture": true,
-  "paletteOnly": false
+  "paletteOnly": false,
+  "thumb": "art/thumb/chakrasamvara-mandala.webp"
  },
  {
   "key": "hevajra-mandala",
-  "file": "art/hevajra-mandala.jpg",
+  "file": "art/hevajra-mandala.webp",
   "title": "Hevajra mandala",
   "date": "15th century",
   "culture": "Tibet",
@@ -191,11 +790,12 @@
    1024
   ],
   "texture": true,
-  "paletteOnly": false
+  "paletteOnly": false,
+  "thumb": "art/thumb/hevajra-mandala.webp"
  },
  {
   "key": "jnanadakini-mandala",
-  "file": "art/jnanadakini-mandala.jpg",
+  "file": "art/jnanadakini-mandala.webp",
   "title": "Mandala of Jnanadakini",
   "date": "late 14th century",
   "culture": "Tibet",
@@ -215,11 +815,12 @@
    1024
   ],
   "texture": true,
-  "paletteOnly": false
+  "paletteOnly": false,
+  "thumb": "art/thumb/jnanadakini-mandala.webp"
  },
  {
   "key": "vasudhara-mandala",
-  "file": "art/vasudhara-mandala.jpg",
+  "file": "art/vasudhara-mandala.webp",
   "title": "Vasudhara mandala",
   "date": "1777 (Samvat 897)",
   "culture": "Nepal",
@@ -239,35 +840,12 @@
    1024
   ],
   "texture": true,
-  "paletteOnly": false
- },
- {
-  "key": "kashan-star-tile",
-  "file": "art/kashan-star-tile.jpg",
-  "title": "Star-shaped tile with floral scrolls (BK-1992-39)",
-  "date": "c. 1250–1324",
-  "culture": "Iran, Kashan",
-  "medium": "Lustre-painted fritware",
-  "institution": "Wikimedia Commons",
-  "source": "https://commons.wikimedia.org/wiki/File:Stervormige_tegel_met_bloemranken,_BK-1992-39.jpg",
-  "license": "CC0",
-  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "Rijksmuseum, Amsterdam (CC0) — via Wikimedia Commons",
-  "description": "IdentificatieTitel(s): Stervormige tegel met bloemrankenObjecttype: tegel stertegel Objectnummer: BK-1992-39Omschrijving: Stervormige tegel van kwarts-fritgoed, beschilderd in onderglazuur blauw, blauw-groen en luster met een rand van palmetten en twee lijnen waarbinnen een ster met uitgespaarde blo",
-  "tags": [
-   "islamic",
-   "sacred"
-  ],
-  "size": [
-   1024,
-   1004
-  ],
-  "texture": false,
-  "paletteOnly": false
+  "paletteOnly": false,
+  "thumb": "art/thumb/vasudhara-mandala.webp"
  },
  {
   "key": "kashan-star-tile-2",
-  "file": "art/kashan-star-tile-2.jpg",
+  "file": "art/kashan-star-tile-2.webp",
   "title": "Star-shaped tile with birds, fish and scrolls (BK-1992-41)",
   "date": "c. 1250–1324",
   "culture": "Iran, Kashan",
@@ -287,58 +865,12 @@
    1024
   ],
   "texture": true,
-  "paletteOnly": false
- },
- {
-  "key": "tripura-sundari-yantra",
-  "file": "art/tripura-sundari-yantra.jpg",
-  "title": "Tripura Sundari (Sri) Yantra, colour diagram",
-  "date": "2009 (digital diagram)",
-  "culture": "Hindu Shakta tradition",
-  "medium": "Digital illustration",
-  "institution": "Wikimedia Commons",
-  "source": "https://commons.wikimedia.org/wiki/File:Tripura-sundari_yantra_color.jpg",
-  "license": "Public domain",
-  "licenseUrl": "",
-  "credit": "Wikimedia Commons user HST108 (released into the public domain)",
-  "description": "Tipura Sundari yantra or the Shri yantra",
-  "tags": [
-   "mandala",
-   "sacred"
-  ],
-  "size": [
-   1024,
-   1020
-  ],
-  "texture": true,
-  "paletteOnly": false
- },
- {
-  "key": "alhambra-dos-hermanas",
-  "file": "art/alhambra-dos-hermanas.jpg",
-  "title": "Alhambra: corner of the Sala de las Dos Hermanas",
-  "date": "June–July 1914",
-  "culture": "Spain, Granada (Nasrid architecture, 14th c.)",
-  "medium": "Autochrome photograph by Auguste Léon",
-  "institution": "Wikimedia Commons",
-  "source": "https://commons.wikimedia.org/wiki/File:Alhambra_-_un_angle_de_la_salle_de_las_dos_Hermanas_-_A4692.jpg",
-  "license": "CC0",
-  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "credit": "Musée Albert-Kahn, Archives de la Planète (CC0) — via Wikimedia Commons",
-  "description": "Lieu : Alhambra\nLieu : Grenade, Espagne\nMission : 1914 - Espagne - Auguste Léon  - (15 juin-4 juillet)\nThème : Habitat / Architecture\nThème : Art\nThème : Inscription / information\nSous-thème : Vue intérieure\nSous-thème : Zellige\nSous-thème : Arts décoratifs\nSous-thème : Inscription architecturale\nSo",
-  "tags": [
-   "islamic"
-  ],
-  "size": [
-   759,
-   1024
-  ],
-  "texture": false,
-  "paletteOnly": false
+  "paletteOnly": false,
+  "thumb": "art/thumb/kashan-star-tile-2.webp"
  },
  {
   "key": "shipibo-art-1",
-  "file": "art/shipibo-art-1.jpg",
+  "file": "art/shipibo-art-1.webp",
   "title": "Shipibo-Konibo embroidered textile (photograph)",
   "date": "photo 2019",
   "culture": "Shipibo-Konibo, Peruvian Amazon (Iquitos market)",
@@ -357,11 +889,12 @@
    806
   ],
   "texture": false,
-  "paletteOnly": true
+  "paletteOnly": true,
+  "thumb": "art/thumb/shipibo-art-1.webp"
  },
  {
   "key": "shipibo-art-2",
-  "file": "art/shipibo-art-2.jpg",
+  "file": "art/shipibo-art-2.webp",
   "title": "Shipibo-Konibo embroidered textile (photograph)",
   "date": "photo 2019",
   "culture": "Shipibo-Konibo, Peruvian Amazon (Iquitos market)",
@@ -380,11 +913,12 @@
    1018
   ],
   "texture": false,
-  "paletteOnly": true
+  "paletteOnly": true,
+  "thumb": "art/thumb/shipibo-art-2.webp"
  },
  {
   "key": "shipibo-art-3",
-  "file": "art/shipibo-art-3.jpg",
+  "file": "art/shipibo-art-3.webp",
   "title": "Shipibo-Konibo embroidered textile (photograph)",
   "date": "photo 2019",
   "culture": "Shipibo-Konibo, Peruvian Amazon (Iquitos market)",
@@ -403,11 +937,12 @@
    417
   ],
   "texture": false,
-  "paletteOnly": true
+  "paletteOnly": true,
+  "thumb": "art/thumb/shipibo-art-3.webp"
  },
  {
   "key": "shipibo-ceramic",
-  "file": "art/shipibo-ceramic.jpg",
+  "file": "art/shipibo-ceramic.webp",
   "title": "Shipibo-Konibo ceramic vessel (photograph)",
   "date": "photo 2024",
   "culture": "Shipibo-Konibo, Peruvian Amazon",
@@ -426,6 +961,7 @@
    1024
   ],
   "texture": false,
-  "paletteOnly": true
+  "paletteOnly": true,
+  "thumb": "art/thumb/shipibo-ceramic.webp"
  }
 ]

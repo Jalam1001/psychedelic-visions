@@ -24,11 +24,11 @@ export default function Home() {
   useEffect(() => { visualStore.replace({ ...DEFAULT_VISUAL, palette: 'cosmic', symmetry: 12, speed: 0.6, complexity: 0.5, depth: 5, brightness: 0.55, intensity: 0.8, reactivity: 0.4 }); }, []);
   return (
     <main className="home">
-      <div className="hero-bg" aria-hidden>{gl && <ShaderView frag={KALEIDOSCOPE_FRAG} panZoom={false} pixelCap={1} />}</div>
+      <div className="hero-bg" aria-hidden>{gl && <ShaderView frag={KALEIDOSCOPE_FRAG} panZoom={false} pixelCap={1} modeIndex={3} texture="nasir-al-mulk" />}</div>
       <section className="hero">
         <h1>Psychedelic Visions</h1>
         <p className="tag-line">Living Geometry &amp; Generative Music</p>
-        <p className="intro">An interactive audiovisual instrument: kaleidoscopes, fractals, Islamic star lattices, living carpets and mandalas that continuously unfold while real-time generative music shapes their motion.</p>
+        <p className="intro">An interactive audiovisual instrument: kaleidoscopes, fractals, Islamic star lattices, living carpets and mandalas that continuously unfold while original soundtracks — Amazonian night, Sufi ney, Persian santur, Himalayan bowls, tanpura and more — shape their motion.</p>
         <div className="row center">
           <Link className="btn primary big" to="/kaleidoscope">Enter the kaleidoscope</Link>
           <Link className="btn big" to="/journey">Start the infinite journey</Link>

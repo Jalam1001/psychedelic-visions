@@ -25,7 +25,7 @@ export default function Fractal() {
   const deepT = useRef(0);
   const opts = useRef({ deep, target, julia }); opts.current = { deep, target, julia };
   return (
-    <Experience id="fractal" route="/fractal" title="Fractal Journey" subtitle="GPU escape-time fractals · infinite zoom" maxZoom={100000}
+    <Experience artKeys={['mandel-satellite-spiral', 'romanesco', 'webb-cosmic-cliffs', 'haeckel-discomedusae', 'helix-nebula']} id="fractal" route="/fractal" title="Fractal Journey" subtitle="GPU escape-time fractals · infinite zoom" maxZoom={100000}
       modes={MODES} defaultPreset="fractal-meditation" controls={['speed', 'complexity', 'symmetry', 'depth', 'rotation', 'zoom', 'brightness', 'intensity']}
       extraPanel={<details open><summary>Fractal</summary>
         <Toggle label="Automatic deep zoom (Mandelbrot)" checked={deep} onChange={setDeep} />
@@ -40,7 +40,7 @@ export default function Fractal() {
         <p><strong>Fractal tunnel</strong>: inverse-radius depth (1/r) turns the screen into an infinite corridor, textured by repeated absolute-value folds. <strong>Recursive spiral</strong>: in log-polar coordinates, scaling becomes translation, so a repeated tile becomes a self-similar logarithmic spiral. <strong>Kaleidoscopic IFS</strong>: an iterated function system of folds, rotations and scalings (Sierpiński/Koch family) evaluated per pixel.</p>
         <p>Drag to pan and scroll/pinch to zoom; everything runs on the GPU in a fragment shader.</p>
       </>}>
-      {(mode) => <ShaderView frag={FRACTAL_FRAG} modeIndex={MODES.findIndex((m) => m.id === mode)} maxZoom={100000} pixelCap={1.5}
+      {(mode) => <ShaderView frag={FRACTAL_FRAG} texture="webb-cosmic-cliffs" backdrop={0.6} modeIndex={MODES.findIndex((m) => m.id === mode)} maxZoom={100000} pixelCap={1.5}
         extraUniforms={(f, p) => {
           const o = opts.current;
           const isM = mode === 'mandelbrot';

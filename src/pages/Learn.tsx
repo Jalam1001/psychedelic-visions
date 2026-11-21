@@ -54,8 +54,9 @@ export default function Learn() {
         <RefList refs={REFS.amazon} />
       </section>
 
-      <section id="music"><h2>Generative music</h2>
-        <p>The music engine (Tone.js on the Web Audio API) never plays a recording: drones on the root, fifth and octave pass through a slowly sweeping filter; a chorus-widened pad plays a four-chord progression built from the chosen scale; a sparse melody follows a random walk; singing-bowl-like tones use inharmonic partials (×1, ×2.76, ×5.40, ×8.93) with detuned twins that beat slowly; soft percussion follows a probabilistic pattern; nature textures are filtered noise. A compressor and a −2 dB limiter prevent clipping, and every level change is ramped.</p>
+      <section id="music"><h2>Soundtracks & live synth</h2>
+        <p>By default each experience plays one of ten <strong>original soundtrack loops</strong> (Amazonian night, kaleidoscope bloom, fractal depths, Sufi ney &amp; daf, Persian santur garden, Himalayan bowls, tanpura &amp; bansuri, harmonic choir, deep relaxation, cosmic journey). They were synthesised offline for this project — no samples or existing melodies — and loop seamlessly; the visuals follow a precomputed bass/mid/high envelope of each clip. The style labels describe general flavour only.</p>
+        <p>The optional <strong>Live synth</strong> (Tone.js on the Web Audio API, also used in the Sound Lab) never plays a recording: drones on the root, fifth and octave pass through a slowly sweeping filter; a chorus-widened pad plays a four-chord progression built from the chosen scale; a sparse melody follows a random walk; singing-bowl-like tones use inharmonic partials (×1, ×2.76, ×5.40, ×8.93) with detuned twins that beat slowly; soft percussion follows a probabilistic pattern; nature textures are filtered noise. A compressor and a −2 dB limiter prevent clipping, and every level change is ramped.</p>
         <RefList refs={REFS.audio.slice(3, 6)} />
       </section>
 
@@ -86,7 +87,7 @@ export default function Learn() {
       </section>
 
       <section id="art"><h2>Source art & image credits</h2>
-        <p>Colours and textures in several experiences come from real historical works. Only images that are <strong>public domain or CC0</strong> are embedded — mostly The Metropolitan Museum of Art's Open Access images and Rijksmuseum CC0 images, retrieved from Wikimedia Commons, where each licence was verified. Copyrighted visionary art (for example Pablo Amaringo's paintings) is not reproduced. Full table: <a href="https://github.com/Jalam1001/psychedelic-visions/blob/main/CREDITS.md" target="_blank" rel="noreferrer">CREDITS.md</a>.</p>
+        <p>Colours and textures in several experiences come from real historical works. Only images that are <strong>public domain, CC0, CC BY or CC BY-SA</strong> are used — The Met and Rijksmuseum open-access works, Ernst Haeckel, Hilma af Klint, Kandinsky, Mucha, NASA/ESA (JWST, Hubble) and Wikimedia Commons photographers, credited by name. Each licence was verified on Wikimedia Commons. Textures and backdrops derived from CC BY-SA images are shared under the same licence. Copyrighted visionary art (for example Pablo Amaringo's paintings) is not reproduced. Full table: <a href="https://github.com/Jalam1001/psychedelic-visions/blob/main/CREDITS.md" target="_blank" rel="noreferrer">CREDITS.md</a>.</p>
         <ArtCredits />
       </section>
     </main>

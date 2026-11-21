@@ -5,14 +5,15 @@ import { JOURNEY_FRAG } from '../shaders/journey';
 import { SourceArtStrip, TEXTURE_ART } from '../ui/SourceArt';
 
 const WORLDS = ['Kaleidoscope', 'Amazonian visions', 'Fractal tunnel', 'Islamic star lattice', 'Lotus mandala', 'Sacred-art tunnel'];
-const pickArt = () => TEXTURE_ART[Math.floor(Math.random() * TEXTURE_ART.length)].key;
+const TUNNEL_ART = TEXTURE_ART.filter((a) => a.tags.some((t) => ['journey', 'space', 'abstract', 'islamic'].includes(t)));
+const pickArt = () => TUNNEL_ART[Math.floor(Math.random() * TUNNEL_ART.length)].key;
 const MODES = [{ id: 'auto', label: 'Automatic' }, ...WORLDS.map((w, i) => ({ id: 'w' + i, label: w }))];
 const SEG = 14, FADE = 5; // seconds of artistic time
 
 export default function Journey() {
   const st = useRef({ cur: 5, next: 5, tStart: 0 });
   const [label, setLabel] = useState(WORLDS[5]);
-  const [artKey, setArtKey] = useState('jnanadakini-mandala');
+  const [artKey, setArtKey] = useState('nasir-al-mulk');
   const labelRef = useRef(label);
   useEffect(() => { labelRef.current = label; }, [label]);
   return (
@@ -20,9 +21,9 @@ export default function Journey() {
       controls={['speed', 'complexity', 'symmetry', 'rotation', 'zoom', 'brightness', 'intensity']}
       about={<>
         <h2>One continuous voyage</h2>
-        <p>Six visual worlds — kaleidoscope, Amazonian-inspired lattice with vines, fractal tunnel, Islamic star lattice with infinite zoom, lotus mandala, and a tunnel woven from real public-domain artworks (Tibetan thangka mandalas, Iznik tiles and Anatolian carpets from The Met and the Rijksmuseum) — live in a single shader. Smoothstep envelopes blend them over ~5 seconds, so there are never hard cuts. In Automatic mode the next world is chosen at random every ~14 seconds of animation time; pick a world to glide to it manually.</p>
+        <p>Six visual worlds — kaleidoscope, Amazonian-inspired lattice with vines, fractal tunnel, Islamic star lattice with infinite zoom, lotus mandala, and a tunnel woven from real, freely licensed images (Persian mosque ceilings, Tibetan thangka mandalas, Hilma af Klint and Kandinsky paintings, Iznik tiles, JWST and Hubble photographs) — live in a single shader. Smoothstep envelopes blend them over ~5 seconds, so there are never hard cuts. In Automatic mode the next world is chosen at random every ~14 seconds of animation time; pick a world to glide to it manually.</p>
       </>}
-      extraPanel={<SourceArtStrip keys={TEXTURE_ART.map((a) => a.key)} title="Source art in the tunnel" />}>
+      extraPanel={<SourceArtStrip keys={TUNNEL_ART.map((a) => a.key)} title="Source art in the tunnel" />}>
       {(mode) => <>
         <ShaderView frag={JOURNEY_FRAG} texture={artKey} extraUniforms={(f) => {
           const s = st.current;

@@ -1,3 +1,4 @@
+import { artWithTag } from '../ui/SourceArt';
 import { Experience } from '../ui/Experience';
 import { ShaderView } from '../views/ShaderView';
 import { AMAZONIAN_FRAG } from '../shaders/amazonian';
@@ -6,7 +7,7 @@ const MODES = [{ id: 'kene', label: 'Kené-inspired lattice' }, { id: 'vines', l
 
 export default function Amazonian() {
   return (
-    <Experience id="amazonian" route="/amazonian" title="Amazonian Visions" subtitle="Original patterns inspired by Peruvian Amazonian visual culture"
+    <Experience artKeys={[...artWithTag('amazon', 'amazonian')]} id="amazonian" route="/amazonian" title="Amazonian Visions" subtitle="Original patterns inspired by Peruvian Amazonian visual culture"
       modes={MODES} defaultPreset="amazonian-dream"
       about={<>
         <h2>Inspired by — not reproducing</h2>
@@ -14,7 +15,7 @@ export default function Amazonian() {
         <p>The patterns here are <strong>original procedural interpretations</strong> of general visual principles: a diagonal lattice, thick primary lines with thin parallel infill lines, stepped diamonds and crosses, continuous meandering paths, combined with vines, leaves and luminous colour associated with contemporary visionary art. They are not authentic kené and should not be presented as such.</p>
         <p>New generations of the pattern emerge from the centre in soft noisy waves so structures transition gradually rather than cutting.</p>
       </>}>
-      {(mode) => <ShaderView frag={AMAZONIAN_FRAG} modeIndex={MODES.findIndex((m) => m.id === mode)} />}
+      {(mode) => <ShaderView frag={AMAZONIAN_FRAG} modeIndex={MODES.findIndex((m) => m.id === mode)} texture={mode === 'kene' ? 'blue-morpho' : 'heliconia'} backdrop={0.5} />}
     </Experience>
   );
 }

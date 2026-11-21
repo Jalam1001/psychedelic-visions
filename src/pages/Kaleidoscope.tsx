@@ -23,7 +23,7 @@ export default function Kaleidoscope() {
       about={<>
         <h2>How the kaleidoscope works</h2>
         <p>Every pixel's position is converted to polar coordinates and folded into a single wedge of angle 2π/n, then mirrored — exactly the reflection group of a physical kaleidoscope with n mirrored segments (choose 4–24).</p>
-        <p><strong>Sacred art</strong> mode places a real public-domain artwork between the mirrors — Tibetan and Nepalese thangka mandalas, Iznik tiles and Anatolian carpets from The Metropolitan Museum of Art and the Rijksmuseum (CC0) — so their original pigments become the kaleidoscope's colours.</p>
+        <p><strong>Sacred art</strong> mode places a real artwork or photograph between the mirrors — Persian and Ottoman mosque ceilings and tiles, Tibetan, Nepalese and Bhutanese mandalas, Ernst Haeckel's plates, Hilma af Klint and Kandinsky, and JWST/Hubble photographs (public domain or Creative Commons — see the credits below) — so their original pigments become the kaleidoscope's colours.</p>
         <p>Three layers rotate in alternating directions. Each is textured by an escape-time “kali” fold, <code>z → |z|/|z|² − c</code>, whose parameter c drifts, plus fractal Brownian-motion noise, a flowing log-zoom warp and concentric light ripples.</p>
         <p>Audio: bass expands the geometry, midrange nudges rotation, high frequencies sharpen detail, beats add a ≤6% brightness swell (no strobing).</p>
       </>}>

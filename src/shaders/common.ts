@@ -9,7 +9,7 @@ uniform vec3 uPA; uniform vec3 uPB; uniform vec3 uPC; uniform vec3 uPD;
 uniform float uBass; uniform float uMid; uniform float uHigh; uniform float uPulse;
 uniform float uPetals; uniform float uLayers;
 uniform vec3 uSw[6]; uniform float uSwMix;
-uniform sampler2D uTex; uniform float uTexOn;
+uniform sampler2D uTex; uniform float uTexOn; uniform float uBackdrop;
 #define PI 3.14159265
 #define TAU 6.28318531
 vec3 cpal(float t){ return clamp(uPA + uPB*cos(TAU*(uPC*t + uPD + uHue)), 0.0, 1.0); }
@@ -49,7 +49,13 @@ vec3 finish(vec3 col, float mask, vec2 uv){
   col = clamp(col, 0.0, 1.0);
   col = mix(col, col*col*(3.0 - 2.0*col), 0.45);       // S-curve contrast
   col *= uBright*(1.0 + 0.06*uPulse);
-  col = mix(uBg, col, clamp(mask, 0.0, 1.0));
+  vec3 bgc = uBg;
+  if(uBackdrop > 0.001 && uTexOn > 0.5){
+    // atmospheric backdrop: a real artwork / space photo, slowly drifting and breathing behind the geometry
+    vec2 bp = rot(0.02*sin(uTime*0.03))*uv*(0.95 - 0.06*sin(uTime*0.05)) + vec2(0.03*sin(uTime*0.02), 0.0);
+    bgc = mix(uBg, art(bp)*(0.75 + 0.25*uBass), uBackdrop);
+  }
+  col = mix(bgc, col, clamp(mask, 0.0, 1.0));
   col *= 1.0 - 0.25*smoothstep(0.7, 1.4, length(uv));
   return col;
 }

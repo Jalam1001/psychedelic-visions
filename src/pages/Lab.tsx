@@ -82,7 +82,7 @@ function LabPanel() {
 
 export default function Lab() {
   return (
-    <Experience id="lab" route="/lab" title="Sound & Vision Laboratory" subtitle="Hear a parameter, see a parameter" modes={MODES} defaultPreset="harmonic-resonance"
+    <Experience artKeys={['hubble-pillars', 'kandinsky-composition-vii', 'afklint-no3']} id="lab" route="/lab" title="Sound & Vision Laboratory" subtitle="Hear a parameter, see a parameter" modes={MODES} defaultPreset="harmonic-resonance"
       controls={['speed', 'complexity', 'rotation', 'zoom', 'brightness', 'intensity']} extraPanel={<LabPanel />}
       about={<>
         <h2>What you are seeing</h2>
@@ -91,7 +91,7 @@ export default function Lab() {
         <p>The spectrum analyser shows a 1024-point FFT on a logarithmic frequency axis (Web Audio AnalyserNode via Tone.js), with an oscilloscope trace above it.</p>
       </>}>
       {(mode) => <>
-        <ShaderView frag={LAB_FRAG} modeIndex={MODES.findIndex((m) => m.id === mode)} extraUniforms={() => {
+        <ShaderView frag={LAB_FRAG} texture="hubble-pillars" backdrop={0.35} modeIndex={MODES.findIndex((m) => m.id === mode)} extraUniforms={() => {
           const l = audioStore.get().lab;
           return { uFreq: l.toneOn ? l.freq : audioStore.get().params.root * 2, uHarm: l.toneOn ? Math.max(l.harmonics, 3) : 8, uBeat: l.beatMode === 'off' ? 0.5 : l.beatHz };
         }} />
