@@ -116,6 +116,7 @@ export function Experience(props: ExperienceProps) {
         <>
           <header className="topbar no-pan">
             <Link to="/" className="brand" aria-label="Home">✺</Link>
+            <Link to="/patterns" className="btn ghost essay-link" title="Essay: The Universal Language of Patterns">Patterns</Link>
             <div className="title">
               <h1>{title}</h1>
               <span>{subtitle}</span>
@@ -214,7 +215,7 @@ export function Experience(props: ExperienceProps) {
             <section className="about no-pan" role="dialog" aria-label={`About ${title}`}>
               <button className="btn icon close" onClick={() => setShowAbout(false)} aria-label="Close">✕</button>
               {about}
-              <p><Link to="/learn">Read more & references →</Link></p>
+              <p><Link to="/learn">Read more & references →</Link> · <Link to="/patterns">The Universal Language of Patterns →</Link></p>
             </section>
           )}
         </>

@@ -10,6 +10,7 @@ import Meditation from './pages/Meditation';
 import Journey from './pages/Journey';
 import Mandala from './pages/Mandala';
 import Learn from './pages/Learn';
+import Patterns from './pages/Patterns';
 import { SafetyGate } from './ui/SafetyGate';
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
         <Route path="/journey" element={<Journey />} />
         <Route path="/mandala" element={<Mandala />} />
         <Route path="/learn" element={<Learn />} />
+        <Route path="/patterns" element={<Patterns />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </HashRouter>

@@ -12,6 +12,7 @@ export default function Learn() {
       <nav className="crumbs"><Link to="/">← Psychedelic Visions</Link></nav>
       <h1>Research & Learning</h1>
       <p className="lede">This page separates four kinds of statement: <span className="tag science">scientific findings</span>, <span className="tag tradition">historical & religious traditions</span>, <span className="tag math">mathematics</span>, and <strong>modern generative artwork</strong> (everything this site renders). Nothing here is medical advice, and the site does not treat or cure any condition.</p>
+      <p className="essay-callout"><strong>Start here:</strong> <Link to="/patterns">The Universal Language of Patterns</Link> — the essay behind this project, from Tibetan mandalas and Amazonian kené to Islamic geometry, Christopher Alexander and mathematics.</p>
       <nav className="toc" aria-label="Contents">
         {['fractals', 'recursion', 'kaleidoscopes', 'islamic', 'alexander', 'mandalas', 'amazon', 'music', 'fourier', 'research', 'safety', 'art'].map((id) => <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }}>{id}</a>)}
       </nav>

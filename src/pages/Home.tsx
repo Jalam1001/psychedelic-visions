@@ -25,6 +25,12 @@ export default function Home() {
   return (
     <main className="home">
       <div className="hero-bg" aria-hidden>{gl && <ShaderView frag={KALEIDOSCOPE_FRAG} panZoom={false} pixelCap={1} modeIndex={3} texture="nasir-al-mulk" />}</div>
+      <nav className="site-nav" aria-label="Main">
+        <a href="#experiences" onClick={(e) => { e.preventDefault(); document.getElementById('experiences')?.scrollIntoView({ behavior: 'smooth' }); }}>Experiences</a>
+        <Link to="/patterns" className="featured">The Universal Language of Patterns</Link>
+        <Link to="/learn">Research &amp; references</Link>
+        <a href="https://github.com/Jalam1001/psychedelic-visions" target="_blank" rel="noreferrer">GitHub</a>
+      </nav>
       <section className="hero">
         <h1>Psychedelic Visions</h1>
         <p className="tag-line">Living Geometry &amp; Generative Music</p>
@@ -34,7 +40,16 @@ export default function Home() {
           <Link className="btn big" to="/journey">Start the infinite journey</Link>
         </div>
       </section>
-      <section className="grid" aria-label="Experiences">
+      <Link to="/patterns" className="essay-banner" aria-label="Read the essay: The Universal Language of Patterns">
+        <img src={`${import.meta.env.BASE_URL}art/essay-amitayus.webp`} alt="" />
+        <div>
+          <span className="kicker">Featured essay · The story behind the art</span>
+          <h2>The Universal Language of Patterns</h2>
+          <p>From Tibetan mandalas and Indian sacred geometry to Amazonian visions, Sufi traditions and modern mathematics.</p>
+        </div>
+        <span className="go" aria-hidden>Read the essay →</span>
+      </Link>
+      <section className="grid" id="experiences" aria-label="Experiences">
         {EXPERIENCES.map((e) => (
           <Link key={e.to} to={e.to} className="card">
             <span className="num">{e.n}</span>
@@ -50,7 +65,7 @@ export default function Home() {
         </div>
       </section>
       <footer className="foot">
-        <Link to="/learn">Research, references &amp; how it works</Link> · <a href="https://github.com/Jalam1001/psychedelic-visions" target="_blank" rel="noreferrer">Source on GitHub</a> · MIT licensed
+        <Link to="/patterns">The Universal Language of Patterns</Link> · <Link to="/learn">Research, references &amp; how it works</Link> · <a href="https://github.com/Jalam1001/psychedelic-visions" target="_blank" rel="noreferrer">Source on GitHub</a> · MIT licensed
         <p className="note">Generative art and music for enjoyment and relaxation — not a medical treatment. Motifs are original interpretations “inspired by” the traditions named, not authentic reproductions.</p>
       </footer>
     </main>
