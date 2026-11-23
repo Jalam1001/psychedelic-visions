@@ -3,19 +3,19 @@ import { Experience } from '../ui/Experience';
 import { CanvasView, DrawFn } from '../views/CanvasView';
 import { ShaderView } from '../views/ShaderView';
 import { MANDALA_FRAG } from '../shaders/mandala';
-import { drawAlexanderMandala, drawLotus, drawSriYantra, drawTibetan } from '../geometry/mandala';
+import { drawAlexander2, drawLotus2, drawSriAnimated2, drawSriStatic2, drawTibetan2 } from '../geometry/mandala2';
 
 const MODES = [
   { id: 'lotus', label: 'Infinite lotus' },
-  { id: 'tibetan', label: 'Tibetan geometric' },
+  { id: 'tibetan', label: 'Tibetan sand mandala' },
   { id: 'sri-static', label: 'Sri Yantra (traditional)' },
   { id: 'sri-animated', label: 'Sri Yantra (animated)' },
   { id: 'psychedelic', label: 'Psychedelic' },
   { id: 'alexander', label: "Alexander's living mandala" },
 ];
 const DRAW: Record<string, DrawFn> = {
-  lotus: drawLotus, tibetan: drawTibetan, alexander: drawAlexanderMandala,
-  'sri-static': (d) => drawSriYantra(d, false), 'sri-animated': (d) => drawSriYantra(d, true),
+  lotus: drawLotus2, tibetan: drawTibetan2, alexander: drawAlexander2,
+  'sri-static': drawSriStatic2, 'sri-animated': drawSriAnimated2,
 };
 
 export default function Mandala() {
@@ -26,10 +26,10 @@ export default function Mandala() {
         <h2>Mandalas: tradition and interpretation</h2>
         <p>Mandalas and yantras are sacred diagrams in Hindu, Buddhist and Jain traditions, used in ritual and meditation. Their geometry is radial and concentric: a centre (bindu), surrounding lotus rings, circles and a square enclosure with four gates. This page offers <strong>modern animated interpretations</strong>; they are not ritual objects and do not depict specific deities.</p>
         <p><strong>Sri Yantra.</strong> The “traditional” mode draws the inward construction attributed to Kaivalyāśrama's commentary on the Saundaryalaharī: divide the vertical diameter into 48 units, draw nine chords at 6, 12, 17, 20, 23, 27, 30, 36 and 42; shorten seven of them by 3, 5, 16, 18, 16, 4 and 3 units; join their ends to fixed points on the axis. This produces four upward (Śiva) and five downward (Śakti) triangles which interpenetrate to form 43 small triangles, surrounded by 8 and 16 lotus petals, three circles and the bhūpura (square with four gates). Historical constructions contain tiny errors at some triple intersections; we draw the recipe faithfully. The “animated” mode is an artistic reinterpretation of the same geometry.</p>
-        <p><strong>Tibetan-inspired mode</strong> builds a palace with four T-shaped gateways and quadrant colours, a lotus ring, a vajra ring and a ring of fire, then gently dissolves — an allusion to the impermanence of sand mandalas.</p>
+        <p><strong>Tibetan-inspired mode</strong> is drawn like a coloured-sand mandala: a palace with five-coloured walls, four T-shaped gateways and quadrant colours (blue, yellow, red, green), a lotus ring, a vajra ring and a flickering ring of fire, with a sand-grain texture. It is laid down ring by ring from the centre, held, then swept away — an allusion to the impermanence of sand mandalas. The centre is an abstract lotus and jewel; no deity is depicted.</p>
         <p><strong>Alexander mode</strong> applies the theory of centres: rings of centres support the central one, motif types alternate, boundaries join rings, and nested smaller centres appear at higher recursion depth.</p>
       </>}>
-      {(mode) => mode === 'psychedelic' ? <ShaderView frag={MANDALA_FRAG} texture="helix-nebula" backdrop={0.55} /> : <CanvasView draw={DRAW[mode] ?? drawLotus} backdrop={['helix-nebula', 'sand-mandala', 'bhutan-mandala', 'hubble-pillars']} backdropAlpha={0.36} />}
+      {(mode) => mode === 'psychedelic' ? <ShaderView frag={MANDALA_FRAG} texture="helix-nebula" backdrop={0.55} /> : <CanvasView draw={DRAW[mode] ?? drawLotus2} pixelCap={1.75} />}
     </Experience>
   );
 }
