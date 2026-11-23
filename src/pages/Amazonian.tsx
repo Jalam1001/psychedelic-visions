@@ -26,7 +26,7 @@ export default function Amazonian() {
       </>}>
       {(mode) => mode === 'forest'
         ? <ShaderView frag={AMAZONIAN_FRAG} modeIndex={2} texture="heliconia" backdrop={0.5} />
-        : <CanvasView draw={DRAW[mode] ?? drawKenePainted} />}
+        : <CanvasView draw={DRAW[mode] ?? drawKenePainted} pixelCap={mode === 'visions' ? 1.5 : 2} />}
     </Experience>
   );
 }

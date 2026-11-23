@@ -40,10 +40,10 @@ export function TopMenu({ modes, mode, onMode, items, footer }: { modes: MenuMod
   return (
     <div className="topmenu">
       <button ref={btn} className={`btn menu-btn ${open ? 'on' : ''}`} aria-expanded={open} aria-controls={id} aria-haspopup="true" onClick={() => setOpen((x) => !x)}>
-        <span aria-hidden>☰</span><span className="menu-label">{current && modes.length > 1 ? current.label : 'Menu'}</span><span aria-hidden className="caret">▾</span>
+        <span className="sr-only">Mode: </span><span className="menu-label">{current && modes.length > 1 ? current.label : 'Menu'}</span><span aria-hidden className="caret">▾</span>
       </button>
       {open && (
-        <div ref={panel} id={id} className="menu-panel" role="group" aria-label="Experience menu">
+        <div ref={panel} id={id} className="menu-panel" role="group" aria-label="Choose mode">
           {modes.length > 1 && (
             <div role="radiogroup" aria-label="Mode" className="menu-modes">
               <div className="menu-heading">Mode</div>
@@ -55,7 +55,7 @@ export function TopMenu({ modes, mode, onMode, items, footer }: { modes: MenuMod
               ))}
             </div>
           )}
-          <div className="menu-heading">Actions</div>
+          {items.length > 0 && <div className="menu-heading">Actions</div>}
           {items.map((it) => (
             <button key={it.label} className="menu-item" aria-pressed={it.pressed} onClick={() => { it.onSelect(); if (!it.keepOpen) { setOpen(false); } }}>
               <span className="mi-icon" aria-hidden>{it.icon}</span>{it.label}{it.hint && <kbd>{it.hint}</kbd>}

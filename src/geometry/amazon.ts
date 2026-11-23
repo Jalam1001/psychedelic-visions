@@ -192,100 +192,284 @@ export function makeKeneDraw(st: KeneStyle, name: string, maya = false): DrawFn 
 }
 
 // ---------------------------------------------------------------- visionary serpents (Amaringo-inspired)
-const JEWEL = ['#19c37d', '#2fd6e0', '#ffcf3f', '#ff3fa4', '#3f7bff', '#b45cff', '#ff7a2f'];
-let canopy: { key: string; c: HTMLCanvasElement } | null = null;
-function renderCanopy(W: number, H: number, dpr: number) {
-  const c = document.createElement('canvas'); c.width = Math.ceil(W * dpr); c.height = Math.ceil(H * dpr);
-  const x = c.getContext('2d')!; x.setTransform(dpr, 0, 0, dpr, 0, 0);
-  const r = rng(42);
-  const leaf = (px: number, py: number, len: number, ang: number, col: string) => {
-    x.save(); x.translate(px, py); x.rotate(ang); x.fillStyle = col; x.beginPath(); x.moveTo(0, 0);
-    x.quadraticCurveTo(len * 0.5, -len * 0.28, len, 0); x.quadraticCurveTo(len * 0.5, len * 0.28, 0, 0); x.fill();
-    x.strokeStyle = 'rgba(120,255,190,0.25)'; x.lineWidth = 1; x.beginPath(); x.moveTo(0, 0); x.lineTo(len, 0); x.stroke(); x.restore();
-  };
-  for (let i = 0; i < 70; i++) {
-    const top = i % 2 === 0; const px = r() * W; const py = top ? r() * H * 0.16 - 10 : H - r() * H * 0.16 + 10;
-    const len = 40 + r() * 90; const ang = (top ? Math.PI / 2 : -Math.PI / 2) + (r() - 0.5) * 2.2;
-    leaf(px, py, len, ang, `hsl(${140 + r() * 40},${55 + r() * 30}%,${8 + r() * 12}%)`);
+// Original composition in the *spirit* of Amazonian visionary painting: every area is ornamented, serpents carry
+// geometric scale patterns with glowing edges, layered foliage and flowers frame the scene, spirit lights radiate.
+const JEWEL = ['#29e3a0', '#35d9ff', '#ffd34a', '#ff4fb0', '#5b7cff', '#c06bff', '#ff8a3a', '#9dff5a'];
+const rgba = (hex: string, a: number) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
+interface VisionLayers { key: string; ornament: HTMLCanvasElement; far: HTMLCanvasElement; near: HTMLCanvasElement; orb: HTMLCanvasElement }
+let layers: VisionLayers | null = null;
+const mk = (W: number, H: number, dpr: number) => { const c = document.createElement('canvas'); c.width = Math.ceil(W * dpr); c.height = Math.ceil(H * dpr); const x = c.getContext('2d')!; x.setTransform(dpr, 0, 0, dpr, 0, 0); return { c, x }; };
+
+function leafShape(x: CanvasRenderingContext2D, len: number, wid: number) {
+  x.beginPath(); x.moveTo(0, 0); x.bezierCurveTo(len * 0.25, -wid, len * 0.75, -wid * 0.8, len, 0); x.bezierCurveTo(len * 0.75, wid * 0.8, len * 0.25, wid, 0, 0);
+}
+function drawLeaf(x: CanvasRenderingContext2D, px: number, py: number, len: number, ang: number, hue: number, light: number, r: () => number) {
+  x.save(); x.translate(px, py); x.rotate(ang);
+  const wid = len * (0.18 + r() * 0.14);
+  const g = x.createLinearGradient(0, -wid, 0, wid);
+  g.addColorStop(0, `hsl(${hue},70%,${light + 10}%)`); g.addColorStop(0.5, `hsl(${hue + 10},80%,${light}%)`); g.addColorStop(1, `hsl(${hue - 15},65%,${Math.max(3, light - 6)}%)`);
+  leafShape(x, len, wid); x.fillStyle = g; x.fill();
+  // luminous outline + fine veins (the shimmering detail of visionary leaves)
+  x.strokeStyle = `hsla(${hue + 30},100%,70%,0.55)`; x.lineWidth = 0.8; x.stroke();
+  x.strokeStyle = `hsla(${hue + 40},100%,75%,0.5)`; x.lineWidth = 0.7; x.beginPath(); x.moveTo(0, 0); x.lineTo(len * 0.97, 0);
+  const nv = 6 + Math.floor(len / 18);
+  for (let k = 1; k < nv; k++) { const u = k / nv; const w = Math.sin(u * Math.PI) * wid * 0.85; x.moveTo(len * u, 0); x.quadraticCurveTo(len * (u + 0.05), -w * 0.5, len * (u + 0.1), -w); x.moveTo(len * u, 0); x.quadraticCurveTo(len * (u + 0.05), w * 0.5, len * (u + 0.1), w); }
+  x.stroke();
+  // dotted highlights along the midrib
+  x.fillStyle = 'rgba(255,250,200,0.7)';
+  for (let k = 1; k < nv; k++) { x.beginPath(); x.arc(len * k / nv, 0, 0.9, 0, Math.PI * 2); x.fill(); }
+  x.restore();
+}
+function drawFlower(x: CanvasRenderingContext2D, px: number, py: number, rad: number, col: string, col2: string) {
+  const n = 7 + Math.floor((rad * 13) % 5);
+  x.save(); x.translate(px, py);
+  const halo = x.createRadialGradient(0, 0, 0, 0, 0, rad * 2.4); halo.addColorStop(0, rgba(col, 0.45)); halo.addColorStop(1, rgba(col, 0));
+  x.fillStyle = halo; x.beginPath(); x.arc(0, 0, rad * 2.4, 0, Math.PI * 2); x.fill();
+  for (let k = 0; k < n; k++) {
+    x.save(); x.rotate((k / n) * Math.PI * 2);
+    const g = x.createLinearGradient(0, 0, rad, 0); g.addColorStop(0, col2); g.addColorStop(1, col);
+    x.beginPath(); x.moveTo(0, 0); x.bezierCurveTo(rad * 0.4, -rad * 0.38, rad * 0.9, -rad * 0.3, rad, 0); x.bezierCurveTo(rad * 0.9, rad * 0.3, rad * 0.4, rad * 0.38, 0, 0);
+    x.fillStyle = g; x.fill(); x.strokeStyle = 'rgba(255,255,220,0.6)'; x.lineWidth = 0.6; x.stroke();
+    x.restore();
   }
-  return c;
+  x.fillStyle = '#fff6c8'; x.beginPath(); x.arc(0, 0, rad * 0.22, 0, Math.PI * 2); x.fill();
+  x.fillStyle = col2; for (let k = 0; k < 10; k++) { const a = k * 0.628; x.beginPath(); x.arc(Math.cos(a) * rad * 0.36, Math.sin(a) * rad * 0.36, rad * 0.05, 0, Math.PI * 2); x.fill(); }
+  x.restore();
+}
+function drawHeliconia(x: CanvasRenderingContext2D, px: number, py: number, len: number, ang: number) {
+  x.save(); x.translate(px, py); x.rotate(ang);
+  x.strokeStyle = '#2b6b3a'; x.lineWidth = 2; x.beginPath(); x.moveTo(0, 0); x.lineTo(len, 0); x.stroke();
+  for (let k = 0; k < 6; k++) {
+    const u = 0.15 + k * 0.14, s = k % 2 ? 1 : -1, b = len * (0.22 - k * 0.018);
+    x.save(); x.translate(len * u, 0); x.rotate(s * 0.9);
+    const g = x.createLinearGradient(0, 0, b, 0); g.addColorStop(0, '#ff3a3a'); g.addColorStop(0.75, '#ffb02e'); g.addColorStop(1, '#fff07a');
+    x.beginPath(); x.moveTo(0, 0); x.quadraticCurveTo(b * 0.5, -b * 0.35, b, 0); x.quadraticCurveTo(b * 0.5, b * 0.12, 0, 0); x.fillStyle = g; x.fill();
+    x.strokeStyle = 'rgba(255,240,180,0.7)'; x.lineWidth = 0.6; x.stroke(); x.restore();
+  }
+  x.restore();
+}
+
+function buildLayers(W: number, H: number, dpr: number): VisionLayers {
+  const r = rng(1234);
+  // 1) ornament field: dense luminous line-work and dot patterns covering the whole canvas
+  const o = mk(W, H, dpr);
+  const cell = Math.max(18, Math.min(W, H) / 22);
+  o.x.lineCap = 'round';
+  for (let y = -cell; y < H + cell; y += cell) for (let xx = -cell; xx < W + cell; xx += cell) {
+    const col = JEWEL[Math.floor(r() * JEWEL.length)];
+    const cx = xx + cell / 2 + ((Math.round(y / cell) % 2) * cell) / 2, cy = y + cell / 2;
+    o.x.strokeStyle = rgba(col, 0.22 + r() * 0.18); o.x.lineWidth = 0.9;
+    const k = r();
+    o.x.beginPath();
+    if (k < 0.4) { // stepped rhombus (kené-like)
+      const s2 = cell * 0.42, st = s2 / 3;
+      o.x.moveTo(cx, cy - s2); o.x.lineTo(cx + st, cy - s2); o.x.lineTo(cx + st, cy - 2 * st); o.x.lineTo(cx + 2 * st, cy - 2 * st); o.x.lineTo(cx + 2 * st, cy - st); o.x.lineTo(cx + s2, cy - st); o.x.lineTo(cx + s2, cy);
+      o.x.lineTo(cx + s2, cy + st); o.x.lineTo(cx + 2 * st, cy + st); o.x.lineTo(cx + 2 * st, cy + 2 * st); o.x.lineTo(cx + st, cy + 2 * st); o.x.lineTo(cx + st, cy + s2); o.x.lineTo(cx, cy + s2);
+      o.x.lineTo(cx - st, cy + s2); o.x.lineTo(cx - st, cy + 2 * st); o.x.lineTo(cx - 2 * st, cy + 2 * st); o.x.lineTo(cx - 2 * st, cy + st); o.x.lineTo(cx - s2, cy + st); o.x.lineTo(cx - s2, cy);
+      o.x.lineTo(cx - s2, cy - st); o.x.lineTo(cx - 2 * st, cy - st); o.x.lineTo(cx - 2 * st, cy - 2 * st); o.x.lineTo(cx - st, cy - 2 * st); o.x.lineTo(cx - st, cy - s2); o.x.closePath();
+    } else if (k < 0.7) { // spiral curl
+      for (let a = 0; a < Math.PI * 4; a += 0.25) { const rr = (a / (Math.PI * 4)) * cell * 0.45; const px = cx + Math.cos(a) * rr, py = cy + Math.sin(a) * rr; if (a === 0) o.x.moveTo(px, py); else o.x.lineTo(px, py); }
+    } else { // concentric eye
+      o.x.arc(cx, cy, cell * 0.32, 0, Math.PI * 2); o.x.moveTo(cx + cell * 0.18, cy); o.x.arc(cx, cy, cell * 0.18, 0, Math.PI * 2);
+    }
+    o.x.stroke();
+    o.x.fillStyle = rgba(JEWEL[Math.floor(r() * JEWEL.length)], 0.55);
+    for (let d = 0; d < 3; d++) { o.x.beginPath(); o.x.arc(xx + r() * cell, y + r() * cell, 0.7 + r() * 0.9, 0, Math.PI * 2); o.x.fill(); }
+  }
+  // 2) far foliage: dark blue-green layered leaves with faint luminous veins
+  const f = mk(W, H, dpr);
+  for (let i = 0; i < 90; i++) {
+    const side = i % 4; const len = Math.min(W, H) * (0.12 + r() * 0.16);
+    let px = 0, py = 0, ang = 0;
+    if (side === 0) { px = r() * W; py = -10 + r() * H * 0.12; ang = Math.PI / 2 + (r() - 0.5) * 1.8; }
+    else if (side === 1) { px = r() * W; py = H + 10 - r() * H * 0.12; ang = -Math.PI / 2 + (r() - 0.5) * 1.8; }
+    else if (side === 2) { px = -10 + r() * W * 0.1; py = r() * H; ang = (r() - 0.5) * 1.6; }
+    else { px = W + 10 - r() * W * 0.1; py = r() * H; ang = Math.PI + (r() - 0.5) * 1.6; }
+    drawLeaf(f.x, px, py, len, ang, 150 + r() * 50, 9 + r() * 9, r);
+  }
+  // 3) near foliage + flowers: brighter, more detailed, framing the corners
+  const n = mk(W, H, dpr);
+  const corners: Pt[] = [[0, 0], [W, 0], [0, H], [W, H]];
+  corners.forEach(([cx, cy], ci) => {
+    for (let i = 0; i < 16; i++) {
+      const base = Math.atan2(H / 2 - cy, W / 2 - cx);
+      const ang = base + (r() - 0.5) * 1.6; const len = Math.min(W, H) * (0.14 + r() * 0.2);
+      drawLeaf(n.x, cx + (r() - 0.5) * 40, cy + (r() - 0.5) * 40, len, ang, 120 + r() * 60, 16 + r() * 14, r);
+    }
+    const base = Math.atan2(H / 2 - cy, W / 2 - cx);
+    drawHeliconia(n.x, cx, cy, Math.min(W, H) * 0.32, base + (ci % 2 ? 0.35 : -0.35));
+    for (let i = 0; i < 5; i++) {
+      const d = Math.min(W, H) * (0.08 + r() * 0.2), a = base + (r() - 0.5) * 1.3;
+      drawFlower(n.x, cx + Math.cos(a) * d, cy + Math.sin(a) * d, Math.min(W, H) * (0.018 + r() * 0.025), JEWEL[(ci * 2 + i) % JEWEL.length], '#fff2b0');
+    }
+  });
+  // orb sprite
+  const ob = document.createElement('canvas'); ob.width = ob.height = 128; const ox = ob.getContext('2d')!;
+  const og = ox.createRadialGradient(64, 64, 0, 64, 64, 64);
+  og.addColorStop(0, 'rgba(255,255,240,1)'); og.addColorStop(0.12, 'rgba(255,250,210,0.9)'); og.addColorStop(0.3, 'rgba(255,255,255,0.28)'); og.addColorStop(1, 'rgba(255,255,255,0)');
+  ox.fillStyle = og; ox.fillRect(0, 0, 128, 128);
+  return { key: `${Math.round(W)}x${Math.round(H)}`, ornament: o.c, far: f.c, near: n.c, orb: ob };
+}
+
+interface Serpent { pts: Pt[]; nrm: Pt[]; w: number[] }
+function serpentPath(W: number, H: number, R: number, t: number, sI: number): Serpent {
+  const N = 120; const pts: Pt[] = []; const ph = t * (0.07 + sI * 0.015) + sI * 2.3;
+  const rot = sI * 1.37 + 0.4; const amp = R * (0.28 + (sI % 3) * 0.1); const off = (sI - 1.5) * R * 0.42;
+  for (let i = 0; i < N; i++) {
+    const u = i / (N - 1);
+    const x0 = (u * 0.95 - 0.68) * Math.max(W, H) * 1.15; // head ends inside the frame
+    const y0 = Math.sin(u * Math.PI * (1.6 + sI * 0.35) + ph) * amp + Math.sin(u * Math.PI * 4.3 - ph * 0.7) * amp * 0.18 + off;
+    pts.push([x0 * Math.cos(rot) - y0 * Math.sin(rot), x0 * Math.sin(rot) + y0 * Math.cos(rot)]);
+  }
+  const nrm: Pt[] = []; const w: number[] = [];
+  const bw = (R * 0.7 + Math.max(W, H) * 0.15) * (0.15 + (sI % 2) * 0.03);
+  for (let i = 0; i < N; i++) {
+    const a = pts[Math.max(0, i - 1)], b = pts[Math.min(N - 1, i + 1)];
+    const dx = b[0] - a[0], dy = b[1] - a[1], l = Math.hypot(dx, dy) || 1;
+    nrm.push([-dy / l, dx / l]);
+    const u = i / (N - 1);
+    w.push(bw * Math.min(1, 0.25 + u * 1.6) * (u > 0.93 ? 0.85 : 1)); // tapering tail -> full body -> neck
+  }
+  return { pts, nrm, w };
+}
+
+function drawSerpent(ctx: CanvasRenderingContext2D, s: Serpent, t: number, sI: number, av: { bass: number; pulse: number }) {
+  const { pts, nrm, w } = s; const N = pts.length;
+  const c0 = JEWEL[(sI * 3) % JEWEL.length], c1 = JEWEL[(sI * 3 + 2) % JEWEL.length], c2 = JEWEL[(sI * 3 + 5) % JEWEL.length];
+  const edge = (side: number, scale = 1) => pts.map((p, i) => [p[0] + nrm[i][0] * w[i] * 0.5 * side * scale, p[1] + nrm[i][1] * w[i] * 0.5 * side * scale] as Pt);
+  const L = edge(1), Rr = edge(-1);
+  const body = () => { ctx.beginPath(); ctx.moveTo(L[0][0], L[0][1]); for (let i = 1; i < N; i++) ctx.lineTo(L[i][0], L[i][1]); for (let i = N - 1; i >= 0; i--) ctx.lineTo(Rr[i][0], Rr[i][1]); ctx.closePath(); };
+  // aura
+  ctx.globalCompositeOperation = 'lighter';
+  for (let k = 3; k >= 1; k--) {
+    ctx.strokeStyle = rgba(c0, 0.05 + av.bass * 0.04); ctx.lineWidth = w[Math.floor(N * 0.6)] * (1 + k * 0.9);
+    ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]); for (let i = 1; i < N; i++) ctx.lineTo(pts[i][0], pts[i][1]); ctx.stroke();
+  }
+  ctx.globalCompositeOperation = 'source-over';
+  // body base: dark with a cross-body gradient feel (two fills)
+  body(); ctx.fillStyle = '#0b0620'; ctx.fill();
+  ctx.save(); body(); ctx.clip();
+  // scale lattice: rhombus cells across the body, each with nested kené-like stepped cross and a jewel dot
+  const rows = 3; const step = 3;
+  const flow = (t * 6) % (step * 2);
+  // batched: one path per scale colour, one for outlines, one for inner rhombi, one for dots
+  const fills = [new Path2D(), new Path2D(), new Path2D()]; const inner = new Path2D(); const dots = new Path2D(); const outline = new Path2D();
+  const P = (j: number, v: number): Pt => { const jj = Math.max(0, Math.min(N - 1, j)); return [pts[jj][0] + nrm[jj][0] * w[jj] * 0.5 * v, pts[jj][1] + nrm[jj][1] * w[jj] * 0.5 * v]; };
+  for (let i = 1; i < N - 2; i += step) {
+    const ii = Math.min(N - 2, i + Math.floor(flow));
+    for (let rI = 0; rI < rows; rI++) {
+      const v0 = -1 + (rI / rows) * 2, v1 = -1 + ((rI + 1) / rows) * 2, vm = (v0 + v1) / 2;
+      const off = rI % 2 ? 1 : 0;
+      const a = P(ii + off, v0), b = P(ii + step + off, vm), c = P(ii + off, v1), d = P(ii - step + off, vm);
+      const fp = fills[(Math.floor(i / step) + rI) % 3];
+      for (const pa of [fp, outline]) { pa.moveTo(a[0], a[1]); pa.lineTo(b[0], b[1]); pa.lineTo(c[0], c[1]); pa.lineTo(d[0], d[1]); pa.closePath(); }
+      const m: Pt = [(a[0] + c[0]) / 2, (a[1] + c[1]) / 2];
+      const q = (p: Pt): Pt => [m[0] + (p[0] - m[0]) * 0.5, m[1] + (p[1] - m[1]) * 0.5];
+      const a2 = q(a), b2 = q(b), c2_ = q(c), d2 = q(d);
+      inner.moveTo(a2[0], a2[1]); inner.lineTo(b2[0], b2[1]); inner.lineTo(c2_[0], c2_[1]); inner.lineTo(d2[0], d2[1]); inner.closePath();
+      const dr = Math.max(0.8, w[ii] * 0.035); dots.moveTo(m[0] + dr, m[1]); dots.arc(m[0], m[1], dr, 0, Math.PI * 2);
+    }
+  }
+  [c1, c0, c2].forEach((col, k) => { ctx.fillStyle = col; ctx.fill(fills[k]); });
+  ctx.strokeStyle = 'rgba(255,236,160,0.85)'; ctx.lineWidth = 0.9; ctx.stroke(outline);
+  ctx.strokeStyle = 'rgba(10,6,30,0.85)'; ctx.lineWidth = 1.1; ctx.stroke(inner);
+  ctx.fillStyle = '#fff6d0'; ctx.fill(dots);
+  // shading: dark at the flanks, sheen along the spine
+  ctx.globalCompositeOperation = 'multiply';
+  ctx.strokeStyle = 'rgba(20,10,60,0.55)'; ctx.lineWidth = 3;
+  ctx.beginPath(); L.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); ctx.stroke();
+  ctx.beginPath(); Rr.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); ctx.stroke();
+  ctx.globalCompositeOperation = 'lighter';
+  const spine = edge(1, 0.25);
+  ctx.strokeStyle = 'rgba(255,255,230,0.18)'; ctx.lineWidth = 2.5;
+  ctx.beginPath(); spine.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); ctx.stroke();
+  ctx.restore();
+  // glowing edges
+  ctx.globalCompositeOperation = 'lighter';
+  for (const E of [L, Rr]) {
+    ctx.strokeStyle = rgba(c0, 0.55 + av.pulse * 0.3); ctx.lineWidth = 3.2;
+    ctx.beginPath(); E.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,255,235,0.8)'; ctx.lineWidth = 0.9; ctx.stroke();
+  }
+  // dotted light running along the outer edge
+  ctx.setLineDash([1, 7]); ctx.lineDashOffset = -t * 12; ctx.strokeStyle = 'rgba(255,250,200,0.9)'; ctx.lineWidth = 2;
+  const outer = edge(1, 1.35); ctx.beginPath(); outer.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); ctx.stroke();
+  ctx.setLineDash([]); ctx.lineDashOffset = 0; ctx.globalCompositeOperation = 'source-over';
+  // head with crown of light rays and glowing eyes
+  const [hx, hy] = pts[N - 1], [px, py] = pts[N - 4]; const a = Math.atan2(hy - py, hx - px); const hw = w[N - 1];
+  ctx.save(); ctx.translate(hx, hy); ctx.rotate(a);
+  ctx.globalCompositeOperation = 'lighter';
+  for (let k = 0; k < 9; k++) { const ra = -1.1 + k * 0.275; ctx.strokeStyle = rgba(JEWEL[k % JEWEL.length], 0.5); ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(hw * 0.2, 0); ctx.lineTo(hw * 0.2 + Math.cos(ra) * hw * 2.2, Math.sin(ra) * hw * 2.2); ctx.stroke(); }
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.beginPath(); ctx.moveTo(-hw * 0.4, -hw * 0.5); ctx.bezierCurveTo(hw * 0.5, -hw * 0.85, hw * 1.25, -hw * 0.4, hw * 1.35, 0); ctx.bezierCurveTo(hw * 1.25, hw * 0.4, hw * 0.5, hw * 0.85, -hw * 0.4, hw * 0.5); ctx.closePath();
+  const hg = ctx.createLinearGradient(-hw * 0.4, 0, hw * 1.35, 0); hg.addColorStop(0, c1); hg.addColorStop(1, c0);
+  ctx.fillStyle = hg; ctx.fill(); ctx.strokeStyle = 'rgba(255,240,170,0.9)'; ctx.lineWidth = 1.2; ctx.stroke();
+  // kené mark on the head
+  ctx.strokeStyle = '#120a2a'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(hw * 0.35, -hw * 0.2); ctx.lineTo(hw * 0.7, 0); ctx.lineTo(hw * 0.35, hw * 0.2); ctx.closePath(); ctx.stroke();
+  for (const sy of [-1, 1]) {
+    const eg = ctx.createRadialGradient(hw * 0.85, sy * hw * 0.32, 0, hw * 0.85, sy * hw * 0.32, hw * 0.3); eg.addColorStop(0, '#fffbe0'); eg.addColorStop(0.4, '#ffd34a'); eg.addColorStop(1, 'rgba(255,211,74,0)');
+    ctx.fillStyle = eg; ctx.beginPath(); ctx.arc(hw * 0.85, sy * hw * 0.32, hw * 0.3, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.restore();
 }
 
 export const drawVisions: DrawFn = ({ ctx, W, H, dpr, f, p, av }) => {
-  const t = f.t;
-  ctx.save(); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  const bg = ctx.createRadialGradient(W / 2, H * 0.45, 0, W / 2, H / 2, Math.max(W, H) * 0.75);
-  bg.addColorStop(0, '#2a1060'); bg.addColorStop(0.55, '#120830'); bg.addColorStop(1, '#04020c');
-  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H); ctx.restore();
+  const t = f.t * 0.6; // slow, dreamlike motion
   const R = Math.min(W, H) / 2;
-  // tingunas: radiating rings of coloured dots around the central vision, pulsing with the music
-  ctx.globalCompositeOperation = 'lighter';
-  const rings = 7 + Math.round(p.complexity * 6);
-  for (let i = 0; i < rings; i++) {
-    const rr = R * (0.12 + i * 0.075) * (1 + av.bass * 0.05);
-    const n = 24 + i * 10; const col = JEWEL[i % JEWEL.length];
-    ctx.fillStyle = col; ctx.globalAlpha = 0.55 - i * 0.03 + av.pulse * 0.2;
-    for (let j = 0; j < n; j++) {
-      const a = (j / n) * Math.PI * 2 + t * (i % 2 ? 0.05 : -0.04);
-      const wob = 1 + 0.05 * Math.sin(a * 6 + t * 0.8);
-      ctx.beginPath(); ctx.arc(Math.cos(a) * rr * wob, Math.sin(a) * rr * wob, 1.6 + (i % 3) * 1.1, 0, Math.PI * 2); ctx.fill();
-    }
-  }
-  // central kené mandala in fine luminous lines (Shipibo lines often frame Amaringo's visionary circles)
-  ctx.globalAlpha = 0.7; ctx.lineWidth = 1.4; ctx.strokeStyle = '#ffe9a8';
-  ctx.beginPath();
-  for (let q = 0; q < 8; q++) {
-    const s = R * 0.09 * (1 + q * 0.42); const step = s / 3;
-    for (const [sx, sy] of MIRRORS) { ctx.moveTo(0, s * sy); ctx.lineTo(step * sx, s * sy); ctx.lineTo(step * sx, 2 * step * sy); ctx.lineTo(2 * step * sx, 2 * step * sy); ctx.lineTo(2 * step * sx, step * sy); ctx.lineTo(s * sx, step * sy); ctx.lineTo(s * sx, 0); }
-  }
-  ctx.save(); ctx.rotate(t * 0.03); ctx.stroke(); ctx.restore();
-  // serpents: Sachamama (earth), Yakumama (water), Huairamama (air) — sinuous luminous bodies with scale patterns
-  const serp = 4;
-  for (let sI = 0; sI < serp; sI++) {
-    const pts: Pt[] = [];
-    const N = 90; const ph = t * (0.18 + sI * 0.04) + sI * 2.1;
-    for (let i = 0; i < N; i++) {
-      const u = i / (N - 1);
-      const x0 = (u - 0.5) * W * 1.3;
-      const y0 = Math.sin(u * Math.PI * (2 + sI * 0.6) + ph) * R * (0.32 + sI * 0.12) + (sI - 1) * R * 0.55;
-      const rot = sI * 1.05 + 0.25;
-      pts.push([x0 * Math.cos(rot) - y0 * Math.sin(rot), x0 * Math.sin(rot) + y0 * Math.cos(rot)]);
-    }
-    const col = [JEWEL[(sI * 2) % JEWEL.length], JEWEL[(sI * 2 + 1) % JEWEL.length], JEWEL[(sI * 2 + 3) % JEWEL.length]];
-    const bodyW = R * (0.075 + sI * 0.012);
-    const path = () => { ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]); for (let i = 1; i < N; i++) ctx.lineTo(pts[i][0], pts[i][1]); };
-    // glow halo
-    ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.16 + av.bass * 0.12; ctx.strokeStyle = col[0]; ctx.lineWidth = bodyW * 2.6; path(); ctx.stroke();
-    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
-    ctx.strokeStyle = '#0a0418'; ctx.lineWidth = bodyW * 1.15; path(); ctx.stroke();
-    ctx.strokeStyle = col[0]; ctx.lineWidth = bodyW; path(); ctx.stroke();
-    // diamond scale pattern (kené-like) along the body, flowing toward the head
-    ctx.lineWidth = bodyW * 0.5; ctx.strokeStyle = col[1];
-    ctx.setLineDash([bodyW * 0.55, bodyW * 0.55]); ctx.lineDashOffset = -t * bodyW * 1.5; path(); ctx.stroke();
-    ctx.lineWidth = bodyW * 0.16; ctx.strokeStyle = col[2]; ctx.setLineDash([bodyW * 0.3, bodyW * 0.8]); path(); ctx.stroke();
-    ctx.setLineDash([]); ctx.lineDashOffset = 0;
-    // head
-    const [hx, hy] = pts[N - 1], [px, py] = pts[N - 3]; const a = Math.atan2(hy - py, hx - px);
-    ctx.save(); ctx.translate(hx, hy); ctx.rotate(a); ctx.fillStyle = col[0];
-    ctx.beginPath(); ctx.ellipse(bodyW * 0.4, 0, bodyW * 1.0, bodyW * 0.7, 0, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = '#fff6c0'; ctx.beginPath(); ctx.arc(bodyW * 0.7, -bodyW * 0.3, bodyW * 0.14, 0, Math.PI * 2); ctx.arc(bodyW * 0.7, bodyW * 0.3, bodyW * 0.14, 0, Math.PI * 2); ctx.fill();
-    ctx.restore();
-  }
-  // spirit lights / sparkles
-  ctx.globalCompositeOperation = 'lighter';
-  const r = rng(7);
-  for (let i = 0; i < 140; i++) {
-    const x = (r() - 0.5) * W, y0 = (r() - 0.5) * H; const sp = 0.02 + r() * 0.05;
-    const y = ((y0 + H / 2 - t * sp * H * 0.3) % H + H) % H - H / 2;
-    const tw = 0.5 + 0.5 * Math.sin(t * (1 + r() * 2) + i);
-    ctx.globalAlpha = 0.25 + tw * 0.6 + av.high * 0.3; ctx.fillStyle = i % 5 === 0 ? JEWEL[i % JEWEL.length] : '#fffbe6';
-    ctx.beginPath(); ctx.arc(x, y, 0.8 + tw * 1.6, 0, Math.PI * 2); ctx.fill();
-  }
-  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
-  // jungle canopy framing (screen-space)
   const key = `${Math.round(W)}x${Math.round(H)}`;
-  if (!canopy || canopy.key !== key) canopy = { key, c: renderCanopy(W, H, Math.min(dpr, 2)) };
-  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(canopy.c, 0, 0, ctx.canvas.width, ctx.canvas.height); ctx.restore();
+  if (!layers || layers.key !== key) layers = buildLayers(W, H, Math.min(dpr, 2));
+  // deep night ground
+  ctx.save(); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const bg = ctx.createRadialGradient(W / 2, H * 0.48, 0, W / 2, H / 2, Math.max(W, H) * 0.8);
+  bg.addColorStop(0, '#3a1a7a'); bg.addColorStop(0.35, '#1b1660'); bg.addColorStop(0.7, '#08233a'); bg.addColorStop(1, '#020611');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H); ctx.restore();
+  // ornament field: slowly turning, breathing
+  ctx.save(); ctx.rotate(Math.sin(t * 0.05) * 0.04); const sc = 1.08 + 0.03 * Math.sin(t * 0.11);
+  ctx.globalAlpha = 0.75 + 0.2 * Math.sin(t * 0.3) + av.mid * 0.15; ctx.drawImage(layers.ornament, -W / 2 * sc, -H / 2 * sc, W * sc, H * sc); ctx.restore(); ctx.globalAlpha = 1;
+  // radiating aura (tingunas): concentric rings of jewel dots and fine rays around the centre
+  ctx.globalCompositeOperation = 'lighter';
+  const rays = 48;
+  ctx.lineWidth = 1.2;
+  for (let c = 0; c < 4; c++) { ctx.strokeStyle = rgba(JEWEL[c * 2], 0.07 + av.pulse * 0.08); ctx.beginPath(); for (let k = c; k < rays; k += 4) { const a = (k / rays) * Math.PI * 2 + t * 0.02; ctx.moveTo(Math.cos(a) * R * 0.15, Math.sin(a) * R * 0.15); ctx.lineTo(Math.cos(a) * R * 1.5, Math.sin(a) * R * 1.5); } ctx.stroke(); }
+  const rings = 8 + Math.round(p.complexity * 6);
+  for (let i = 0; i < rings; i++) {
+    const rr = R * (0.14 + i * 0.07) * (1 + av.bass * 0.04); const n = 28 + i * 12; const col = JEWEL[i % JEWEL.length];
+    ctx.fillStyle = rgba(col, 0.5 - i * 0.025 + av.pulse * 0.2);
+    const dr = 1.1 + (i % 3) * 0.8; ctx.beginPath();
+    for (let j = 0; j < n; j++) { const a = (j / n) * Math.PI * 2 + t * (i % 2 ? 0.035 : -0.03); const wob = 1 + 0.04 * Math.sin(a * 6 + t * 0.5); const X = Math.cos(a) * rr * wob, Y = Math.sin(a) * rr * wob; ctx.moveTo(X + dr, Y); ctx.arc(X, Y, dr, 0, Math.PI * 2); }
+    ctx.fill();
+  }
+  // central vision: nested stepped crosses in fine gold light with a bright core
+  ctx.strokeStyle = 'rgba(255,226,150,0.65)'; ctx.lineWidth = 1.1; ctx.save(); ctx.rotate(t * 0.02); ctx.beginPath();
+  for (let q = 0; q < 6; q++) { const s2 = R * 0.06 * (1 + q * 0.55); const st = s2 / 3; for (const [sx, sy] of MIRRORS) { ctx.moveTo(0, s2 * sy); ctx.lineTo(st * sx, s2 * sy); ctx.lineTo(st * sx, 2 * st * sy); ctx.lineTo(2 * st * sx, 2 * st * sy); ctx.lineTo(2 * st * sx, st * sy); ctx.lineTo(s2 * sx, st * sy); ctx.lineTo(s2 * sx, 0); } }
+  ctx.stroke(); ctx.restore();
+  const core = R * (0.22 + av.bass * 0.05); ctx.drawImage(layers.orb, -core, -core, core * 2, core * 2);
+  ctx.globalCompositeOperation = 'source-over';
+  // far foliage (parallax sway)
+  ctx.save(); ctx.translate(Math.sin(t * 0.13) * 6, Math.cos(t * 0.11) * 4); ctx.globalAlpha = 0.9; ctx.drawImage(layers.far, -W / 2 - 8, -H / 2 - 8, W + 16, H + 16); ctx.restore(); ctx.globalAlpha = 1;
+  // serpents
+  for (let sI = 0; sI < 3; sI++) drawSerpent(ctx, serpentPath(W, H, R, t, sI), t, sI, av);
+  // spirit-light orbs drifting upward with halos
+  ctx.globalCompositeOperation = 'lighter';
+  const r = rng(99);
+  for (let i = 0; i < 26; i++) {
+    const x0 = (r() - 0.5) * W, y0 = (r() - 0.5) * H, sp = 0.01 + r() * 0.025, sz = R * (0.025 + r() * 0.06);
+    const x = x0 + Math.sin(t * 0.2 + i) * 20; const y = ((y0 + H / 2 - t * sp * H) % H + H) % H - H / 2;
+    const tw = 0.6 + 0.4 * Math.sin(t * (0.6 + r()) + i);
+    ctx.globalAlpha = tw * 0.9; ctx.drawImage(layers.orb, x - sz, y - sz, sz * 2, sz * 2);
+    ctx.strokeStyle = rgba(JEWEL[i % JEWEL.length], 0.35 * tw); ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x, y, sz * 1.25, 0, Math.PI * 2); ctx.stroke();
+  }
+  // fine sparkle dust
+  const dust = [new Path2D(), new Path2D()];
+  for (let i = 0; i < 220; i++) {
+    const x = (r() - 0.5) * W, y0 = (r() - 0.5) * H; const y = ((y0 + H / 2 - t * (0.004 + r() * 0.01) * H) % H + H) % H - H / 2;
+    const tw = 0.5 + 0.5 * Math.sin(t * (1 + r() * 2) + i); const rad = 0.5 + tw * 1.1;
+    const pa = dust[i % 4 === 0 ? 1 : 0]; pa.moveTo(x + rad, y); pa.arc(x, y, rad, 0, Math.PI * 2);
+  }
+  ctx.globalAlpha = 0.6 + av.high * 0.3; ctx.fillStyle = '#fffbe6'; ctx.fill(dust[0]); ctx.fillStyle = '#ffd34a'; ctx.fill(dust[1]);
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  // near foliage and flowers framing the scene
+  ctx.save(); ctx.translate(Math.sin(t * 0.17 + 1) * 5, Math.sin(t * 0.13) * 3); ctx.drawImage(layers.near, -W / 2 - 6, -H / 2 - 6, W + 12, H + 12); ctx.restore();
 };
 
 export const drawKenePainted = makeKeneDraw(KENE_PAINTED, 'painted');

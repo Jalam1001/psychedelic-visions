@@ -326,3 +326,17 @@ input[type='color'] { width: 100%; height: 34px; border: 1px solid var(--line); 
 }
 @media (max-width: 420px) { .menu-btn .menu-label { display: none; } }
 .topbar { z-index: 8; }
+/* draft3: mode dropdown + original action buttons; wraps to two rows on phones instead of scrolling */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.topmenu .menu-panel { width: min(260px, calc(100vw - 20px)); }
+@media (max-width: 760px) {
+  .topbar { flex-wrap: wrap; row-gap: 6px; }
+  .topbar .title { flex: 1 1 0; }
+  .actions { width: 100%; justify-content: flex-end; gap: 4px; flex-wrap: wrap; }
+  .actions .btn.icon { width: 34px; min-width: 34px; min-height: 34px; padding: 0; font-size: 15px; }
+  .essay-link { padding: 4px 8px; min-height: 34px; }
+  .menu-btn { min-height: 34px; padding: 4px 10px; }
+  .menu-btn .menu-label { display: inline; max-width: 120px; }
+  .actions .audio-pill { margin-right: auto; }
+}
+@media (max-width: 420px) { .topbar .title span { display: none; } }
