@@ -225,7 +225,7 @@ input[type='color'] { width: 100%; height: 34px; border: 1px solid var(--line); 
 .art-grid figure { margin: 0; background: rgba(255,255,255,0.04); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .art-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
 .art-grid figcaption { padding: 8px 10px; }
-.actions { flex-wrap: nowrap; overflow-x: auto; max-width: 100%; scrollbar-width: none; }
+.actions { flex-wrap: nowrap; align-items: center; }
 
 /* ---------- Essay: The Universal Language of Patterns (#/patterns) ---------- */
 .patterns-essay { --e-bg: #0b0d16; --e-fg: #eee9df; --e-muted: #c4bfca; --e-accent: #e4c48e; background: var(--e-bg); color: var(--e-fg); font: 18px/1.8 Georgia, 'Times New Roman', serif; min-height: 100%; }
@@ -298,3 +298,31 @@ input[type='color'] { width: 100%; height: 34px; border: 1px solid var(--line); 
 @media (max-width: 700px) { .essay-banner { grid-template-columns: 1fr; margin: 10px 14px 22px; } .essay-banner img { width: 100%; height: 140px; } .essay-banner .go { justify-self: start; } }
 .essay-link { font-size: 13px; padding: 4px 10px; white-space: nowrap; }
 .learn .essay-callout { padding: 12px 16px; border: 1px solid rgba(255,210,122,.45); border-radius: 12px; background: rgba(60,38,96,.35); }
+
+/* ---------- top-bar drop-down menu (replaces the sideways-scrolling toolbar + mode chips) ---------- */
+.topbar { flex-wrap: nowrap; }
+.topbar .title { min-width: 0; flex: 1 1 auto; }
+.topbar .title h1, .topbar .title span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.actions { flex: 0 0 auto; }
+.topmenu { position: relative; }
+.menu-btn { display: inline-flex; align-items: center; gap: 8px; max-width: 240px; }
+.menu-btn .menu-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.menu-btn .caret { font-size: 11px; opacity: .8; }
+.menu-btn.on, .btn.icon.on { background: rgba(200,107,255,.28); border-color: rgba(200,107,255,.6); }
+.menu-panel { position: absolute; right: 0; top: calc(100% + 8px); z-index: 30; width: min(300px, calc(100vw - 20px)); max-height: calc(100vh - 90px); overflow-y: auto;
+  background: var(--glass-strong); backdrop-filter: blur(14px); border: 1px solid var(--line); border-radius: 14px; padding: 8px; box-shadow: 0 18px 50px #000a; }
+.menu-heading { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); padding: 8px 10px 4px; }
+.menu-item { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; background: transparent; color: var(--fg); border: 0; border-radius: 9px; padding: 11px 10px; min-height: 44px; font: inherit; font-size: 15px; cursor: pointer; }
+.menu-item:hover, .menu-item:focus-visible { background: rgba(255,255,255,.1); outline: none; }
+.menu-item:focus-visible { box-shadow: inset 0 0 0 2px var(--accent2); }
+.menu-item.active { color: var(--accent2); }
+.menu-item .mi-icon { width: 20px; text-align: center; }
+.menu-item kbd { margin-left: auto; font: 11px ui-monospace, monospace; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; }
+.menu-modes { border-bottom: 1px solid var(--line); padding-bottom: 6px; margin-bottom: 4px; }
+@media (max-width: 760px) {
+  .desk-only { display: none !important; }
+  .menu-btn .menu-label { max-width: 110px; }
+  .menu-item kbd { display: none; }
+}
+@media (max-width: 420px) { .menu-btn .menu-label { display: none; } }
+.topbar { z-index: 8; }

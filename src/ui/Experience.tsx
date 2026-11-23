@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useStore } from '../state/store';
 import { clamp, SYMMETRIES, uiStore, visualStore, VisualParams } from '../state/params';
 import { PALETTES } from '../state/palettes';
@@ -10,6 +10,8 @@ import { AudioControls } from './AudioControls';
 import { Meters } from './Meters';
 import { AudioPill, StartAudioCTA } from './AudioStatus';
 import { SourceArtStrip } from './SourceArt';
+import { togglePause } from './pause';
+import { TopMenu } from './TopMenu';
 import { Select, Slider, Toggle } from './Slider';
 
 export type ControlKey = 'speed' | 'complexity' | 'symmetry' | 'depth' | 'rotation' | 'zoom' | 'petals' | 'layers' | 'brightness' | 'intensity';
@@ -59,6 +61,7 @@ export function Experience(props: ExperienceProps) {
 
   useEffect(() => { uiStore.set({ calm: !!minimal }); return () => uiStore.set({ calm: false }); }, [minimal]);
 
+  const nav = useNavigate();
   const set = (patch: Partial<VisualParams>) => visualStore.set(patch);
   const flash = (msg: string) => { setToast(msg); window.setTimeout(() => setToast(''), 2200); };
 
@@ -78,7 +81,7 @@ export function Experience(props: ExperienceProps) {
       if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
       const s = visualStore.get();
       switch (e.key) {
-        case ' ': e.preventDefault(); uiStore.set({ paused: !uiStore.get().paused }); break;
+        case ' ': if (tag === 'BUTTON' || tag === 'A') return; e.preventDefault(); togglePause(); break;
         case 'f': case 'F': fullscreen(); break;
         case 'h': case 'H': uiStore.set({ controlsHidden: !uiStore.get().controlsHidden }); break;
         case 'r': case 'R': randomize(); break;
@@ -116,27 +119,24 @@ export function Experience(props: ExperienceProps) {
         <>
           <header className="topbar no-pan">
             <Link to="/" className="brand" aria-label="Home">✺</Link>
-            <Link to="/patterns" className="btn ghost essay-link" title="Essay: The Universal Language of Patterns">Patterns</Link>
             <div className="title">
               <h1>{title}</h1>
               <span>{subtitle}</span>
             </div>
-            {modes.length > 1 && (
-              <nav className="modes" aria-label="Modes">
-                {modes.map((m, i) => (
-                  <button key={m.id} className={`chip ${m.id === mode ? 'active' : ''}`} onClick={() => set({ mode: m.id })} title={`Key ${i + 1}`}>{m.label}</button>
-                ))}
-              </nav>
-            )}
             <div className="actions">
               <AudioPill />
-              <button className="btn icon" onClick={() => uiStore.set({ paused: !ui.paused })} aria-label={ui.paused ? 'Play' : 'Pause'} title="Space">{ui.paused ? '▶' : '❚❚'}</button>
-              <button className={`btn icon ${a.on ? 'on' : ''}`} onClick={() => music.toggle()} aria-label={a.on ? 'Stop music' : 'Start music'} title="M">{a.on ? '♫' : '♪'}</button>
-              <button className="btn icon" onClick={fullscreen} aria-label="Fullscreen" title="F">⛶</button>
-              <button className="btn icon" onClick={() => takeScreenshot(props.id)} aria-label="Screenshot">📷</button>
-              <button className="btn icon" onClick={() => setShowAbout((x) => !x)} aria-label="About this experience">ⓘ</button>
-              <button className="btn icon" onClick={() => uiStore.set({ controlsHidden: true })} aria-label="Hide controls" title="H">◌</button>
-              <button className={`btn icon ${panel ? 'on' : ''}`} onClick={() => setPanel((x) => !x)} aria-label="Toggle control panel" title="P">⚙</button>
+              <button className={`btn icon ${ui.paused ? 'on' : ''}`} onClick={() => togglePause()} aria-pressed={ui.paused} aria-label={ui.paused ? 'Resume' : 'Pause'} title="Pause / resume (Space)">{ui.paused ? '▶' : '❚❚'}</button>
+              <button className={`btn icon desk-only ${a.on ? 'on' : ''}`} onClick={() => music.toggle()} aria-label={a.on ? 'Stop music' : 'Start music'} title="M">{a.on ? '♫' : '♪'}</button>
+              <button className={`btn icon desk-only ${panel ? 'on' : ''}`} onClick={() => setPanel((x) => !x)} aria-label="Toggle control panel" aria-pressed={panel} title="P">⚙</button>
+              <TopMenu modes={modes} mode={mode} onMode={(id) => set({ mode: id })} items={[
+                { icon: a.on ? '♫' : '♪', label: a.on ? 'Stop music' : 'Start music', hint: 'M', onSelect: () => music.toggle() },
+                { icon: '⚙', label: panel ? 'Hide control panel' : 'Show control panel', hint: 'P', onSelect: () => setPanel((x) => !x) },
+                { icon: 'ⓘ', label: 'About this experience', onSelect: () => setShowAbout((x) => !x) },
+                { icon: '⛶', label: 'Fullscreen', hint: 'F', onSelect: fullscreen },
+                { icon: '📷', label: 'Save screenshot', onSelect: () => takeScreenshot(props.id) },
+                { icon: '◌', label: 'Hide all controls', hint: 'H', onSelect: () => uiStore.set({ controlsHidden: true }) },
+                { icon: '✎', label: 'Essay: The Universal Language of Patterns', onSelect: () => nav('/patterns') },
+              ]} />
             </div>
           </header>
 

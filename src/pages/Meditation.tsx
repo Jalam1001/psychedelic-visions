@@ -1,3 +1,4 @@
+import { activeNow } from '../ui/pause';
 import { useEffect, useRef, useState } from 'react';
 import { Experience } from '../ui/Experience';
 import { ShaderView } from '../views/ShaderView';
@@ -35,23 +36,23 @@ export default function Meditation() {
   const [, force] = useState(0);
   const a = useStore(audioStore);
   const v = useStore(visualStore);
-  const start0 = useRef(performance.now());
+  const start0 = useRef(activeNow());
   const patRef = useRef(pattern); patRef.current = pattern;
 
   useEffect(() => { const id = window.setInterval(() => force((x) => x + 1), 250); return () => clearInterval(id); }, []);
   useEffect(() => {
-    if (session && performance.now() >= session.end) { audio.strikeBowl(196); setSession(null); }
+    if (session && activeNow() >= session.end) { audio.strikeBowl(196); setSession(null); }
   });
 
-  const b = breathAt(pattern, (performance.now() - start0.current) / 1000);
-  const left = session ? Math.max(0, session.end - performance.now()) / 1000 : minutes * 60;
+  const b = breathAt(pattern, (activeNow() - start0.current) / 1000);
+  const left = session ? Math.max(0, session.end - activeNow()) / 1000 : minutes * 60;
   const mm = Math.floor(left / 60), ss = Math.floor(left % 60);
 
   return (
     <Experience artKeys={['helix-nebula', 'afklint-no2', 'sand-mandala']} id="meditation" route="/meditation" title="Meditation & Relaxation" subtitle="Slow geometry · breathing guide · session timer" modes={[{ id: 'rosette', label: 'Rosette' }]}
       defaultPreset="deep-relaxation" minimal controls={['speed', 'petals', 'layers', 'brightness', 'intensity']}
       extraPanel={<details open><summary>Session</summary>
-        <Select label="Breathing pattern" value={pattern} options={Object.entries(PATTERNS).map(([k, p]) => ({ value: k, label: p.name }))} onChange={(x) => { setPattern(x); start0.current = performance.now(); }} />
+        <Select label="Breathing pattern" value={pattern} options={Object.entries(PATTERNS).map(([k, p]) => ({ value: k, label: p.name }))} onChange={(x) => { setPattern(x); start0.current = activeNow(); }} />
         <Slider label="Session length" value={minutes} min={1} max={60} step={1} onChange={(x) => setMinutes(Math.round(x))} format={(x) => Math.round(x) + ' min'} />
         <Slider label="Visual intensity" value={v.intensity} min={0} max={1} onChange={(x) => visualStore.set({ intensity: x })} />
         <AudioControls compact />
@@ -62,13 +63,13 @@ export default function Meditation() {
         <p>The breathing guide gently expands the rosette while you breathe in and contracts it as you breathe out. If any pattern makes you light-headed, return to normal breathing.</p>
       </>}>
       {() => <>
-        <ShaderView frag={MEDITATION_FRAG} texture="helix-nebula" backdrop={0.4} panZoom={false} extraUniforms={(f) => ({ uBreath: breathAt(patRef.current, (f.now - start0.current) / 1000).value })} />
+        <ShaderView frag={MEDITATION_FRAG} texture="helix-nebula" backdrop={0.4} panZoom={false} extraUniforms={(f) => ({ uBreath: breathAt(patRef.current, (activeNow() - start0.current) / 1000).value })} />
         <div className="meditation-overlay no-pan">
           {b.label && <div className="breath-label" aria-live="polite">{b.label}</div>}
           <div className="timer">{String(mm).padStart(2, '0')}:{String(ss).padStart(2, '0')}</div>
           <div className="row center">
             {!session ? (
-              <button className="btn primary" onClick={() => { if (!musicStore.get().on) music.start(); start0.current = performance.now(); setSession({ start: performance.now(), end: performance.now() + minutes * 60000 }); audio.strikeBowl(196); }}>Begin session</button>
+              <button className="btn primary" onClick={() => { if (!musicStore.get().on) music.start(); start0.current = activeNow(); setSession({ start: activeNow(), end: activeNow() + minutes * 60000 }); audio.strikeBowl(196); }}>Begin session</button>
             ) : (
               <button className="btn" onClick={() => setSession(null)}>End session</button>
             )}

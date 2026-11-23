@@ -28,25 +28,29 @@ class Quality {
 }
 export const quality = new Quality();
 
-export interface FrameInfo { t: number; dt: number; now: number }
+/** t = artistic time (speed-scaled, frozen while paused); wt = real seconds elapsed while NOT paused (for slow
+ *  backdrops / breathing guides that should freeze on pause but ignore the speed slider); now = rAF timestamp. */
+export interface FrameInfo { t: number; dt: number; now: number; wt: number }
 
 /** Shared animation loop: accumulates "artistic time" respecting pause / speed / reduced motion. */
 export function useRenderLoop(cb: (f: FrameInfo) => void) {
   const cbRef = useRef(cb);
   cbRef.current = cb;
   useEffect(() => {
-    let raf = 0; let last = performance.now(); let t = 0;
+    let raf = 0; let last = performance.now(); let t = 0; let wt = 0;
     const tick = (now: number) => {
       const dtMs = Math.min(100, now - last);
       last = now;
       quality.frame(dtMs, now);
-      avSync.update(now);
       const ui = uiStore.get();
+      // while paused the audio-reactive values are frozen too, otherwise the picture keeps pulsing with the music
+      if (!ui.paused) avSync.update(now);
       // Energetic default: motion runs ~1.8× faster than the raw slider value, except on calm pages / reduced motion.
       const speed = visualStore.get().speed * (ui.reducedMotion ? 0.35 : ui.calm ? 1 : 1.8);
       const dt = ui.paused ? 0 : (dtMs / 1000) * speed;
       t += dt;
-      cbRef.current({ t, dt, now });
+      if (!ui.paused) wt += dtMs / 1000;
+      cbRef.current({ t, dt, now, wt });
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);

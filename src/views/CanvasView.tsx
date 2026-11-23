@@ -63,7 +63,7 @@ export function CanvasView({ draw, pixelCap = 2, backdrop, backdropAlpha = 0.42 
     const list = bd.current;
     if (list.length) {
       const SEG = 28, FADE = 4;
-      const tt = f.now / 1000; const idx = Math.floor(tt / SEG); const ph0 = tt - idx * SEG;
+      const tt = f.wt; const idx = Math.floor(tt / SEG); const ph0 = tt - idx * SEG;
       const cur = list[idx % list.length], nxt = list[(idx + 1) % list.length];
       const k = Math.max(0, (ph0 - (SEG - FADE)) / FADE);
       const kb = 1.08 + 0.06 * Math.sin(tt * 0.05);
